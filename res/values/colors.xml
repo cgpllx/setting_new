@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="divider">#FFFF0000</color>
+    <color name="widgets_general_row_pressed">#d9d9d9</color>
+    <color name="widgets_general_row_normal">#ffffff</color>
+    <color name="general_backgroup">#efeff4</color>
+    
+<!--     <color name="setting_view_item_bg_pressed">#FFF0F0F0</color> -->
+    <color name="setting_view_item_title_text">#FF000000</color>
+    <color name="setting_view_item_subtitle_text">#FFCCCCCC</color>
+    
+    <color name="setting_view_item_bg_pressed">#FFD6D6D6</color>
+    <color name="setting_view_item_bg_normal">#FFFFFFFF</color>
+
+</resources>
