@@ -4,8 +4,10 @@ import java.lang.reflect.Constructor;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.drawable.Drawable;
-import android.text.TextUtils;
+import android.preference.PreferenceManager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +22,11 @@ import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
-public abstract class RowView extends LinearLayout implements OnClickListener {
+public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
 
 	private ImageView mWidgetRowAction_Icon;
 	private TextView mWidgetRow_Label;
-	private TextView mWidgetRow_Value;
+	protected TextView mWidgetRow_Value;
 	private FrameLayout mWidgetRow_Type;
 	private int itemId;
 	private RowView next = null;
@@ -33,6 +35,12 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 
 	public void setRowViewPosition(int rowViewPosition) {
 		this.mRowViewPosition = rowViewPosition;
+	}
+
+	public abstract void setValue(Object defaultValue);
+
+	public String getKey() {
+		return key;
 	}
 
 	public interface RowViewPosition {
@@ -132,7 +140,30 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 		// mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		// mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		// mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
+
 	}
+
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		PreferenceManager.getDefaultSharedPreferences(getContext()).registerOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
+		PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
+	}
+
+	@Override
+	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+		// TODO:让子类根据自己需求重写
+	}
+
+	// @Override
+	// public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+	// // setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
+	// }
 
 	private Builder rowBuilder;
 
@@ -155,6 +186,9 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 		// mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		// }
 		// initRowViewType(mRowViewType);
+		if (rowBuilder.defaultValue != null) {
+			setValue(rowBuilder.defaultValue);
+		}
 		mWidgetRow_Type.addView(initWidget());
 		addWidgetResource(rowBuilder.resId);
 		if (rowBuilder.iconResourceId != 0) {
@@ -162,11 +196,11 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 		} else {
 			mWidgetRowAction_Icon.setVisibility(View.GONE);
 		}
-		if (!TextUtils.isEmpty(rowBuilder.defaultValue)) {
-			mWidgetRow_Value.setText(rowBuilder.defaultValue);
-		} else {
-			mWidgetRow_Value.setVisibility(View.GONE);
-		}
+		// if (!TextUtils.isEmpty(rowBuilder.defaultValue)) {
+		// mWidgetRow_Value.setText(rowBuilder.defaultValue);
+		// } else {
+		mWidgetRow_Value.setVisibility(View.GONE);
+		// }
 
 		initSelector(getContext(), selectorPara.getNormalLineColorId(), selectorPara.getNormalBackgroundColorId(),//
 				selectorPara.getPressedLineColorId(), selectorPara.getPressedBackgroundColorId(), selectorPara.getOut_circle_Size(), selectorPara.getLinewidth());
@@ -210,11 +244,16 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 		private OnRowClickListener listener;
 		private int iconResourceId;
 		private Context context;
-		private String defaultValue;
+		// private String defaultValue;
 		private DisplayRowViewOptions selectorPara;// 封装RowView相同的参数
 		private String key;
-		private Class<? extends RowView> clazz;
 		private int resId;
+		private Object defaultValue;
+
+		public Builder setDefaultValue(Object defaultValue) {
+			this.defaultValue = defaultValue;
+			return this;
+		}
 
 		public Builder setResId(int resId) {
 			this.resId = resId;
@@ -242,19 +281,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 
 		private int itemId;
 
-		public Builder(Context context, Class<? extends RowView> clazz) {
-			this.context = context;
-			this.clazz = clazz;
-		}
-
 		public Builder(Context context) {
 			this.context = context;
-			this.clazz = DefaultRowView.class;
-		}
-
-		public Builder setDefaultValue(String defaultValue) {
-			this.defaultValue = defaultValue;
-			return this;
 		}
 
 		public Builder setLable(String lable) {
@@ -281,14 +309,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 			return this;
 		}
 
-		public RowView create() {
-
-			// final RowView rowView =new RowView(context);
-			// rowView.initRowViewData(this);
-			// return rowView;
+		public <T extends RowView> T create(Class<T> clazz) {
 			try {
-				Constructor<? extends RowView> c = clazz.getConstructor(Context.class);
-				final RowView rowView = c.newInstance(context);
+				Constructor<T> c = clazz.getConstructor(Context.class);
+				final T rowView = c.newInstance(context);
 				rowView.initRowViewData(this);
 				return rowView;
 			} catch (Exception e) {
@@ -297,5 +321,4 @@ public abstract class RowView extends LinearLayout implements OnClickListener {
 			return null;
 		}
 	}
-
 }

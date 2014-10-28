@@ -53,17 +53,17 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		GroupView groupView1 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他1").create();
 		GroupView groupView2 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他2").create();
 		GroupView groupView3 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他3").create();
-//		groupView1.addRowViewItem(1, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);
-//		groupView1.addRowViewItem(2, 2, "收藏", R.drawable.ic_launcher, selectorPara, this);
-//		groupView1.addRowViewItem(3, 3, "历史", R.drawable.ic_launcher, selectorPara, this);
-//
-//		groupView2.addRowViewItem(1, 1, "缓存11", R.drawable.ic_launcher, selectorPara, this);
-//		groupView2.addRowViewItem(2, 2, "收藏11", R.drawable.ic_launcher, selectorPara, this);
-//		groupView2.addRowViewItem(3, 3, "历史11", R.drawable.ic_launcher, selectorPara, this);
-//
-//		groupView3.addRowViewItem(1, 1, "缓存22", R.drawable.ic_launcher, selectorPara, this);
-//		groupView3.addRowViewItem(2, 2, "收藏222", R.drawable.ic_launcher, selectorPara, this);
-//		groupView3.addRowViewItem(3, 3, "历史222", R.drawable.ic_launcher, selectorPara, this);
+		// groupView1.addRowViewItem(1, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);
+		// groupView1.addRowViewItem(2, 2, "收藏", R.drawable.ic_launcher, selectorPara, this);
+		// groupView1.addRowViewItem(3, 3, "历史", R.drawable.ic_launcher, selectorPara, this);
+		//
+		// groupView2.addRowViewItem(1, 1, "缓存11", R.drawable.ic_launcher, selectorPara, this);
+		// groupView2.addRowViewItem(2, 2, "收藏11", R.drawable.ic_launcher, selectorPara, this);
+		// groupView2.addRowViewItem(3, 3, "历史11", R.drawable.ic_launcher, selectorPara, this);
+		//
+		// groupView3.addRowViewItem(1, 1, "缓存22", R.drawable.ic_launcher, selectorPara, this);
+		// groupView3.addRowViewItem(2, 2, "收藏222", R.drawable.ic_launcher, selectorPara, this);
+		// groupView3.addRowViewItem(3, 3, "历史222", R.drawable.ic_launcher, selectorPara, this);
 
 		containerView.addGroupView(1, groupView1);
 		containerView.addGroupView(1, groupView2);
@@ -97,20 +97,21 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		GroupView groupView2 = containerView.addGroupViewItem(2, "其他1");
 		GroupView groupView3 = containerView.addGroupViewItem(3, "其他1");
 
-		groupView1.addRowViewItem(CheckBoxRowView.class,1, "缓存", R.drawable.ic_launcher, "key",0,selectorPara, this);
-		groupView1.addRowViewItem(CheckBoxRowView.class,2, "收藏", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector,selectorPara, this);
-		groupView1.addRowViewItem(CheckBoxRowView.class,3, "历史", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector,selectorPara, this);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, "key1", 0, selectorPara, this);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, "key2", R.drawable.setting_view_item_selector, selectorPara, this);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, "key3", R.drawable.setting_view_item_selector, selectorPara, this);
 
-		groupView2.addRowViewItem(CheckBoxRowView.class,1, "缓存11", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector,selectorPara, this);
-		groupView2.addRowViewItem(CheckBoxRowView.class,2, "收藏11", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector,selectorPara, this);
-		groupView2.addRowViewItem(CheckBoxRowView.class,3, "历史11", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector, selectorPara, this);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key41", R.drawable.setting_view_item_selector, selectorPara, this);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key5", R.drawable.setting_view_item_selector, selectorPara, this);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher, "key6", R.drawable.setting_view_item_selector, selectorPara, this);
 
-		groupView3.addRowViewItem(DefaultRowView.class,1, "缓存11", R.drawable.ic_launcher,"key", R.drawable.arrow_to_right,selectorPara, this);
-		groupView3.addRowViewItem(DefaultRowView.class,2, "收藏11", R.drawable.ic_launcher,"key", R.drawable.setting_view_item_selector,selectorPara, this);
-		groupView3.addRowViewItem(DefaultRowView.class,3, "历史11", R.drawable.ic_launcher,"key", R.drawable.arrow_to_right, selectorPara, this);
-//		groupView3.addRowViewItem(1, 1, "缓存22", R.drawable.ic_launcher, "key",selectorPara, this);
-//		groupView3.addRowViewItem(2, 2, "收藏222", R.drawable.ic_launcher,"key", selectorPara, this);
-//		groupView3.addRowViewItem(3, 3, "历史222", R.drawable.ic_launcher,"key",selectorPara, this);
+		groupView3.addRowViewItem(DefaultRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right, "哈哈", selectorPara, this);
+		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector, selectorPara, this);
+		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right, selectorPara, this);
+		
+		// groupView3.addRowViewItem(1, 1, "缓存22", R.drawable.ic_launcher, "key",selectorPara, this);
+		// groupView3.addRowViewItem(2, 2, "收藏222", R.drawable.ic_launcher,"key", selectorPara, this);
+		// groupView3.addRowViewItem(3, 3, "历史222", R.drawable.ic_launcher,"key",selectorPara, this);
 		// containerView.addItemToExistGroupView(-1, 1, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);
 		// containerView.addItemToExistGroupView(-1, 2, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);
 		// containerView.addItemToExistGroupView(-1, 2, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);

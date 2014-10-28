@@ -112,11 +112,12 @@ public class GroupView extends LinearLayout {
 	 * @param order
 	 * @param rowView
 	 */
-	public RowView addRowViewItem(Class<? extends RowView> clazz, int order, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
 		RowView entry = this.mRowViewArray.get(order);
-		RowView rowView = new RowView.Builder(getContext(), clazz).setItemId(itemId).setIconResourceId(iconResourceId)//
+		T rowView = new RowView.Builder(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
 				.setLable(rowTitle).setAction(RowViewActionEnum.My_POSTS).setListener(rowClickListener)//
-				.setSelectorPara(selectorPara).setKey(key).setResId(resId).create();
+				.setSelectorPara(selectorPara).setKey(key).setResId(resId).setDefaultValue(defaultValue)//
+				.create(clazz);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
 		} else {
@@ -130,8 +131,25 @@ public class GroupView extends LinearLayout {
 	 * 
 	 * @param rowView
 	 */
-	public RowView addRowViewItem(Class<? extends RowView> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, selectorPara, rowClickListener);
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, defaultValue, selectorPara, rowClickListener);
+	}
+
+	/**
+	 * 增加单个RowView 在0的位置
+	 * 
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, null, selectorPara, rowClickListener);
+	}
+	/**
+	 * 增加单个RowView 在0的位置
+	 * 
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, null, resId, null, selectorPara, rowClickListener);
 	}
 
 	public void notifyDataChanged() {
