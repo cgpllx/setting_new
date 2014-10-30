@@ -10,7 +10,7 @@ import android.widget.CompoundButton;
 
 public class CheckBoxRowView extends RowView {
 	private CheckBox checkBox;
-	private Boolean defaultValue=false;
+	private Boolean defaultValue = false;
 
 	public CheckBoxRowView(Context context) {
 		super(context);
@@ -20,7 +20,7 @@ public class CheckBoxRowView extends RowView {
 	public CheckBox initWidget() {
 		checkBox = new CheckBox(getContext());
 		try {
-			checkBox.setChecked(TextUtils.isEmpty(key) ? defaultValue : PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(key, defaultValue));
+			checkBox.setChecked(TextUtils.isEmpty(preference_key) ? defaultValue : PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean(preference_key, defaultValue));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -28,20 +28,20 @@ public class CheckBoxRowView extends RowView {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				try {
-					if (!TextUtils.isEmpty(key)) {
-						PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(key, isChecked).commit();
+					if (!TextUtils.isEmpty(preference_key)) {
+						PreferenceManager.getDefaultSharedPreferences(getContext()).edit().putBoolean(preference_key, isChecked).commit();
 					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
+		
 		return checkBox;
 	}
 
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		if (checkBox != null) {
 			checkBox.performClick();
 		}
@@ -54,9 +54,10 @@ public class CheckBoxRowView extends RowView {
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (!TextUtils.isEmpty(this.key) && this.key.equals(key)) {
+		if (!TextUtils.isEmpty(this.preference_key) && this.preference_key.equals(key)) {
 			try {
 				checkBox.setChecked(sharedPreferences.getBoolean(key, defaultValue));
+				super.onRowClick();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

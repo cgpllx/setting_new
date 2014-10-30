@@ -1,6 +1,7 @@
 package com.kubeiwu.commontool.view.setting;
 
 import java.lang.reflect.Constructor;
+import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +33,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	private int itemId;
 	private RowView next = null;
 	private int mRowViewPosition = RowViewPosition.MIDDLE;
-	protected String key;
+	protected String preference_key;
 
 	public void setRowViewPosition(int rowViewPosition) {
 		this.mRowViewPosition = rowViewPosition;
@@ -40,7 +42,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	public abstract void setValue(Object defaultValue);
 
 	public String getKey() {
-		return key;
+		return preference_key;
 	}
 
 	public interface RowViewPosition {
@@ -158,6 +160,9 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		// TODO:让子类根据自己需求重写
+		// if (rowBuilder.getListener() != null) {
+		// rowBuilder.getListener().onRowClick(this, rowBuilder.action);
+		// }
 	}
 
 	// @Override
@@ -177,7 +182,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// mWidgetRow_Label.setTextColor(Color.parseColor("#777777"));
 		mWidgetRow_Label.setTextColor(getResources().getColor(selectorPara.getTitleColorId()));
 		mWidgetRow_Label.setTextSize(selectorPara.getTitleSizePx());
-		this.key = rowBuilder.key;
+		this.preference_key = rowBuilder.key;
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
 		// if (rowBuilder.action != null) {
@@ -207,12 +212,17 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	}
 
+
 	public abstract View initWidget();
 
 	public abstract void addWidgetResource(int resId);
 
 	@Override
 	public void onClick(View v) {
+		onRowClick();
+	}
+
+	public void onRowClick() {
 		if (rowBuilder.getListener() != null) {
 			rowBuilder.getListener().onRowClick(this, rowBuilder.action);
 		}

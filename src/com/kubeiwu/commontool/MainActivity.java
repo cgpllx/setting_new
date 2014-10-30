@@ -108,7 +108,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		groupView3.addRowViewItem(DefaultRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right, "哈哈", selectorPara, this);
 		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector, selectorPara, this);
 		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right, selectorPara, this);
-		
+
 		// groupView3.addRowViewItem(1, 1, "缓存22", R.drawable.ic_launcher, "key",selectorPara, this);
 		// groupView3.addRowViewItem(2, 2, "收藏222", R.drawable.ic_launcher,"key", selectorPara, this);
 		// groupView3.addRowViewItem(3, 3, "历史222", R.drawable.ic_launcher,"key",selectorPara, this);
