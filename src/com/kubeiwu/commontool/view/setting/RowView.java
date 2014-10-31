@@ -1,16 +1,13 @@
 package com.kubeiwu.commontool.view.setting;
 
 import java.lang.reflect.Constructor;
-import java.util.HashMap;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.graphics.drawable.Drawable;
 import android.preference.PreferenceManager;
 import android.util.AttributeSet;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,11 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.kubeiwu.commontool.view.util.DisplayRowViewOptions;
-import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
-import com.kubeiwu.commontool.view.util.OnRowClickListener;
-import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
 
@@ -32,31 +24,22 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	private FrameLayout mWidgetRow_Type;
 	private int itemId;
 	private RowView next = null;
-	private int mRowViewPosition = RowViewPosition.MIDDLE;
 	protected String preference_key;
+	protected SharedPreferences sharedPreferences;
 
-	public void setRowViewPosition(int rowViewPosition) {
-		this.mRowViewPosition = rowViewPosition;
+	public TextView getRowViewTitle() {
+		return mWidgetRow_Label;
 	}
-
-	public abstract void setValue(Object defaultValue);
 
 	public String getKey() {
 		return preference_key;
 	}
-
-	public interface RowViewPosition {
-		int UP = 0, MIDDLE = 1, DOWM = 2, ALL = 3;
-	}
-
 	public RowView getNext() {
 		return next;
 	}
-
 	public boolean hasNext() {
 		return next != null;
 	}
-
 	private RowView lastRowView = this;
 
 	public void addRowViewLastNode(RowView rowView) {
@@ -86,38 +69,11 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		initRowView();
 	}
 
-	private Drawable upSelector;
-	private Drawable middleSelector;
-	private Drawable downSelector;
-	private Drawable allSelector;
 
 	public void setLastRowView(RowView lastRowView) {
 		this.lastRowView = lastRowView;
 	}
 
-	public void setMiddleSelector(Drawable middleSelector) {
-		this.middleSelector = middleSelector;
-	}
-
-	public void setDownSelector(Drawable downSelector) {
-		this.downSelector = downSelector;
-	}
-
-	public void setAllSelector(Drawable allSelector) {
-		this.allSelector = allSelector;
-	}
-
-	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor) {
-		initSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, 15, 1);
-	}
-
-	public void initSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int out_circle_Size, int linewidth) {
-		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(out_circle_Size, linewidth);
-		upSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.UP);
-		middleSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.MIDDLE);
-		downSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.DOWM);
-		allSelector = itemBgSelectorUtil.createSelector(context, idNormalLineColor, idNormalBackgroundColor, idPressedLineColor, idPressedBackgroundColor, RowViewPosition.ALL);
-	}
 
 	private void initRowView() {
 
@@ -142,6 +98,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		// mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		// mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
+		//初始化Preferences 让子类直接可以用
+		sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
 
 	}
 
@@ -157,12 +115,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
 	}
 
+
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		// TODO:让子类根据自己需求重写
-		// if (rowBuilder.getListener() != null) {
-		// rowBuilder.getListener().onRowClick(this, rowBuilder.action);
-		// }
 	}
 
 	// @Override
@@ -170,18 +126,11 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	// // setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
 	// }
 
-	private Builder rowBuilder;
 
-	public void initRowViewData(Builder rowBuilder) {
-		DisplayRowViewOptions selectorPara = rowBuilder.selectorPara;
-		if (selectorPara == null) {
-			selectorPara = new DisplayRowViewOptions();
-		}
-		this.rowBuilder = rowBuilder;
+	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
 		// mWidgetRow_Label.setTextColor(Color.parseColor("#777777"));
-		mWidgetRow_Label.setTextColor(getResources().getColor(selectorPara.getTitleColorId()));
-		mWidgetRow_Label.setTextSize(selectorPara.getTitleSizePx());
+
 		this.preference_key = rowBuilder.key;
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
@@ -191,9 +140,6 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		// }
 		// initRowViewType(mRowViewType);
-		if (rowBuilder.defaultValue != null) {
-			setValue(rowBuilder.defaultValue);
-		}
 		mWidgetRow_Type.addView(initWidget());
 		addWidgetResource(rowBuilder.resId);
 		if (rowBuilder.iconResourceId != 0) {
@@ -207,11 +153,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		mWidgetRow_Value.setVisibility(View.GONE);
 		// }
 
-		initSelector(getContext(), selectorPara.getNormalLineColorId(), selectorPara.getNormalBackgroundColorId(),//
-				selectorPara.getPressedLineColorId(), selectorPara.getPressedBackgroundColorId(), selectorPara.getOut_circle_Size(), selectorPara.getLinewidth());
-
 	}
-
 
 	public abstract View initWidget();
 
@@ -219,64 +161,51 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	@Override
 	public void onClick(View v) {
-		onRowClick();
+		// onRowClick();
 	}
 
-	public void onRowClick() {
-		if (rowBuilder.getListener() != null) {
-			rowBuilder.getListener().onRowClick(this, rowBuilder.action);
-		}
-	}
+	// public void onRowClick() {
+	// if (rowBuilder.getListener() != null) {
+	// // rowBuilder.getListener().onRowClick(t, rowBuilder.action);
+	// }
+	// }
 
 	@SuppressLint("NewApi")
 	public void notifyDataChanged() {
 
-		switch (mRowViewPosition) {
-		case RowView.RowViewPosition.UP:
-			setBackground(upSelector);
-			break;
-		case RowView.RowViewPosition.MIDDLE:
-			setBackground(middleSelector);
-			break;
-		case RowView.RowViewPosition.DOWM:
-			setBackground(downSelector);
-			break;
-		case RowView.RowViewPosition.ALL:
-			setBackground(allSelector);
-			break;
-
-		}
+//		switch (mRowViewPosition) {
+//		case RowView.RowViewPosition.UP:
+//			setBackground(upSelector);
+//			break;
+//		case RowView.RowViewPosition.MIDDLE:
+//			setBackground(middleSelector);
+//			break;
+//		case RowView.RowViewPosition.DOWM:
+//			setBackground(downSelector);
+//			break;
+//		case RowView.RowViewPosition.ALL:
+//			setBackground(allSelector);
+//			break;
+//
+//		}
 	}
 
-	public static class Builder {
-		private RowViewActionEnum action;
+	public static class Builder<T extends RowView> {
 		private String lable = "";
-		private OnRowClickListener listener;
 		private int iconResourceId;
 		private Context context;
-		// private String defaultValue;
-		private DisplayRowViewOptions selectorPara;// 封装RowView相同的参数
 		private String key;
 		private int resId;
-		private Object defaultValue;
 
-		public Builder setDefaultValue(Object defaultValue) {
-			this.defaultValue = defaultValue;
-			return this;
-		}
+	 
 
-		public Builder setResId(int resId) {
+		public Builder<T> setResId(int resId) {
 			this.resId = resId;
 			return this;
 		}
 
-		public Builder setKey(String key) {
+		public Builder<T> setKey(String key) {
 			this.key = key;
-			return this;
-		}
-
-		public Builder setSelectorPara(DisplayRowViewOptions selectorPara) {
-			this.selectorPara = selectorPara;
 			return this;
 		}
 
@@ -284,7 +213,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			return itemId;
 		}
 
-		public Builder setItemId(int itemId) {
+		public Builder<T> setItemId(int itemId) {
 			this.itemId = itemId;
 			return this;
 		}
@@ -295,31 +224,17 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			this.context = context;
 		}
 
-		public Builder setLable(String lable) {
+		public Builder<T> setLable(String lable) {
 			this.lable = lable;
 			return this;
 		}
 
-		public OnRowClickListener getListener() {
-			return listener;
-		}
-
-		public Builder setListener(OnRowClickListener listener) {
-			this.listener = listener;
-			return this;
-		}
-
-		public Builder setIconResourceId(int iconResourceId) {
+		public Builder<T> setIconResourceId(int iconResourceId) {
 			this.iconResourceId = iconResourceId;
 			return this;
 		}
 
-		public Builder setAction(RowViewActionEnum action) {
-			this.action = action;
-			return this;
-		}
-
-		public <T extends RowView> T create(Class<T> clazz) {
+		public T create(Class<T> clazz) {
 			try {
 				Constructor<T> c = clazz.getConstructor(Context.class);
 				final T rowView = c.newInstance(context);

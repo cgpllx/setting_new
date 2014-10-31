@@ -7,7 +7,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 
-import com.kubeiwu.commontool.view.setting.RowView.RowViewPosition;
+import com.kubeiwu.commontool.view.setting.GroupView.RowViewPosition;
 
 public class ItemBgSelectorUtil {
 	private int out_circle_Size = 0;

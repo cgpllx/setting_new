@@ -1,15 +1,15 @@
 package com.kubeiwu.commontool.view.setting;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.kubeiwu.commontool.view.setting.RowView.RowViewPosition;
 import com.kubeiwu.commontool.view.util.DisplayRowViewOptions;
-import com.kubeiwu.commontool.view.util.OnRowClickListener;
-import com.kubeiwu.commontool.view.util.RowViewActionEnum;
+import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
 
 public class GroupView extends LinearLayout {
 
@@ -24,6 +24,16 @@ public class GroupView extends LinearLayout {
 	private GroupView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		initGroupView();
+	}
+
+	/**
+	 * RowView 在GroupView中的位置，上 中 下 All(只有一个)
+	 * 
+	 * @author Administrator
+	 * 
+	 */
+	public interface RowViewPosition {
+		int UP = 0, MIDDLE = 1, DOWM = 2, ALL = 3;
 	}
 
 	public GroupView getNext() {
@@ -106,18 +116,23 @@ public class GroupView extends LinearLayout {
 		}
 	}
 
+	// mWidgetRow_Label.setTextColor(getResources().getColor(selectorPara.getTitleColorId()));
+	// mWidgetRow_Label.setTextSize(selectorPara.getTitleSizePx());
 	/**
 	 * 增加单个RowView
 	 * 
 	 * @param order
 	 * @param rowView
 	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
+	@SuppressLint("NewApi")
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara) {
 		RowView entry = this.mRowViewArray.get(order);
-		T rowView = new RowView.Builder(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
-				.setLable(rowTitle).setAction(RowViewActionEnum.My_POSTS).setListener(rowClickListener)//
-				.setSelectorPara(selectorPara).setKey(key).setResId(resId).setDefaultValue(defaultValue)//
+		T rowView = new RowView.Builder<T>(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
+				.setLable(rowTitle)//
+				.setKey(key)//
+				.setResId(resId)//
 				.create(clazz);
+		// rowView.setBackground(middleSelector);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
 		} else {
@@ -131,8 +146,8 @@ public class GroupView extends LinearLayout {
 	 * 
 	 * @param rowView
 	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, defaultValue, selectorPara, rowClickListener);
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, selectorPara);
 	}
 
 	/**
@@ -140,16 +155,15 @@ public class GroupView extends LinearLayout {
 	 * 
 	 * @param rowView
 	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, null, selectorPara, rowClickListener);
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, DisplayRowViewOptions selectorPara) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, null, resId, selectorPara);
 	}
-	/**
-	 * 增加单个RowView 在0的位置
-	 * 
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, DisplayRowViewOptions selectorPara, OnRowClickListener rowClickListener) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, null, resId, null, selectorPara, rowClickListener);
+
+	private void addView(RowView rowView) {
+		super.addView(rowView);
+		rowView.getRowViewTitle().setTextColor(getResources().getColor(selectorPara.getTitleColorId()));
+		rowView.getRowViewTitle().setTextSize(selectorPara.getTitleSizePx());
+		rowView.notifyDataChanged();
 	}
 
 	public void notifyDataChanged() {
@@ -158,11 +172,9 @@ public class GroupView extends LinearLayout {
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
 				addView(rowView);
-				rowView.notifyDataChanged();
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
 					addView(rowView);
-					rowView.notifyDataChanged();
 				}
 			}
 			afreshRowViewSelector();
@@ -174,35 +186,38 @@ public class GroupView extends LinearLayout {
 	/**
 	 * 重新刷新选择器
 	 */
+	@SuppressLint("NewApi")
 	private void afreshRowViewSelector() {
 		int count = getChildCount();
 		if (count <= 1) {
-			try {
-				View view = getChildAt(0);
-				if (view instanceof RowView) {
-					RowView row = (RowView) view;
-					row.setRowViewPosition(RowViewPosition.ALL);
-					row.notifyDataChanged();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			getChildAt(0).setBackground(creatDrawable(RowViewPosition.ALL));
 		} else {
-			try {
-				RowView up = (RowView) getChildAt(0);
-				RowView dowm = (RowView) getChildAt(count - 1);
-				up.setRowViewPosition(RowViewPosition.UP);
-				up.notifyDataChanged();
-				dowm.setRowViewPosition(RowViewPosition.DOWM);
-				dowm.notifyDataChanged();
-			} catch (Exception e) {
-				e.printStackTrace();
+			getChildAt(0).setBackground(creatDrawable(RowViewPosition.UP));
+			for (int i = 1; i < count - 1; i++) {
+				getChildAt(i).setBackground(creatDrawable(RowViewPosition.MIDDLE));
 			}
+			getChildAt(count - 1).setBackground(creatDrawable(RowViewPosition.DOWM));
 		}
 	}
 
+	private DisplayRowViewOptions selectorPara;
+
 	private void initGroupViewData(Builder builder) {
 		mGorupViewTitle = builder.gorupViewTitle;
+		selectorPara = builder.selectorPara;
+		if (selectorPara == null) {
+			selectorPara = new DisplayRowViewOptions();
+		}
+	}
+
+	private Drawable creatDrawable(int rowViewPosition) {
+		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(selectorPara.getOut_circle_Size(), selectorPara.getLinewidth());
+		return itemBgSelectorUtil.createSelector(getContext(), //
+				selectorPara.getNormalLineColorId(),//
+				selectorPara.getNormalBackgroundColorId(),//
+				selectorPara.getPressedLineColorId(), //
+				selectorPara.getPressedBackgroundColorId(),//
+				rowViewPosition);
 	}
 
 	private SparseArray<RowView> mRowViewArray = new SparseArray<RowView>();
@@ -220,6 +235,7 @@ public class GroupView extends LinearLayout {
 	public static class Builder {
 		private String gorupViewTitle;
 		private Context context;
+		private DisplayRowViewOptions selectorPara;// 封装RowView相同的参数
 
 		public Builder(Context context) {
 			this.context = context;
@@ -227,6 +243,11 @@ public class GroupView extends LinearLayout {
 
 		public Builder setGorupViewTitle(String gorupViewTitle) {
 			this.gorupViewTitle = gorupViewTitle;
+			return this;
+		}
+
+		public Builder setSelectorPara(DisplayRowViewOptions selectorPara) {
+			this.selectorPara = selectorPara;
 			return this;
 		}
 
