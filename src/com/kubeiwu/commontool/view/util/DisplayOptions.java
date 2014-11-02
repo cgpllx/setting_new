@@ -5,7 +5,7 @@ package com.kubeiwu.commontool.view.util;
  * 
  * @author Administrator
  */
-public class DisplayRowViewOptions {
+public class DisplayOptions {
 	private int normalLineColorId = android.R.color.darker_gray;// 线条颜色资源id FFD6D6D6
 	private int normalBackgroundColorId = android.R.color.white;// 默认时候的背景
 	private int pressedLineColorId = android.R.color.darker_gray;// 按下时候的线条颜色id
@@ -36,7 +36,7 @@ public class DisplayRowViewOptions {
 		return normalLineColorId;
 	}
 
-	public DisplayRowViewOptions() {
+	public DisplayOptions() {
 		super();
 	}
 
@@ -48,7 +48,7 @@ public class DisplayRowViewOptions {
 		return normalBackgroundColorId;
 	}
 
-	public DisplayRowViewOptions(int normalLineColorId, int normalBackgroundColorId, int pressedLineColorId, int pressedBackgroundColorId, int out_circle_Size, int linewidth) {
+	public DisplayOptions(int normalLineColorId, int normalBackgroundColorId, int pressedLineColorId, int pressedBackgroundColorId, int out_circle_Size, int linewidth) {
 		super();
 		this.normalLineColorId = normalLineColorId;
 		this.normalBackgroundColorId = normalBackgroundColorId;

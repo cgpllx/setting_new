@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.view.util.DisplayOptions;
+
 public class KSettingView extends LinearLayout {
 
 	public KSettingView(Context context, AttributeSet attrs, int defStyle) {
@@ -31,6 +33,10 @@ public class KSettingView extends LinearLayout {
 	public KSettingView(Context context) {
 		super(context);
 		initView();
+	}
+	private DisplayOptions displayOptions;
+	public void DisplayOptions(DisplayOptions displayOptions) {
+		this.displayOptions=displayOptions;
 	}
 
 	private SparseArray<GroupView> mGroupViewArray = new SparseArray<GroupView>();
@@ -91,7 +97,7 @@ public class KSettingView extends LinearLayout {
 	}
 
 	/**
-	 * 想容器中增加一个GroupView，如果groupOrder位置 在容器中已经存在，则会在下面增加
+	 * 向容器中增加一个GroupView，如果groupOrder位置 在容器中已经存在，则会在下面增加
 	 * 
 	 * @param groupViewArray
 	 */
@@ -117,7 +123,9 @@ public class KSettingView extends LinearLayout {
 			textview.setText(title);
 			addView(textview);
 		}
+		child.setDisplayOptions(displayOptions);
 		super.addView(child);
+		child.notifyDataChanged();
 	}
 
 	public void notifyDataChanged() {
@@ -126,11 +134,9 @@ public class KSettingView extends LinearLayout {
 			for (int i = 0; i < mGroupViewArray.size(); i++) {
 				groupView = mGroupViewArray.valueAt(i);
 				addView(groupView);
-				groupView.notifyDataChanged();
 				while (groupView.hasNext()) {
 					groupView = groupView.getNext();
 					addView(groupView);
-					groupView.notifyDataChanged();
 				}
 			}
 		} else {

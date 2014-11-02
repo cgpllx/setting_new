@@ -10,7 +10,7 @@ import com.kubeiwu.commontool.view.setting.DefaultRowView;
 import com.kubeiwu.commontool.view.setting.GroupView;
 import com.kubeiwu.commontool.view.setting.KSettingView;
 import com.kubeiwu.commontool.view.setting.RowView;
-import com.kubeiwu.commontool.view.util.DisplayRowViewOptions;
+import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
@@ -27,7 +27,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		// SetViewUtil setViewUtil=new SetViewUtil(containerView);
 		// initSelector(getContext(), R.color.setting_view_item_bg_pressed, android.R.color.white,//
 		// android.R.color.holo_blue_light, android.R.color.holo_blue_light);
-		DisplayRowViewOptions selectorPara = new DisplayRowViewOptions(android.R.color.darker_gray, android.R.color.white,//
+		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 		// containerView.addItem(1, 10, 1, "缓存", R.drawable.ic_launcher, selectorPara, this);
 		// containerView.addItem(1, 20, 2, "收藏", R.drawable.ic_launcher, selectorPara, this);
@@ -47,7 +47,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 
 	View init3() {
 		KSettingView containerView = new KSettingView(getApplicationContext());
-		DisplayRowViewOptions selectorPara = new DisplayRowViewOptions(android.R.color.darker_gray, android.R.color.white,//
+		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 
 		GroupView groupView1 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他1").create();
@@ -75,7 +75,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 
 	View init4() {
 		KSettingView containerView = new KSettingView(getApplicationContext());
-		DisplayRowViewOptions selectorPara = new DisplayRowViewOptions(android.R.color.darker_gray, android.R.color.white,//
+		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 
 		// GroupView groupView1 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他1").create();
@@ -97,17 +97,17 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		GroupView groupView2 = containerView.addGroupViewItem(2, "其他1");
 		GroupView groupView3 = containerView.addGroupViewItem(3, "其他1");
 
-		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, "key1", 0, selectorPara).setValue(false);
-		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, "key2", R.drawable.setting_view_item_selector, selectorPara).setValue(true);;
-		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, "key3", R.drawable.setting_view_item_selector, selectorPara);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, "key1", 0).setValue(false);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, "key2", R.drawable.setting_view_item_selector).setValue(true);;
+		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, "key3", R.drawable.setting_view_item_selector);
 
-		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key41", R.drawable.setting_view_item_selector, selectorPara);
-		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key5", R.drawable.setting_view_item_selector, selectorPara);
-		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher, "key6", R.drawable.setting_view_item_selector, selectorPara);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key41", R.drawable.setting_view_item_selector);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key5", R.drawable.setting_view_item_selector);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher, "key6", R.drawable.setting_view_item_selector);
 
-		groupView3.addRowViewItem(DefaultRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right, selectorPara);
-		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector, selectorPara);
-		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right, selectorPara).setOnRowClickListener(new OnRowClickListener<DefaultRowView>() {
+		groupView3.addRowViewItem(DefaultRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right);
+		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector);
+		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right).setOnRowClickListener(new OnRowClickListener<DefaultRowView>() {
 
 			@Override
 			public void onRowClick(DefaultRowView t, RowViewActionEnum action) {
