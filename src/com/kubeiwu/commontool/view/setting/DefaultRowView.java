@@ -2,6 +2,7 @@ package com.kubeiwu.commontool.view.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.text.TextUtils;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -169,6 +170,7 @@ public class DefaultRowView extends RowView {
 				restoreValue = sharedPreferences.getInt(preference_key, 1);
 				currentValue = sparseArray.get(restoreValue, currentValue);
 				value.setText(currentValue);
+				ListPreference d;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
