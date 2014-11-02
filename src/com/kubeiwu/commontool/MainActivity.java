@@ -121,7 +121,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 			@Override
 			public void onRowClick(final DefaultRowView t, RowViewActionEnum action) {
 
-				  alertDialog = new AlertDialog.Builder(MainActivity.this).setTitle("title").setSingleChoiceItems(t.getDisplayValueAsStringArray(), t.getValueIndex(), new OnClickListener() {
+				  alertDialog = new AlertDialog.Builder(MainActivity.this).setTitle(t.getRowViewTitle().getText()).setSingleChoiceItems(t.getDisplayValueAsStringArray(), t.getValueIndex(), new OnClickListener() {
 
 					@Override
 					public void onClick(DialogInterface arg0, int arg1) {
