@@ -116,11 +116,8 @@ public class GroupView extends LinearLayout {
 		}
 	}
 
-	// mWidgetRow_Label.setTextColor(getResources().getColor(selectorPara.getTitleColorId()));
-	// mWidgetRow_Label.setTextSize(selectorPara.getTitleSizePx());
 	/**
 	 * 增加单个RowView
-	 * 
 	 * @param order
 	 * @param rowView
 	 */
@@ -152,35 +149,34 @@ public class GroupView extends LinearLayout {
 
 	/**
 	 * 增加单个RowView 在0的位置
-	 * 
 	 * @param rowView
 	 */
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, null, resId);
 	}
 
-	private void addView(RowView rowView) {
+	private void addView(RowView rowView,DisplayOptions displayOptions) {
 		super.addView(rowView);
-		if (displayOptions == null) {
-			displayOptions = new DisplayOptions();
-		}
 		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getTitleColorId()));
 		rowView.getRowViewTitle().setTextSize(displayOptions.getTitleSizePx());
 		rowView.notifyDataChanged();
 	}
 
 	public void notifyDataChanged() {
+		if (displayOptions == null) {
+			displayOptions = new DisplayOptions();
+		}
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
-				addView(rowView);
+				addView(rowView,displayOptions);
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
-					addView(rowView);
+					addView(rowView,displayOptions);
 				}
 			}
-			afreshRowViewSelector();
+			afreshRowViewSelector(displayOptions);
 		} else {
 			setVisibility(View.GONE);
 		}
@@ -190,16 +186,16 @@ public class GroupView extends LinearLayout {
 	 * 重新刷新选择器
 	 */
 	@SuppressLint("NewApi")
-	private void afreshRowViewSelector() {
+	private void afreshRowViewSelector(DisplayOptions displayOptions) {
 		int count = getChildCount();
 		if (count <= 1) {
-			getChildAt(0).setBackground(creatDrawable(RowViewPosition.ALL));
+			getChildAt(0).setBackground(creatDrawable(RowViewPosition.ALL,displayOptions));
 		} else {
-			getChildAt(0).setBackground(creatDrawable(RowViewPosition.UP));
+			getChildAt(0).setBackground(creatDrawable(RowViewPosition.UP,displayOptions));
 			for (int i = 1; i < count - 1; i++) {
-				getChildAt(i).setBackground(creatDrawable(RowViewPosition.MIDDLE));
+				getChildAt(i).setBackground(creatDrawable(RowViewPosition.MIDDLE,displayOptions));
 			}
-			getChildAt(count - 1).setBackground(creatDrawable(RowViewPosition.DOWM));
+			getChildAt(count - 1).setBackground(creatDrawable(RowViewPosition.DOWM,displayOptions));
 		}
 	}
 
@@ -213,10 +209,7 @@ public class GroupView extends LinearLayout {
 		mGorupViewTitle = builder.gorupViewTitle;
 	}
 
-	private Drawable creatDrawable(int rowViewPosition) {
-		if (displayOptions == null) {
-			displayOptions = new DisplayOptions();
-		}
+	private Drawable creatDrawable(int rowViewPosition,DisplayOptions displayOptions) {
 		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(displayOptions.getOut_circle_Size(), displayOptions.getLinewidth());
 		return itemBgSelectorUtil.createSelector(getContext(), //
 				displayOptions.getNormalLineColorId(),//

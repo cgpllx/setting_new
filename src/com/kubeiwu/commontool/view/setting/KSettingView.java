@@ -35,7 +35,7 @@ public class KSettingView extends LinearLayout {
 		initView();
 	}
 	private DisplayOptions displayOptions;
-	public void DisplayOptions(DisplayOptions displayOptions) {
+	public void setDisplayOptions(DisplayOptions displayOptions) {
 		this.displayOptions=displayOptions;
 	}
 

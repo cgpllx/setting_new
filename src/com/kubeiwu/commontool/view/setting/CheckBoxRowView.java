@@ -65,7 +65,7 @@ public class CheckBoxRowView extends RowView {
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (!TextUtils.isEmpty(this.preference_key) && this.preference_key.equals(key)) {
 			try {
-				  currentValue = sharedPreferences.getBoolean(key, currentValue);
+				currentValue = sharedPreferences.getBoolean(key, currentValue);
 				if (checkBox.isChecked() != currentValue) {
 					checkBox.setChecked(currentValue);
 				}
@@ -84,18 +84,28 @@ public class CheckBoxRowView extends RowView {
 	@Override
 	public void notifyDataChanged() {
 		super.notifyDataChanged();
+		initCheckBoxData();
+	}
+
+	private void initCheckBoxData() {
 		checkBox.setChecked(TextUtils.isEmpty(preference_key) ? currentValue : sharedPreferences.getBoolean(preference_key, currentValue));
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				try {
-					currentValue=isChecked;
-					if (!TextUtils.isEmpty(preference_key)) {
-						sharedPreferences.edit().putBoolean(preference_key, isChecked).commit();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+				currentValue = isChecked;
+				new Thread() {
+					public void run() {
+						synchronized (CheckBoxRowView.class) {
+							try {
+								if (!TextUtils.isEmpty(preference_key)) {
+									sharedPreferences.edit().putBoolean(preference_key, isChecked).commit();
+								}
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+						}
+					};
+				}.start();
 			}
 		});
 	}
