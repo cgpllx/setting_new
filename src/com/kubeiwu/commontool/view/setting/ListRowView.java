@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.preference.ListPreference;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -146,6 +147,7 @@ public class ListRowView extends DialogRowView {
 	private void ininImageView() {
 		child = new ImageView(getContext());
 		child.setPadding(1, 0, 0, 0);
+		ListPreference ;
 	}
 
 	private void initTextView() {
