@@ -12,6 +12,7 @@ import com.kubeiwu.commontool.view.setting.CheckBoxRowView;
 import com.kubeiwu.commontool.view.setting.DefaultRowView;
 import com.kubeiwu.commontool.view.setting.GroupView;
 import com.kubeiwu.commontool.view.setting.KSettingView;
+import com.kubeiwu.commontool.view.setting.ListRowView;
 import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.KSparseArray;
@@ -59,7 +60,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 	}
 
 	View init3() {
-		KSettingView containerView = new KSettingView(getApplicationContext());
+		KSettingView containerView = new KSettingView(MainActivity.this);
 		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 
@@ -114,7 +115,14 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key5", R.drawable.setting_view_item_selector);
 		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher, "key6", R.drawable.setting_view_item_selector);
 
-		groupView3.addRowViewItem(DefaultRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right);
+		groupView3.addRowViewItem(ListRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right).setEntries("aaa","bbb").setEntryValues(1,2).setOnRowClickListener(new OnRowClickListener<ListRowView>() {
+			
+			@Override
+			public void onRowClick(ListRowView t, RowViewActionEnum action) {
+				t.showDialog(MainActivity.this);
+				
+			}
+		});
 		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector);
 		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right).addDataArray(new KSparseArray<String>().putValue(1, "1111111").putValue(2, "2222222").putValue(3, "333333").putValue(4, "4444")).setOnRowClickListener(new OnRowClickListener<DefaultRowView>() {
 

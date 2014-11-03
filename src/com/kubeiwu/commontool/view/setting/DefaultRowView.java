@@ -2,6 +2,9 @@ package com.kubeiwu.commontool.view.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.preference.ListPreference;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -106,7 +109,7 @@ public class DefaultRowView extends RowView {
 		new Thread() {
 			public void run() {
 				currentValue = sparseArray.get(restoreValue, currentValue);
-				sharedPreferences.edit().putInt(preference_key, restoreValue).commit();
+				sharedPreferences.edit().putInt(mKey, restoreValue).commit();
 			};
 		}.start();
 		return false;
@@ -137,7 +140,7 @@ public class DefaultRowView extends RowView {
 	 */
 	public boolean saveValue(String value) {
 		restoreValue = sparseArray.keyAt(sparseArray.indexOfValue(value));
-		return sharedPreferences.edit().putInt(preference_key, restoreValue).commit();
+		return sharedPreferences.edit().putInt(mKey, restoreValue).commit();
 	}
 
 	private String[] valueAsStringArray = null;// 保持单列，提高效率，显示值的数组
@@ -148,7 +151,7 @@ public class DefaultRowView extends RowView {
 	 * @return 返回当前值在集合中的位置 index
 	 */
 	public int getValueIndex() {
-		int restoreValue = sharedPreferences.getInt(this.preference_key, 1);
+		int restoreValue = sharedPreferences.getInt(this.mKey, 1);
 		if (sparseArray != null) {
 			return sparseArray.indexOfKey(restoreValue);
 		}
@@ -167,7 +170,7 @@ public class DefaultRowView extends RowView {
 	private void initValueData() {
 		try {
 			if (sparseArray != null && sparseArray.size() > 0) {
-				restoreValue = sharedPreferences.getInt(preference_key, 1);
+				restoreValue = sharedPreferences.getInt(mKey, 1);
 				currentValue = sparseArray.get(restoreValue, currentValue);
 				value.setText(currentValue);
 				ListPreference d;
@@ -179,7 +182,7 @@ public class DefaultRowView extends RowView {
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (!TextUtils.isEmpty(this.preference_key) && this.preference_key.equals(key)) {
+		if (hasKey() && this.mKey.equals(key)) {
 			initValueData();
 		}
 	}

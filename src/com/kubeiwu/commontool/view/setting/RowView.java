@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,23 +25,42 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	private FrameLayout mWidgetRow_Type;
 	private int itemId;
 	private RowView next = null;
-	protected String preference_key;
+	protected String mKey;
 	protected SharedPreferences sharedPreferences;
 
 	public TextView getRowViewTitle() {
 		return mWidgetRow_Label;
 	}
 
-	public String getKey() {
-		return preference_key;
+	/**
+	 * Checks whether this Preference has a valid key.
+	 * 
+	 * @return True if the key exists and is not a blank string, false otherwise.
+	 */
+	public boolean hasKey() {
+		return !TextUtils.isEmpty(mKey);
 	}
+
+	public String getKey() {
+		return mKey;
+	}
+
 	public RowView getNext() {
 		return next;
-	}  
+	}
+
 	public boolean hasNext() {
 		return next != null;
 	}
+
 	private RowView lastRowView = this;
+
+	public CharSequence getTitle() {
+		if (mWidgetRow_Value == null) {
+			return "";
+		}
+		return mWidgetRow_Value.getText();
+	}
 
 	public void addRowViewLastNode(RowView rowView) {
 		lastRowView.next = rowView;
@@ -69,11 +89,9 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		initRowView();
 	}
 
-
 	public void setLastRowView(RowView lastRowView) {
 		this.lastRowView = lastRowView;
 	}
-
 
 	private void initRowView() {
 
@@ -98,8 +116,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		// mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
 		// mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
-		//初始化Preferences 让子类直接可以用
-		sharedPreferences=PreferenceManager.getDefaultSharedPreferences(getContext());
+		// 初始化Preferences 让子类直接可以用
+		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
 	}
 
@@ -115,7 +133,6 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		PreferenceManager.getDefaultSharedPreferences(getContext()).unregisterOnSharedPreferenceChangeListener(this);
 	}
 
-
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		// TODO:让子类根据自己需求重写
@@ -126,12 +143,11 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	// // setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
 	// }
 
-
 	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
 		// mWidgetRow_Label.setTextColor(Color.parseColor("#777777"));
 
-		this.preference_key = rowBuilder.key;
+		this.mKey = rowBuilder.key;
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
 		// if (rowBuilder.action != null) {
@@ -173,31 +189,50 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	@SuppressLint("NewApi")
 	public void notifyDataChanged() {
 
-//		switch (mRowViewPosition) {
-//		case RowView.RowViewPosition.UP:
-//			setBackground(upSelector);
-//			break;
-//		case RowView.RowViewPosition.MIDDLE:
-//			setBackground(middleSelector);
-//			break;
-//		case RowView.RowViewPosition.DOWM:
-//			setBackground(downSelector);
-//			break;
-//		case RowView.RowViewPosition.ALL:
-//			setBackground(allSelector);
-//			break;
-//
-//		}
+		// switch (mRowViewPosition) {
+		// case RowView.RowViewPosition.UP:
+		// setBackground(upSelector);
+		// break;
+		// case RowView.RowViewPosition.MIDDLE:
+		// setBackground(middleSelector);
+		// break;
+		// case RowView.RowViewPosition.DOWM:
+		// setBackground(downSelector);
+		// break;
+		// case RowView.RowViewPosition.ALL:
+		// setBackground(allSelector);
+		// break;
+		//
+		// }
+	}
+	/**
+	 * 存储值
+	 * @param value
+	 * @return
+	 */
+	protected boolean persistInt(int value) {
+		if (hasKey()) {
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putInt(mKey, value);
+			tryCommit(sharedPreferences.edit());
+			return true;
+		}
+		return false;
 	}
 
+	private void tryCommit(SharedPreferences.Editor editor) {
+		try {
+			editor.apply();
+		} catch (AbstractMethodError unused) {
+			editor.commit();
+		}
+	}
 	public static class Builder<T extends RowView> {
 		private String lable = "";
 		private int iconResourceId;
 		private Context context;
 		private String key;
 		private int resId;
-
-	 
 
 		public Builder<T> setResId(int resId) {
 			this.resId = resId;

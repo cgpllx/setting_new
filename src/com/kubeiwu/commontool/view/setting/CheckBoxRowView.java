@@ -63,7 +63,7 @@ public class CheckBoxRowView extends RowView {
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (!TextUtils.isEmpty(this.preference_key) && this.preference_key.equals(key)) {
+		if (hasKey() && this.mKey.equals(key)) {
 			try {
 				currentValue = sharedPreferences.getBoolean(key, currentValue);
 				if (checkBox.isChecked() != currentValue) {
@@ -88,7 +88,7 @@ public class CheckBoxRowView extends RowView {
 	}
 
 	private void initCheckBoxData() {
-		checkBox.setChecked(TextUtils.isEmpty(preference_key) ? currentValue : sharedPreferences.getBoolean(preference_key, currentValue));
+		checkBox.setChecked(TextUtils.isEmpty(mKey) ? currentValue : sharedPreferences.getBoolean(mKey, currentValue));
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
@@ -97,8 +97,8 @@ public class CheckBoxRowView extends RowView {
 					public void run() {
 						synchronized (CheckBoxRowView.class) {
 							try {
-								if (!TextUtils.isEmpty(preference_key)) {
-									sharedPreferences.edit().putBoolean(preference_key, isChecked).commit();
+								if (!TextUtils.isEmpty(mKey)) {
+									sharedPreferences.edit().putBoolean(mKey, isChecked).commit();
 								}
 							} catch (Exception e) {
 								e.printStackTrace();
