@@ -36,7 +36,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	}
 	public RowView getNext() {
 		return next;
-	}
+	}  
 	public boolean hasNext() {
 		return next != null;
 	}
