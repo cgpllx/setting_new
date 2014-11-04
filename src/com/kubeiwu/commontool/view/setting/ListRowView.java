@@ -12,11 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
+import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public class ListRowView extends DialogRowView {
-	private ImageView child;
-	private TextView value;
+	private ImageView child_ImageView;
+	private TextView value_TextView;
 	private CharSequence[] mEntries;// 要显示的值
 	private int[] mEntryValues;// 真正要保存的值
 	private int mValue;// 当前 的值
@@ -74,6 +75,7 @@ public class ListRowView extends DialogRowView {
 
 	/**
 	 * Sets the value of the key. This should be one of the entries in {@link #getEntryValues()}.
+	 * 
 	 * @param value
 	 *            The value to set for the key.
 	 */
@@ -81,8 +83,6 @@ public class ListRowView extends DialogRowView {
 		mValue = value;
 		persistInt(value);
 	}
-
-	
 
 	public int[] getEntryValues() {
 		return mEntryValues;
@@ -96,6 +96,7 @@ public class ListRowView extends DialogRowView {
 	public CharSequence[] getEntries() {
 		return mEntries;
 	}
+
 	@Override
 	protected void onPrepareDialogBuilder(AlertDialog.Builder builder) {
 		super.onPrepareDialogBuilder(builder);
@@ -126,13 +127,16 @@ public class ListRowView extends DialogRowView {
 		LinearLayout layout = new LinearLayout(getContext());
 		layout.setOrientation(HORIZONTAL);
 		layout.setGravity(Gravity.CENTER);
-		layout.addView(value);
-		layout.addView(child);
+		layout.addView(value_TextView);
+		layout.addView(child_ImageView);
 		return layout;
 	}
 
+	/**
+	 * dialog 关闭后执行
+	 */
 	protected void onDialogClosed(boolean positiveResult) {
-		 super.onDialogClosed(positiveResult);
+		super.onDialogClosed(positiveResult);
 		if (positiveResult && mClickedDialogEntryIndex >= 0 && mEntryValues != null) {
 			int value = mEntryValues[mClickedDialogEntryIndex];
 			setValue(value);
@@ -140,22 +144,22 @@ public class ListRowView extends DialogRowView {
 	}
 
 	public void addWidgetResource(int resId) {
-		child.setImageResource(resId);
+		child_ImageView.setImageResource(resId);
 	}
 
 	private void ininImageView() {
-		child = new ImageView(getContext());
-		child.setPadding(1, 0, 0, 0);
-//		ListPreference ;
+		child_ImageView = new ImageView(getContext());
+		child_ImageView.setPadding(1, 0, 0, 0);
+		// ListPreference ;
 	}
 
 	private void initTextView() {
-		value = new TextView(getContext());
-		value.setPadding(10, 0, 10, 0);
-		value.setSingleLine(true);
-		value.setTextColor(getResources().getColor(android.R.color.darker_gray));
+		value_TextView = new TextView(getContext());
+		value_TextView.setPadding(10, 0, 10, 0);
+		value_TextView.setSingleLine(true);
+		value_TextView.setTextColor(getResources().getColor(android.R.color.darker_gray));
 		// TypedValue.applyDimension(TypedValue.TYPE_DIMENSION, value, get);
-		value.setTextSize(17);
+		value_TextView.setTextSize(17);
 
 	}
 
@@ -169,22 +173,46 @@ public class ListRowView extends DialogRowView {
 	@Override
 	public void onClick(View v) {
 		super.onClick(v);
-		if (listen != null) {
-			listen.onRowClick(this, RowViewActionEnum.My_POSTS);
-		}
-//		showDialog();
+		showDialog();
 	}
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (!TextUtils.isEmpty(this.mKey) && this.mKey.equals(key)) {
-			// initValueData();
+			initValueData();
+			if (para != null) {
+				para.value = mValue;
+			}
+			if (listen != null) {
+				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
+			}
 		}
 	}
 
+	private void initValueData() {
+		value_TextView.setText(getEntry());
+	}
+
+	Para<Integer> para;
+
+	public void setPara(Para<Integer> para) {
+		this.para = para;
+	}
+
+	/**
+	 * 初始化set的值
+	 */
 	@Override
-	public void notifyDataChanged() {
-		super.notifyDataChanged();
-		// initValueData();
+	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+		setValue(restoreValue ? getPersistedInt(mValue) : (Integer) defaultValue);
+	}
+
+	/**
+	 * 在这里初始化view显示的数据
+	 */
+	@Override
+	protected void onInitViewData() {
+		super.onInitViewData();
+		initValueData();
 	}
 }

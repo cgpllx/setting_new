@@ -21,14 +21,14 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 	}
 
 	AlertDialog.Builder mBuilder;
-	private CharSequence mPositiveButtonText="11";
-	private CharSequence mNegativeButtonText="22";
+	private CharSequence mPositiveButtonText = "11";
+	private CharSequence mNegativeButtonText = "22";
 	private int mWhichButtonClicked;
 	/** The dialog, if it is showing. */
 	private Dialog mDialog;
 
-	public void showDialog( Context context ) {
-//		  Context context = getContext();
+	public void showDialog() {
+		Context context = getContext();
 		mBuilder = new AlertDialog.Builder(context)//
 				.setTitle(getTitle())//
 				.setPositiveButton(mPositiveButtonText, this)//
@@ -46,6 +46,7 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 
 	/**
 	 * Gets the dialog that is shown by this preference.
+	 * 
 	 * @return The dialog, or null if a dialog is not being shown.
 	 */
 	public Dialog getDialog() {
@@ -59,8 +60,6 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 
 	protected void onDialogClosed(boolean positiveResult) {
 	}
-
-
 
 	public void setPositiveButtonText(CharSequence positiveButtonText) {
 		mPositiveButtonText = positiveButtonText;

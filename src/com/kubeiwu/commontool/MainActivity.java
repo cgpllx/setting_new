@@ -17,6 +17,8 @@ import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.KSparseArray;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
+import com.kubeiwu.commontool.view.util.ParaSetting;
+import com.kubeiwu.commontool.view.util.ParaSetting.ParaUtil;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public class MainActivity extends Activity implements OnRowClickListener {
@@ -24,6 +26,8 @@ public class MainActivity extends Activity implements OnRowClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		 ParaUtil util=new ParaUtil(getApplicationContext());
+		 util.initPrar();
 		setContentView(init4());
 	}
 
@@ -97,7 +101,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 	}
 
 	View init4() {
-		KSettingView containerView = new KSettingView(getApplicationContext());
+		KSettingView containerView = new KSettingView(MainActivity.this);
 		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 		containerView.setDisplayOptions(selectorPara);
@@ -106,23 +110,28 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		GroupView groupView2 = containerView.addGroupViewItem(2, "其他1");
 		GroupView groupView3 = containerView.addGroupViewItem(3, "其他1");
 
-		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, "key1", 0).setValue(false);
-		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, "key2", R.drawable.setting_view_item_selector).setValue(true);
-		;
-		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, "key3", R.drawable.setting_view_item_selector);
-
-		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key41", R.drawable.setting_view_item_selector);
-		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key5", R.drawable.setting_view_item_selector);
-		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher, "key6", R.drawable.setting_view_item_selector);
-
-		groupView3.addRowViewItem(ListRowView.class, 1, "缓存11", R.drawable.ic_launcher, "key7", R.drawable.arrow_to_right).setEntries("aaa","bbb").setEntryValues(1,2).setOnRowClickListener(new OnRowClickListener<ListRowView>() {
+		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, ParaSetting.xiazshud1.key, 0).setValue(ParaSetting.xiazshud1.value);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, ParaSetting.xiazshud2.key, R.drawable.setting_view_item_selector).setValue(true);
+//		;
+		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, ParaSetting.xiazshud3.key, R.drawable.setting_view_item_selector);
+//
+		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, ParaSetting.xiazshud4.key, R.drawable.setting_view_item_selector);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, ParaSetting.xiazshud5.key, R.drawable.setting_view_item_selector);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, ParaSetting.xiazshud6.key, R.drawable.setting_view_item_selector);
+//		groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11", R.drawable.ic_launcher,Paraset.xiazshud6.key, R.drawable.setting_view_item_selector);
+//
+		groupView3.addRowViewItem(ListRowView.class, 1, "缓存11", R.drawable.ic_launcher,ParaSetting.xiazshud7.key, R.drawable.arrow_to_right,1).setEntries("aaa","bbb").setEntryValues(1,2).setOnRowClickListener(new OnRowClickListener<ListRowView>() {
 			
 			@Override
 			public void onRowClick(ListRowView t, RowViewActionEnum action) {
-				t.showDialog(MainActivity.this);
+//				t.showDialog(MainActivity.this);
+//				t.getKey();
+//				t.getEntry();
+				System.out.println("t.getEntry();"+t.getEntry());
+				System.out.println(ParaSetting.xiazshud7.value);
 				
 			}
-		});
+		}).setPara(ParaSetting.xiazshud7);
 		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector);
 		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right).addDataArray(new KSparseArray<String>().putValue(1, "1111111").putValue(2, "2222222").putValue(3, "333333").putValue(4, "4444")).setOnRowClickListener(new OnRowClickListener<DefaultRowView>() {
 

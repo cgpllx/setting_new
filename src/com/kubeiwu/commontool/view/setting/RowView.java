@@ -56,10 +56,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	private RowView lastRowView = this;
 
 	public CharSequence getTitle() {
-		if (mWidgetRow_Value == null) {
+		if (mWidgetRow_Label == null) {
 			return "";
 		}
-		return mWidgetRow_Value.getText();
+		return mWidgetRow_Label.getText();
 	}
 
 	public void addRowViewLastNode(RowView rowView) {
@@ -145,6 +145,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
+		mDefaultValue = rowBuilder.defaultValue;
 		// mWidgetRow_Label.setTextColor(Color.parseColor("#777777"));
 
 		this.mKey = rowBuilder.key;
@@ -168,7 +169,18 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// } else {
 		mWidgetRow_Value.setVisibility(View.GONE);
 		// }
+		dispatchSetInitialValue();
 
+	}
+
+	private void dispatchSetInitialValue() {
+		if (!sharedPreferences.contains(mKey)) {
+			if (mDefaultValue != null) {
+				onSetInitialValue(false, mDefaultValue);
+			}
+		} else {
+			onSetInitialValue(true, null);
+		}
 	}
 
 	public abstract View initWidget();
@@ -186,35 +198,28 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	// }
 	// }
 
-	@SuppressLint("NewApi")
 	public void notifyDataChanged() {
-
-		// switch (mRowViewPosition) {
-		// case RowView.RowViewPosition.UP:
-		// setBackground(upSelector);
-		// break;
-		// case RowView.RowViewPosition.MIDDLE:
-		// setBackground(middleSelector);
-		// break;
-		// case RowView.RowViewPosition.DOWM:
-		// setBackground(downSelector);
-		// break;
-		// case RowView.RowViewPosition.ALL:
-		// setBackground(allSelector);
-		// break;
-		//
-		// }
+		onInitViewData();
 	}
+
+	protected void onInitViewData() {
+	};
+
 	/**
 	 * 存储值
+	 * 
 	 * @param value
 	 * @return
 	 */
 	protected boolean persistInt(int value) {
 		if (hasKey()) {
+			if (value == getPersistedInt(~value)) {// 判断是不是保存了这个值，如果是，就不再保存（~value按位取反，防止和value相等）
+				// It's already there, so the same as persisting
+				return true;
+			}
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putInt(mKey, value);
-			tryCommit(sharedPreferences.edit());
+			tryCommit(editor);
 			return true;
 		}
 		return false;
@@ -227,12 +232,48 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			editor.commit();
 		}
 	}
+
+	private Object mDefaultValue;
+
+	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+	}
+
+	/**
+	 * 获取sharedPreferences中保存的 String 值
+	 * 
+	 * @param defaultReturnValue
+	 *            默认
+	 * @return
+	 */
+	protected String getPersistedString(String defaultReturnValue) {
+
+		return sharedPreferences.getString(mKey, defaultReturnValue);
+	}
+
+	/**
+	 * 获取sharedPreferences中保存的 int 值
+	 * 
+	 * @param defaultReturnValue
+	 *            默认
+	 * @return
+	 */
+	protected int getPersistedInt(int defaultReturnValue) {
+
+		return sharedPreferences.getInt(mKey, defaultReturnValue);
+	}
+
 	public static class Builder<T extends RowView> {
 		private String lable = "";
 		private int iconResourceId;
 		private Context context;
 		private String key;
 		private int resId;
+		private Object defaultValue;
+
+		public Builder<T> setDefaultValue(Object defaultValue) {
+			this.defaultValue = defaultValue;
+			return this;
+		}
 
 		public Builder<T> setResId(int resId) {
 			this.resId = resId;
