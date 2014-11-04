@@ -35,7 +35,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	/**
 	 * Checks whether this Preference has a valid key.
 	 * 
-	 * @return True if the key exists and is not a blank string, false otherwise.
+	 * @return True if the key exists and is not a blank string, false
+	 *         otherwise.
 	 */
 	public boolean hasKey() {
 		return !TextUtils.isEmpty(mKey);
@@ -101,7 +102,9 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		int mWidgetRow_Value_id = getResources().getIdentifier("mWidgetRow_Value", "id", getContext().getPackageName());
 		int mWidgetRow_Type_id = getResources().getIdentifier("mWidgetRow_Type", "id", getContext().getPackageName());
 
-		// int mWidgetRow_righ_Common_arrow_id = getResources().getIdentifier("mWidgetRow_righ_Common_arrow", "id", getContext().getPackageName());
+		// int mWidgetRow_righ_Common_arrow_id =
+		// getResources().getIdentifier("mWidgetRow_righ_Common_arrow", "id",
+		// getContext().getPackageName());
 
 		LayoutInflater.from(getContext()).inflate(viewlayout_id, this);
 		mWidgetRowAction_Icon = (ImageView) findViewById(mWidgetRowAction_Icon_id);
@@ -109,13 +112,17 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		mWidgetRow_Value = (TextView) findViewById(mWidgetRow_Value_id);
 		mWidgetRow_Type = (FrameLayout) findViewById(mWidgetRow_Type_id);
 
-		// mWidgetRow_righ_Common_arrow = (ImageView) findViewById(mWidgetRow_righ_Common_arrow_id);
+		// mWidgetRow_righ_Common_arrow = (ImageView)
+		// findViewById(mWidgetRow_righ_Common_arrow_id);
 
-		// LayoutInflater.from(getContext()).inflate(R.layout.setting_view_basic_item, this);
-		// mWidgetRowAction_Icon = (ImageView) findViewById(R.id.mWidgetRowAction_Icon);
+		// LayoutInflater.from(getContext()).inflate(R.layout.setting_view_basic_item,
+		// this);
+		// mWidgetRowAction_Icon = (ImageView)
+		// findViewById(R.id.mWidgetRowAction_Icon);
 		// mWidgetRow_Label = (TextView) findViewById(R.id.mWidgetRow_Label);
 		// mWidgetRow_Value = (TextView) findViewById(R.id.mWidgetRow_Value);
-		// mWidgetRow_righ_Common_arrow = (ImageView) findViewById(R.id.mWidgetRow_righ_Common_arrow);
+		// mWidgetRow_righ_Common_arrow = (ImageView)
+		// findViewById(R.id.mWidgetRow_righ_Common_arrow);
 		// 初始化Preferences 让子类直接可以用
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
@@ -139,8 +146,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	}
 
 	// @Override
-	// public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-	// // setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
+	// public void onSharedPreferenceChanged(SharedPreferences
+	// sharedPreferences, String key) {
+	// //
+	// setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
 	// }
 
 	public void initRowViewData(Builder<?> rowBuilder) {
@@ -152,7 +161,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
 		// if (rowBuilder.action != null) {
-		// mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);// 可以点击时候显示箭头
+		// mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);//
+		// 可以点击时候显示箭头
 		// } else {
 		// mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
 		// }
@@ -235,6 +245,11 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	private Object mDefaultValue;
 
+	/**
+	 * 初始化set数据
+	 * @param restorePersistedValue
+	 * @param defaultValue
+	 */
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 	}
 
@@ -254,6 +269,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	/**
 	 * 获取sharedPreferences中保存的 boolean 值
+	 * 
 	 * @param defaultReturnValue
 	 * @return
 	 */

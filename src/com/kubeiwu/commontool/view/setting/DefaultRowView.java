@@ -1,13 +1,6 @@
 package com.kubeiwu.commontool.view.setting;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.preference.ListPreference;
-import android.text.TextUtils;
-import android.util.SparseArray;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -17,11 +10,15 @@ import android.widget.TextView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
+/**
+ * 点击的item
+ * 
+ * @author aaa
+ *
+ */
 public class DefaultRowView extends RowView {
 	private ImageView child;
 	private TextView value;
-	private String currentValue = "";// 当前值
-	private int restoreValue;// 保存的值
 
 	public DefaultRowView(Context context) {
 		super(context);
@@ -58,64 +55,6 @@ public class DefaultRowView extends RowView {
 
 	}
 
-	SparseArray<String> sparseArray = null;
-
-	/**
-	 * 增加数据集合
-	 * 
-	 * @param sparseArray
-	 *            数据 key为要保存的值 value是要显示的值
-	 * @param defaultValue
-	 *            默认值
-	 * @return
-	 */
-	public DefaultRowView addDataArray(SparseArray<String> sparseArray, int defaultValue) {
-		this.sparseArray = sparseArray;
-		currentValue = sparseArray.get(defaultValue, "");
-		restoreValue = defaultValue;
-		return this;
-	}
-
-	public DefaultRowView addDataArray(SparseArray<String> sparseArray) {
-		return addDataArray(sparseArray, 0);
-	}
-
-	public SparseArray<String> getDataArray() {
-		return sparseArray;
-	}
-
-	public String[] getDisplayValueAsStringArray() {
-		if (valueAsStringArray == null) {
-			if (sparseArray != null && sparseArray.size() > 0) {
-				valueAsStringArray = new String[sparseArray.size()];
-				for (int i = 0; i < sparseArray.size(); i++) {
-					valueAsStringArray[i] = sparseArray.valueAt(i);
-				}
-				return valueAsStringArray;
-			}
-		}
-		return valueAsStringArray;
-	}
-
-	/**
-	 * 保存值
-	 * 
-	 * @param index
-	 *            位置
-	 * @return 成功 or 失败
-	 */
-	public boolean saveValue(final int index) {
-		restoreValue = sparseArray.keyAt(index);
-		new Thread() {
-			public void run() {
-				currentValue = sparseArray.get(restoreValue, currentValue);
-				sharedPreferences.edit().putInt(mKey, restoreValue).commit();
-			};
-		}.start();
-		return false;
-	}
-
-
 	private OnRowClickListener<DefaultRowView> listen;
 
 	public DefaultRowView setOnRowClickListener(OnRowClickListener<DefaultRowView> listen) {
@@ -131,71 +70,15 @@ public class DefaultRowView extends RowView {
 		}
 	}
 
-	/**
-	 * 保存值
-	 * 
-	 * @param value
-	 *            显示的值
-	 * @return
-	 */
-	public boolean saveValue(String value) {
-		restoreValue = sparseArray.keyAt(sparseArray.indexOfValue(value));
-		return sharedPreferences.edit().putInt(mKey, restoreValue).commit();
-	}
-
-	private String[] valueAsStringArray = null;// 保持单列，提高效率，显示值的数组
-
-	/**
-	 * 获取位置
-	 * 
-	 * @return 返回当前值在集合中的位置 index
-	 */
-	public int getValueIndex() {
-		int restoreValue = sharedPreferences.getInt(this.mKey, 1);
-		if (sparseArray != null) {
-			return sparseArray.indexOfKey(restoreValue);
-		}
-		return 0;
-	}
-
-	/**
-	 * 获取储存的值
-	 * 
-	 * @return
-	 */
-	public int getRestoreValue() {
-		return restoreValue;
-	}
-
-	private void initValueData() {
-		try {
-			if (sparseArray != null && sparseArray.size() > 0) {
-				restoreValue = sharedPreferences.getInt(mKey, 1);
-				currentValue = sparseArray.get(restoreValue, currentValue);
-				value.setText(currentValue);
-				ListPreference d;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	@Override
+	protected void onInitViewData() {
+		super.onInitViewData();
 	}
 
 	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (hasKey() && this.mKey.equals(key)) {
-			initValueData();
-		}
-	}
-
-	public DefaultRowView setValue(String defaultValue) {
-		this.currentValue = defaultValue;
-		return this;
-	}
-
-	@Override
-	public void notifyDataChanged() {
-		super.notifyDataChanged();
-		initValueData();
+	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
+		super.onSetInitialValue(restorePersistedValue, defaultValue);
+		value.setText((String) defaultValue);// 这里回调回来设置的默认值
 	}
 
 }

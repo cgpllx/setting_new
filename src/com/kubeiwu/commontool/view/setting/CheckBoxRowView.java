@@ -1,7 +1,6 @@
 package com.kubeiwu.commontool.view.setting;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -23,8 +22,9 @@ public class CheckBoxRowView extends RowView {
 		checkBox = new CheckBox(getContext());
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
-			public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				setChecked(isChecked);
+				RowViewClick();
 			}
 		});
 		return checkBox;
@@ -50,7 +50,6 @@ public class CheckBoxRowView extends RowView {
 	public void onClick(View v) {
 		super.onClick(v);
 		simulationCheckBoxClick();
-		RowViewClick();
 	}
 
 	// 模拟CheckBox 点击
@@ -66,32 +65,10 @@ public class CheckBoxRowView extends RowView {
 			listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 		}
 	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (hasKey() && this.mKey.equals(key)) {
-			try {
-				mChecked = sharedPreferences.getBoolean(key, mChecked);
-				if (checkBox.isChecked() != mChecked) {
-					checkBox.setChecked(mChecked);
-				}
-				RowViewClick();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public CheckBoxRowView setValue(Boolean defaultValue) {
-		this.mChecked = defaultValue;
-		return this;
-	}
-
 	private Para<Boolean> para;
 
 	public void setPara(Para<Boolean> para) {
 		this.para = para;
-		// ListPreference ;
 	}
 
 	/**
@@ -112,6 +89,9 @@ public class CheckBoxRowView extends RowView {
 		if (mChecked != checked) {
 			mChecked = checked;
 			persistBoolean(checked);
+		}
+		if (para != null) {
+			para.value = mChecked;
 		}
 	}
 

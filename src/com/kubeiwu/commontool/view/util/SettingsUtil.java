@@ -8,6 +8,10 @@ public class SettingsUtil {
 
 	@SuppressWarnings("unchecked")
 	public static <T> void initParaFromPreferences(Para<T> para, SharedPreferences preferences) {
+		if (!preferences.contains(para.key)) {
+			System.out.println("空吗="+para.key);
+			return;
+		}
 		Class<T> clazz = (Class<T>) para.value.getClass();
 		if (clazz == String.class) {
 			para.value = (T) preferences.getString(para.key, (String) para.value);

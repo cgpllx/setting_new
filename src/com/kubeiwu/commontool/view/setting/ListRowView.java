@@ -3,8 +3,6 @@ package com.kubeiwu.commontool.view.setting;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -74,14 +72,20 @@ public class ListRowView extends DialogRowView {
 	}
 
 	/**
-	 * Sets the value of the key. This should be one of the entries in {@link #getEntryValues()}.
+	 * Sets the value of the key. This should be one of the entries in
+	 * {@link #getEntryValues()}.
 	 * 
 	 * @param value
 	 *            The value to set for the key.
 	 */
 	public void setValue(int value) {
-		mValue = value;
-		persistInt(value);
+		if (mValue != value) {
+			mValue = value;
+			persistInt(value);
+			if (para != null) {
+				para.value = mValue;
+			}
+		}
 	}
 
 	public int[] getEntryValues() {
@@ -110,7 +114,8 @@ public class ListRowView extends DialogRowView {
 				mClickedDialogEntryIndex = which;
 
 				/*
-				 * Clicking on an item simulates the positive button click, and dismisses the dialog.
+				 * Clicking on an item simulates the positive button click, and
+				 * dismisses the dialog.
 				 */
 				ListRowView.this.onClick(dialog, DialogInterface.BUTTON_POSITIVE);
 				dialog.dismiss();
@@ -140,6 +145,10 @@ public class ListRowView extends DialogRowView {
 		if (positiveResult && mClickedDialogEntryIndex >= 0 && mEntryValues != null) {
 			int value = mEntryValues[mClickedDialogEntryIndex];
 			setValue(value);
+			initValueData();
+			if(listen!=null){
+				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
+			}
 		}
 	}
 
@@ -174,19 +183,6 @@ public class ListRowView extends DialogRowView {
 	public void onClick(View v) {
 		super.onClick(v);
 		showDialog();
-	}
-
-	@Override
-	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-		if (!TextUtils.isEmpty(this.mKey) && this.mKey.equals(key)) {
-			initValueData();
-			if (para != null&&TextUtils.equals(key, para.key)) {
-				para.value = mValue;
-			}
-			if (listen != null) {//留着后面扩展
-				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
-			}
-		}
 	}
 
 	private void initValueData() {
