@@ -110,12 +110,12 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		GroupView groupView2 = containerView.addGroupViewItem(2, "其他1");
 		GroupView groupView3 = containerView.addGroupViewItem(3, "其他1");
 
-		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", R.drawable.ic_launcher, ParaSetting.xiazshud1.key, 0,ParaSetting.xiazshud1.value);
-		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, ParaSetting.xiazshud2.key, R.drawable.setting_view_item_selector,ParaSetting.xiazshud2.value);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存", 0, ParaSetting.xiazshud1);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏", R.drawable.ic_launcher, ParaSetting.xiazshud2.key, R.drawable.setting_view_item_selector, ParaSetting.xiazshud2.value);
 		// ;
-		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, ParaSetting.xiazshud3.key, R.drawable.setting_view_item_selector,ParaSetting.xiazshud3.value);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史", R.drawable.ic_launcher, ParaSetting.xiazshud3.key, R.drawable.setting_view_item_selector, ParaSetting.xiazshud3.value);
 		//
-		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, ParaSetting.xiazshud4.key, R.drawable.setting_view_item_selector,ParaSetting.xiazshud4.value);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存11", R.drawable.ic_launcher, ParaSetting.xiazshud4.key, R.drawable.setting_view_item_selector, ParaSetting.xiazshud4.value);
 		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, ParaSetting.xiazshud5.key, R.drawable.setting_view_item_selector);
 		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏11", R.drawable.ic_launcher, ParaSetting.xiazshud6.key, R.drawable.setting_view_item_selector);
 		// groupView2.addRowViewItem(CheckBoxRowView.class, 3, "历史11",

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
+import com.kubeiwu.commontool.view.util.Para;
 
 public class GroupView extends LinearLayout {
 
@@ -138,6 +139,43 @@ public class GroupView extends LinearLayout {
 			entry.addRowViewLastNode(rowView);
 		}
 		return rowView;
+	}
+
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, int resId, Para<?> para) {
+		RowView entry = this.mRowViewArray.get(order);
+		T rowView = new RowView.Builder<T>(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
+				.setLable(rowTitle)//
+				.setKey(para.key)//
+				.setResId(resId)//
+				.setDefaultValue(para.value)//
+				.create(clazz);
+		// rowView.setBackground(middleSelector);
+		if (entry == null) {
+			this.mRowViewArray.put(order, rowView);
+		} else {
+			entry.addRowViewLastNode(rowView);
+		}
+		return rowView;
+	}
+
+	/**
+	 * 增加单个RowView
+	 * 
+	 * @see 没有order
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, Para<?> para) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, resId, para);
+	}
+
+	/**
+	 * 增加单个RowView
+	 * 
+	 * @see 没有order
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int resId, Para<?> para) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, para);
 	}
 
 	/**
