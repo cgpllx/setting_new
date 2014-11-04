@@ -180,10 +180,10 @@ public class ListRowView extends DialogRowView {
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (!TextUtils.isEmpty(this.mKey) && this.mKey.equals(key)) {
 			initValueData();
-			if (para != null) {
+			if (para != null&&TextUtils.equals(key, para.key)) {
 				para.value = mValue;
 			}
-			if (listen != null) {
+			if (listen != null) {//留着后面扩展
 				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 			}
 		}
@@ -193,7 +193,7 @@ public class ListRowView extends DialogRowView {
 		value_TextView.setText(getEntry());
 	}
 
-	Para<Integer> para;
+	private Para<Integer> para;
 
 	public void setPara(Para<Integer> para) {
 		this.para = para;

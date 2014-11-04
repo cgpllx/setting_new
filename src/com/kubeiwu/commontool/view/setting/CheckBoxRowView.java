@@ -2,17 +2,17 @@ package com.kubeiwu.commontool.view.setting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
+import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public class CheckBoxRowView extends RowView {
 	private CheckBox checkBox;
-	private Boolean currentValue = false;// 当前值
+	private Boolean mChecked = false;// 当前值
 
 	public CheckBoxRowView(Context context) {
 		super(context);
@@ -21,11 +21,17 @@ public class CheckBoxRowView extends RowView {
 	@Override
 	public CheckBox initWidget() {
 		checkBox = new CheckBox(getContext());
+		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
+				setChecked(isChecked);
+			}
+		});
 		return checkBox;
 	}
 
 	public Boolean getCurrentValue() {
-		return currentValue;
+		return mChecked;
 	}
 
 	@Override
@@ -65,9 +71,9 @@ public class CheckBoxRowView extends RowView {
 	public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 		if (hasKey() && this.mKey.equals(key)) {
 			try {
-				currentValue = sharedPreferences.getBoolean(key, currentValue);
-				if (checkBox.isChecked() != currentValue) {
-					checkBox.setChecked(currentValue);
+				mChecked = sharedPreferences.getBoolean(key, mChecked);
+				if (checkBox.isChecked() != mChecked) {
+					checkBox.setChecked(mChecked);
 				}
 				RowViewClick();
 			} catch (Exception e) {
@@ -77,36 +83,57 @@ public class CheckBoxRowView extends RowView {
 	}
 
 	public CheckBoxRowView setValue(Boolean defaultValue) {
-		this.currentValue = defaultValue;
+		this.mChecked = defaultValue;
 		return this;
 	}
 
-	@Override
-	public void notifyDataChanged() {
-		super.notifyDataChanged();
-		initCheckBoxData();
+	private Para<Boolean> para;
+
+	public void setPara(Para<Boolean> para) {
+		this.para = para;
+		// ListPreference ;
+	}
+
+	/**
+	 * Returns the checked state.
+	 * 
+	 * @return The checked state.
+	 */
+	public boolean isChecked() {
+		return mChecked;
+	}
+
+	/**
+	 * 
+	 * @param checked
+	 *            The checked state.
+	 */
+	public void setChecked(boolean checked) {
+		if (mChecked != checked) {
+			mChecked = checked;
+			persistBoolean(checked);
+		}
 	}
 
 	private void initCheckBoxData() {
-		checkBox.setChecked(TextUtils.isEmpty(mKey) ? currentValue : sharedPreferences.getBoolean(mKey, currentValue));
-		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-			@Override
-			public void onCheckedChanged(CompoundButton buttonView, final boolean isChecked) {
-				currentValue = isChecked;
-				new Thread() {
-					public void run() {
-						synchronized (CheckBoxRowView.class) {
-							try {
-								if (!TextUtils.isEmpty(mKey)) {
-									sharedPreferences.edit().putBoolean(mKey, isChecked).commit();
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-						}
-					};
-				}.start();
-			}
-		});
+		checkBox.setChecked(mChecked);
+
+	}
+
+	/**
+	 * 初始化set的值
+	 */
+	@Override
+	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+		setChecked(restoreValue ? getPersistedBoolean(mChecked) : (Boolean) defaultValue);
+	}
+
+	/**
+	 * 在这里初始化view显示的数据
+	 */
+	@Override
+	protected void onInitViewData() {
+		super.onInitViewData();
+		initCheckBoxData();
 	}
 }

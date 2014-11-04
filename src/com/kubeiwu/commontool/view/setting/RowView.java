@@ -238,6 +238,30 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 	}
 
+	protected boolean persistBoolean(boolean value) {
+		if (hasKey()) {
+			if (value == getPersistedBoolean(!value)) {
+				// It's already there, so the same as persisting
+				return true;
+			}
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putBoolean(mKey, value);
+			tryCommit(editor);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 获取sharedPreferences中保存的 boolean 值
+	 * @param defaultReturnValue
+	 * @return
+	 */
+	protected boolean getPersistedBoolean(boolean defaultReturnValue) {
+
+		return sharedPreferences.getBoolean(mKey, defaultReturnValue);
+	}
+
 	/**
 	 * 获取sharedPreferences中保存的 String 值
 	 * 
