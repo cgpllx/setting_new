@@ -26,6 +26,41 @@ public class ListRowView extends DialogRowView {
 	}
 
 	/**
+	 * 初始化View
+	 */
+	@Override
+	public View initWidget() {
+		ininImageView();
+		initTextView();
+		LinearLayout layout = new LinearLayout(getContext());
+		layout.setOrientation(HORIZONTAL);
+		layout.setGravity(Gravity.CENTER);
+		layout.addView(value_TextView);
+		layout.addView(child_ImageView);
+		return layout;
+	}
+
+	private void ininImageView() {
+		child_ImageView = new ImageView(getContext());
+		child_ImageView.setPadding(1, 0, 0, 0);
+		// ListPreference ;
+	}
+
+	private void initTextView() {
+		value_TextView = new TextView(getContext());
+		value_TextView.setPadding(10, 0, 10, 0);
+		value_TextView.setSingleLine(true);
+		value_TextView.setTextColor(getResources().getColor(android.R.color.darker_gray));
+		// TypedValue.applyDimension(TypedValue.TYPE_DIMENSION, value, get);
+		value_TextView.setTextSize(17);
+	}
+
+	// 右边的图片资源
+	public void addWidgetResource(int resId) {
+		child_ImageView.setImageResource(resId);
+	}
+
+	/**
 	 * 根据值 查找位置index
 	 * 
 	 * @param value
@@ -125,18 +160,6 @@ public class ListRowView extends DialogRowView {
 		builder.setPositiveButton(null, null);
 	}
 
-	@Override
-	public View initWidget() {
-		ininImageView();
-		initTextView();
-		LinearLayout layout = new LinearLayout(getContext());
-		layout.setOrientation(HORIZONTAL);
-		layout.setGravity(Gravity.CENTER);
-		layout.addView(value_TextView);
-		layout.addView(child_ImageView);
-		return layout;
-	}
-
 	/**
 	 * dialog 关闭后执行
 	 */
@@ -146,30 +169,10 @@ public class ListRowView extends DialogRowView {
 			int value = mEntryValues[mClickedDialogEntryIndex];
 			setValue(value);
 			initValueData();
-			if(listen!=null){
+			if (listen != null) {
 				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 			}
 		}
-	}
-
-	public void addWidgetResource(int resId) {
-		child_ImageView.setImageResource(resId);
-	}
-
-	private void ininImageView() {
-		child_ImageView = new ImageView(getContext());
-		child_ImageView.setPadding(1, 0, 0, 0);
-		// ListPreference ;
-	}
-
-	private void initTextView() {
-		value_TextView = new TextView(getContext());
-		value_TextView.setPadding(10, 0, 10, 0);
-		value_TextView.setSingleLine(true);
-		value_TextView.setTextColor(getResources().getColor(android.R.color.darker_gray));
-		// TypedValue.applyDimension(TypedValue.TYPE_DIMENSION, value, get);
-		value_TextView.setTextSize(17);
-
 	}
 
 	private OnRowClickListener<ListRowView> listen;
