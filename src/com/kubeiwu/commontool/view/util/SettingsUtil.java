@@ -2,14 +2,20 @@ package com.kubeiwu.commontool.view.util;
 
 import java.util.Set;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
 public class SettingsUtil {
+	private SharedPreferences preferences;
+
+	public SettingsUtil(Context context) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> void initParaFromPreferences(Para<T> para, SharedPreferences preferences) {
+	public <T> void initParaFromPreferences(Para<T> para) {
 		if (!preferences.contains(para.key)) {
-			System.out.println("空吗="+para.key);
 			return;
 		}
 		Class<T> clazz = (Class<T>) para.value.getClass();

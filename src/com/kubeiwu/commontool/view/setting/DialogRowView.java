@@ -21,8 +21,8 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 	}
 
 	AlertDialog.Builder mBuilder;
-	private CharSequence mPositiveButtonText = "11";
-	private CharSequence mNegativeButtonText = "22";
+	private CharSequence mPositiveButtonText = "确定";
+	private CharSequence mNegativeButtonText = "取消";
 	private int mWhichButtonClicked;
 	/** The dialog, if it is showing. */
 	private Dialog mDialog;

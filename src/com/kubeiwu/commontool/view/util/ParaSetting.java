@@ -1,8 +1,6 @@
 package com.kubeiwu.commontool.view.util;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 
 public interface ParaSetting {
 	Para<Boolean> xiazshud1 = new Para<Boolean>("key1", true);
@@ -15,21 +13,18 @@ public interface ParaSetting {
 	Para<String> xiazshud8 = new Para<String>(null, "haha");
 
 	public class ParaUtil {
-		private SharedPreferences preferences;
 
-		public ParaUtil(Context context) {
-			preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		}
 
-		public void initPrar() {
-			SettingsUtil.initParaFromPreferences(xiazshud1, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud2, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud3, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud4, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud5, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud6, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud7, preferences);
-			SettingsUtil.initParaFromPreferences(xiazshud8, preferences);
+		public static void initPrar(Context context) {
+			SettingsUtil settingsUtil = new SettingsUtil(context);
+
+			settingsUtil.initParaFromPreferences(xiazshud1);
+			settingsUtil.initParaFromPreferences(xiazshud2);
+			settingsUtil.initParaFromPreferences(xiazshud3);
+			settingsUtil.initParaFromPreferences(xiazshud4);
+			settingsUtil.initParaFromPreferences(xiazshud5);
+			settingsUtil.initParaFromPreferences(xiazshud6);
+			settingsUtil.initParaFromPreferences(xiazshud7);
 		}
 	}
 }

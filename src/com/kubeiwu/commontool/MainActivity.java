@@ -2,8 +2,6 @@ package com.kubeiwu.commontool;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -15,19 +13,17 @@ import com.kubeiwu.commontool.view.setting.KSettingView;
 import com.kubeiwu.commontool.view.setting.ListRowView;
 import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
-import com.kubeiwu.commontool.view.util.KSparseArray;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.ParaSetting;
 import com.kubeiwu.commontool.view.util.ParaSetting.ParaUtil;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
-public class MainActivity extends Activity implements OnRowClickListener {
+public class MainActivity extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		ParaUtil util = new ParaUtil(getApplicationContext());
-		util.initPrar();
+		ParaUtil.initPrar(getApplicationContext());
 		setContentView(init4());
 	}
 
@@ -37,6 +33,7 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		// initSelector(getContext(), R.color.setting_view_item_bg_pressed,
 		// android.R.color.white,//
 		// android.R.color.holo_blue_light, android.R.color.holo_blue_light);
+		@SuppressWarnings("unused")
 		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
 				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 		// containerView.addItem(1, 10, 1, "缓存", R.drawable.ic_launcher,
@@ -123,8 +120,8 @@ public class MainActivity extends Activity implements OnRowClickListener {
 		// R.drawable.setting_view_item_selector);
 		//
 		groupView3.addRowViewItem(ListRowView.class, 1, "缓存11", R.drawable.ic_launcher, ParaSetting.xiazshud7.key, R.drawable.arrow_to_right, 1)//
-				.setEntries("aaa", "bbb")//
-				.setEntryValues(1, 2)//
+				.setEntries("aaa", "bbb", "ccc", "ddd", "eee")//
+				.setEntryValues(1, 2, 3, 4, 5)//
 				.setOnRowClickListener(new OnRowClickListener<ListRowView>() {
 
 					@Override
@@ -146,8 +143,4 @@ public class MainActivity extends Activity implements OnRowClickListener {
 
 	AlertDialog alertDialog;
 
-	@Override
-	public void onRowClick(RowView rowView, RowViewActionEnum action) {
-		Toast.makeText(getApplicationContext(), rowView.getItemId() + "", 1).show();
-	}
 }

@@ -43,7 +43,6 @@ public class ListRowView extends DialogRowView {
 	private void ininImageView() {
 		child_ImageView = new ImageView(getContext());
 		child_ImageView.setPadding(1, 0, 0, 0);
-		// ListPreference ;
 	}
 
 	private void initTextView() {
