@@ -242,7 +242,7 @@ public class GroupView extends LinearLayout {
 
 	public void notifyDataChanged() {
 		if (displayOptions == null) {
-			displayOptions = new DisplayOptions();
+			displayOptions = DisplayOptions.createsimpleDisplayOptions();
 		}
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
 			RowView rowView = null;

@@ -34,9 +34,11 @@ public class KSettingView extends LinearLayout {
 		super(context);
 		initView();
 	}
+
 	private DisplayOptions displayOptions;
+
 	public void setDisplayOptions(DisplayOptions displayOptions) {
-		this.displayOptions=displayOptions;
+		this.displayOptions = displayOptions;
 	}
 
 	private SparseArray<GroupView> mGroupViewArray = new SparseArray<GroupView>();
@@ -120,12 +122,21 @@ public class KSettingView extends LinearLayout {
 		String title = child.getTitle();
 		if (!TextUtils.isEmpty(title)) {
 			TextView textview = new TextView(getContext());
+			textview.setTextSize(getDisplayOptions().getGroupTitleSizePx());
+			textview.setTextColor(getResources().getColor(getDisplayOptions().getGroupTitleColorId()));
 			textview.setText(title);
 			addView(textview);
 		}
-		child.setDisplayOptions(displayOptions);
+		child.setDisplayOptions(getDisplayOptions());
 		super.addView(child);
 		child.notifyDataChanged();
+	}
+
+	public DisplayOptions getDisplayOptions() {
+		if (displayOptions == null) {
+			displayOptions = DisplayOptions.createsimpleDisplayOptions();
+		}
+		return displayOptions;
 	}
 
 	public void notifyDataChanged() {
