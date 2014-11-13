@@ -130,9 +130,9 @@ public class GroupView extends LinearLayout {
 				.setLable(rowTitle)//
 				.setKey(key)//
 				.setResId(resId)//
+				.setLeftPadding(1)//
 				.setDefaultValue(defaultValue)//
 				.create(clazz);
-		// rowView.setBackground(middleSelector);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
 		} else {
@@ -148,8 +148,8 @@ public class GroupView extends LinearLayout {
 				.setKey(para.key)//
 				.setResId(resId)//
 				.setDefaultValue(para.value)//
+				.setLeftPadding(1)//
 				.create(clazz);
-		// rowView.setBackground(middleSelector);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
 		} else {
@@ -288,7 +288,10 @@ public class GroupView extends LinearLayout {
 	}
 
 	private Drawable creatDrawable(int rowViewPosition, DisplayOptions displayOptions) {
-		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil(displayOptions.getOut_circle_Size(), displayOptions.getLinewidth());
+		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil();// displayOptions.getOut_circle_Size(), displayOptions.getLinewidth()
+		itemBgSelectorUtil.setLinewidth(displayOptions.getLinewidth());
+		itemBgSelectorUtil.setOut_circle_Size(displayOptions.getOut_circle_Size());
+		itemBgSelectorUtil.setRowstyle(displayOptions.getRowStyle());
 		return itemBgSelectorUtil.createSelector(getContext(), //
 				displayOptions.getNormalLineColorId(),//
 				displayOptions.getNormalBackgroundColorId(),//

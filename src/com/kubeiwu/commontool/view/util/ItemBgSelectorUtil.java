@@ -12,30 +12,32 @@ import com.kubeiwu.commontool.view.setting.GroupView.RowViewPosition;
 public class ItemBgSelectorUtil {
 	private int out_circle_Size = 0;
 	private int linewidth = 1;
+	private int rowstyle = RowStyle.ALL_AROUND;
+
+	public interface RowStyle {
+		public int ALL_AROUND = 0, UP_DOWN_AROUND = 1;
+	}
 
 	public ItemBgSelectorUtil() {
 	}
 
-	public int getOut_circle_Size() {
-		return out_circle_Size;
+	public void setRowstyle(int rowstyle) {
+		this.rowstyle = rowstyle;
 	}
 
 	public void setOut_circle_Size(int out_circle_Size) {
 		this.out_circle_Size = out_circle_Size;
 	}
 
-	public int getLinewidth() {
-		return linewidth;
-	}
-
 	public void setLinewidth(int linewidth) {
 		this.linewidth = linewidth;
 	}
 
-	public ItemBgSelectorUtil(int out_circle_Size, int linewidth) {
+	public ItemBgSelectorUtil(int out_circle_Size, int linewidth, int rowstyle) {
 		super();
 		this.out_circle_Size = out_circle_Size;
 		this.linewidth = linewidth;
+		this.rowstyle = rowstyle;
 	}
 
 	public Drawable getDrawable(Drawable lineColor, Drawable backgroundColor, int rowViewPosition) {
@@ -45,12 +47,12 @@ public class ItemBgSelectorUtil {
 		case RowViewPosition.UP:
 		case RowViewPosition.ALL:
 			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, linewidth, linewidth, linewidth, linewidth);
+			layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
 			break;
 		case RowViewPosition.MIDDLE:
 		case RowViewPosition.DOWM:
 			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, linewidth, 0, linewidth, linewidth);
+			layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, 0, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
 			break;
 		}
 		return layerDrawable;

@@ -1,5 +1,7 @@
 package com.kubeiwu.commontool.view.util;
 
+import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
+
 /**
  * 选择器的参数
  * 
@@ -18,6 +20,14 @@ public class DisplayOptions {
 
 	private int groupTitleColorId;
 	private int groupTitleSizePx;
+
+	private int rowleftpadding;
+
+	private int rowStyle;
+
+	public int getRowStyle() {
+		return rowStyle;
+	}
 
 	public int getGroupTitleColorId() {
 		return groupTitleColorId;
@@ -60,18 +70,20 @@ public class DisplayOptions {
 	}
 
 	private DisplayOptions(Builder builder) {
-		normalLineColorId = builder.normalLineColorId;
-		normalBackgroundColorId = builder.normalBackgroundColorId;
-		pressedLineColorId = builder.pressedLineColorId;
-		pressedBackgroundColorId = builder.pressedBackgroundColorId;
-		out_circle_Size = builder.out_circle_Size;
-		linewidth = builder.linewidth;
+		this.normalLineColorId = builder.normalLineColorId;
+		this.normalBackgroundColorId = builder.normalBackgroundColorId;
+		this.pressedLineColorId = builder.pressedLineColorId;
+		this.pressedBackgroundColorId = builder.pressedBackgroundColorId;
+		this.out_circle_Size = builder.out_circle_Size;
+		this.linewidth = builder.linewidth;
 
-		titleColorId = builder.rowTitleColorId;
-		titleSizePx = builder.rowTitleSizePx;
+		this.titleColorId = builder.rowTitleColorId;
+		this.titleSizePx = builder.rowTitleSizePx;
 
-		groupTitleColorId = builder.groupTitleColorId;
-		groupTitleSizePx = builder.groupTitleSizePx;
+		this.groupTitleColorId = builder.groupTitleColorId;
+		this.groupTitleSizePx = builder.groupTitleSizePx;
+		this.rowStyle = builder.rowStyle;
+		this.rowleftpadding = builder.rowleftpadding;
 	}
 
 	public static DisplayOptions createsimpleDisplayOptions() {
@@ -92,8 +104,22 @@ public class DisplayOptions {
 		private int groupTitleColorId = android.R.color.black; // 组的title字体颜色
 		private int groupTitleSizePx = 16; // title 字体大小 px
 
+		private int rowStyle = RowStyle.ALL_AROUND;
+
+		private int rowleftpadding;
+
+		public Builder setRowleftpadding(int rowleftpadding) {
+			this.rowleftpadding = rowleftpadding;
+			return this;
+		}
+
 		public Builder setNormalLineColorId(int normalLineColorId) {
 			this.normalLineColorId = normalLineColorId;
+			return this;
+		}
+
+		public Builder setRowStyle(int rowStyle) {
+			this.rowStyle = rowStyle;
 			return this;
 		}
 

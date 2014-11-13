@@ -13,6 +13,7 @@ import com.kubeiwu.commontool.view.setting.KSettingView;
 import com.kubeiwu.commontool.view.setting.ListRowView;
 import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
+import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.ParaSetting;
 import com.kubeiwu.commontool.view.util.ParaSetting.ParaUtil;
@@ -33,9 +34,9 @@ public class MainActivity extends Activity {
 		// initSelector(getContext(), R.color.setting_view_item_bg_pressed,
 		// android.R.color.white,//
 		// android.R.color.holo_blue_light, android.R.color.holo_blue_light);
-//		@SuppressWarnings("unused")
-//		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
-//				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
+		// @SuppressWarnings("unused")
+		// DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
+		// android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 		// containerView.addItem(1, 10, 1, "缓存", R.drawable.ic_launcher,
 		// selectorPara, this);
 		// containerView.addItem(1, 20, 2, "收藏", R.drawable.ic_launcher,
@@ -56,14 +57,14 @@ public class MainActivity extends Activity {
 		// selectorPara, this);
 		// ListView d；
 		// d.setOnItemClickListener(listener);
-//		containerView.commit();
+		// containerView.commit();
 		return containerView;
 	}
 
 	View init3() {
 		KSettingView containerView = new KSettingView(MainActivity.this);
-//		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
-//				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
+		// DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
+		// android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
 
 		GroupView groupView1 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他1").create();
 		GroupView groupView2 = new GroupView.Builder(getApplicationContext()).setGorupViewTitle("其他2").create();
@@ -99,12 +100,16 @@ public class MainActivity extends Activity {
 
 	View init4() {
 		KSettingView containerView = new KSettingView(MainActivity.this);
-//		DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
-//				android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
-		DisplayOptions selectorPara=new DisplayOptions.Builder()//
-		.setGroupTitleSizePx(20)
-		.build();
-		
+		// DisplayOptions selectorPara = new DisplayOptions(android.R.color.darker_gray, android.R.color.white,//
+		// android.R.color.holo_blue_light, android.R.color.holo_blue_light, 0, 1);
+		DisplayOptions selectorPara = new DisplayOptions.Builder()//
+				.setGroupTitleSizePx(20)//
+				.setOut_circle_Size(0)//
+				.setRowStyle(RowStyle.UP_DOWN_AROUND)
+				
+				.setRowleftpadding(50)//
+				.build();
+
 		containerView.setDisplayOptions(selectorPara);
 
 		GroupView groupView1 = containerView.addGroupViewItem(-1);
