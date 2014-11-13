@@ -128,28 +128,13 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// TODO:让子类根据自己需求重写
 	}
 
-	// @Override
-	// public void onSharedPreferenceChanged(SharedPreferences
-	// sharedPreferences, String key) {
-	// //
-	// setValue(PreferenceManager.getDefaultSharedPreferences(getContext()).get)
-	// }
-
 	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
 		mDefaultValue = rowBuilder.defaultValue;
-		// mWidgetRow_Label.setTextColor(Color.parseColor("#777777"));
 
 		this.mKey = rowBuilder.key;
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
-		// if (rowBuilder.action != null) {
-		// mWidgetRow_righ_Common_arrow.setVisibility(View.VISIBLE);//
-		// 可以点击时候显示箭头
-		// } else {
-		// mWidgetRow_righ_Common_arrow.setVisibility(View.GONE);// 不可以点击时候隐藏箭头
-		// }
-		// initRowViewType(mRowViewType);
 		mWidgetRow_Type.addView(initWidget());
 		addWidgetResource(rowBuilder.resId);
 		if (rowBuilder.iconResourceId != 0) {
@@ -157,16 +142,21 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		} else {
 			mWidgetRowAction_Icon.setVisibility(View.GONE);
 		}
-		// if (!TextUtils.isEmpty(rowBuilder.defaultValue)) {
-		// mWidgetRow_Value.setText(rowBuilder.defaultValue);
-		// } else {
-		mWidgetRow_Value.setVisibility(View.GONE);
-		if (getChildCount() > 0) {
-			getChildAt(0).setPadding(rowBuilder.leftPadding, 0, 0, 0);
-		}
-		// }
+		mWidgetRow_Value.setVisibility(View.GONE);// 暂时没有用到，先隐藏
 		dispatchSetInitialValue();
 
+	}
+
+	public void setRowViewPaddingStart(int paddingstart) {
+		if (getChildCount() > 0) {
+			getChildAt(0).setPadding(paddingstart, 0, 0, 0);
+		}
+	}
+
+	public void setRowViewPaddingEnd(int paddingEnd) {
+		if (getChildCount() > 0) {
+			getChildAt(getChildCount() - 1).setPadding(0, 0, paddingEnd, 0);
+		}
 	}
 
 	private void dispatchSetInitialValue() {
@@ -188,18 +178,12 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// onRowClick();
 	}
 
-	// public void onRowClick() {
-	// if (rowBuilder.getListener() != null) {
-	// // rowBuilder.getListener().onRowClick(t, rowBuilder.action);
-	// }
-	// }
-
 	public void notifyDataChanged() {
 		onInitViewData();
 	}
 
 	protected void onInitViewData() {
-
+		//
 	};
 
 	/**
@@ -297,12 +281,6 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		private String key;
 		private int resId;
 		private Object defaultValue;
-		private int leftPadding;
-
-		public Builder<T> setLeftPadding(int leftPadding) {
-			this.leftPadding = leftPadding;
-			return this;
-		}
 
 		public Builder<T> setDefaultValue(Object defaultValue) {
 			this.defaultValue = defaultValue;

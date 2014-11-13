@@ -130,7 +130,6 @@ public class GroupView extends LinearLayout {
 				.setLable(rowTitle)//
 				.setKey(key)//
 				.setResId(resId)//
-				.setLeftPadding(1)//
 				.setDefaultValue(defaultValue)//
 				.create(clazz);
 		if (entry == null) {
@@ -148,7 +147,6 @@ public class GroupView extends LinearLayout {
 				.setKey(para.key)//
 				.setResId(resId)//
 				.setDefaultValue(para.value)//
-				.setLeftPadding(1)//
 				.create(clazz);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
@@ -235,8 +233,8 @@ public class GroupView extends LinearLayout {
 
 	private void addView(RowView rowView, DisplayOptions displayOptions) {
 		super.addView(rowView);
-		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getTitleColorId()));
-		rowView.getRowViewTitle().setTextSize(displayOptions.getTitleSizePx());
+		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getRowTitleColorId()));
+		rowView.getRowViewTitle().setTextSize(displayOptions.getRowTitleSizePx());
 		rowView.notifyDataChanged();
 	}
 
@@ -248,9 +246,13 @@ public class GroupView extends LinearLayout {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
+				rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
+				rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
 				addView(rowView, displayOptions);
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
+					rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
+					rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
 					addView(rowView, displayOptions);
 				}
 			}

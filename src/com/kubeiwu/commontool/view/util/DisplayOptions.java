@@ -15,13 +15,30 @@ public class DisplayOptions {
 	private int out_circle_Size;
 	private int linewidth = 1;
 
-	private int titleColorId;
-	private int titleSizePx;
+	private int rowTitleColorId;
+	private int rowTitleSizePx;
 
 	private int groupTitleColorId;
 	private int groupTitleSizePx;
 
-	private int rowleftpadding;
+	private int rowPaddingStart;
+	public int getRowTitleColorId() {
+		return rowTitleColorId;
+	}
+
+	public int getRowTitleSizePx() {
+		return rowTitleSizePx;
+	}
+
+	private int rowPaddingEnd;
+
+	public int getRowPaddingStart() {
+		return rowPaddingStart;
+	}
+
+	public int getRowPaddingEnd() {
+		return rowPaddingEnd;
+	}
 
 	private int rowStyle;
 
@@ -37,17 +54,13 @@ public class DisplayOptions {
 		return groupTitleSizePx;
 	}
 
-	public int getTitleColorId() {
-		return titleColorId;
-	}
+	 
 
 	public int getPressedLineColorId() {
 		return pressedLineColorId;
 	}
 
-	public int getTitleSizePx() {
-		return titleSizePx;
-	}
+ 
 
 	public int getNormalLineColorId() {
 		return normalLineColorId;
@@ -77,13 +90,14 @@ public class DisplayOptions {
 		this.out_circle_Size = builder.out_circle_Size;
 		this.linewidth = builder.linewidth;
 
-		this.titleColorId = builder.rowTitleColorId;
-		this.titleSizePx = builder.rowTitleSizePx;
+		this.rowTitleColorId = builder.rowTitleColorId;
+		this.rowTitleSizePx = builder.rowTitleSizePx;
 
 		this.groupTitleColorId = builder.groupTitleColorId;
 		this.groupTitleSizePx = builder.groupTitleSizePx;
 		this.rowStyle = builder.rowStyle;
-		this.rowleftpadding = builder.rowleftpadding;
+		this.rowPaddingStart = builder.rowleftpadding;
+		this.rowPaddingEnd = builder.rowPaddingEnd;
 	}
 
 	public static DisplayOptions createsimpleDisplayOptions() {
@@ -91,6 +105,7 @@ public class DisplayOptions {
 	}
 
 	public static class Builder {
+		public int rowPaddingEnd;
 		private int normalLineColorId = android.R.color.darker_gray;// 线条颜色资源id FFD6D6D6
 		private int normalBackgroundColorId = android.R.color.white;// 默认时候的背景
 		private int pressedLineColorId = android.R.color.darker_gray;// 按下时候的线条颜色id
@@ -105,6 +120,11 @@ public class DisplayOptions {
 		private int groupTitleSizePx = 16; // title 字体大小 px
 
 		private int rowStyle = RowStyle.ALL_AROUND;
+
+		public Builder setRowPaddingEnd(int rowPaddingEnd) {
+			this.rowPaddingEnd = rowPaddingEnd;
+			return this;
+		}
 
 		private int rowleftpadding;
 

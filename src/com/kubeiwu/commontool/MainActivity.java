@@ -106,8 +106,7 @@ public class MainActivity extends Activity {
 				.setGroupTitleSizePx(20)//
 				.setOut_circle_Size(0)//
 				.setRowStyle(RowStyle.UP_DOWN_AROUND)
-				
-				.setRowleftpadding(50)//
+				.setRowleftpadding(21)//
 				.build();
 
 		containerView.setDisplayOptions(selectorPara);

@@ -19,7 +19,7 @@ public class KSettingView extends LinearLayout {
 
 	private void initView() {
 		setOrientation(VERTICAL);
-		setPadding( 20, 10, 20, 10);
+		setPadding( 00, 10, 00, 10);
 		LayoutParams l = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 //		l.setMargins(50, 10, 20, 10);
 		setLayoutParams(l);
