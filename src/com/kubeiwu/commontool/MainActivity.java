@@ -4,14 +4,13 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import com.kubeiwu.commontool.view.setting.CheckBoxRowView;
 import com.kubeiwu.commontool.view.setting.DefaultRowView;
+import com.kubeiwu.commontool.view.setting.EditTextRowView;
 import com.kubeiwu.commontool.view.setting.GroupView;
 import com.kubeiwu.commontool.view.setting.KSettingView;
 import com.kubeiwu.commontool.view.setting.ListRowView;
-import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
@@ -25,7 +24,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ParaUtil.initPrar(getApplicationContext());
-		setContentView(init4());
+		setContentView(init5());
 	}
 
 	View init2() {
@@ -105,8 +104,7 @@ public class MainActivity extends Activity {
 		DisplayOptions selectorPara = new DisplayOptions.Builder()//
 				.setGroupTitleSizePx(20)//
 				.setOut_circle_Size(0)//
-				.setRowStyle(RowStyle.UP_DOWN_AROUND)
-				.setRowleftpadding(21)//
+				.setRowStyle(RowStyle.UP_DOWN_AROUND).setRowleftpadding(21)//
 				.build();
 
 		containerView.setDisplayOptions(selectorPara);
@@ -142,8 +140,39 @@ public class MainActivity extends Activity {
 
 					}
 				}).setPara(ParaSetting.xiazshud7);
-		groupView3.addRowViewItem(DefaultRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.setting_view_item_selector, "得的");
+		groupView3.addRowViewItem(EditTextRowView.class, 2, "收藏11", R.drawable.ic_launcher, "key8", R.drawable.arrow_to_right, "得的");
 		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史11", R.drawable.ic_launcher, "key9", R.drawable.arrow_to_right, "哈哈");
+
+		containerView.commit();
+		return containerView;
+	}
+
+	View init5() {
+		KSettingView containerView = new KSettingView(MainActivity.this);
+		DisplayOptions selectorPara = new DisplayOptions.Builder()//
+				.setGroupTitleSizePx(20)//
+				.setOut_circle_Size(0)//
+				.setRowStyle(RowStyle.UP_DOWN_AROUND).setRowleftpadding(21)//
+				.build();
+		containerView.setDisplayOptions(selectorPara);
+		GroupView groupView1 = containerView.addGroupViewItem(-1);
+		GroupView groupView2 = containerView.addGroupViewItem(2, "其他1");
+		GroupView groupView3 = containerView.addGroupViewItem(3, "其他1");
+
+		groupView1.addRowViewItem(CheckBoxRowView.class, 1, "缓存1", 0, ParaSetting.xiazshud1);
+		groupView1.addRowViewItem(CheckBoxRowView.class, 2, "收藏2", R.drawable.ic_launcher, R.drawable.setting_view_item_selector, ParaSetting.xiazshud2);
+		// ;
+		groupView1.addRowViewItem(CheckBoxRowView.class, 3, "历史3", R.drawable.ic_launcher, R.drawable.setting_view_item_selector, ParaSetting.xiazshud3);
+		//
+		groupView2.addRowViewItem(CheckBoxRowView.class, 1, "缓存4", R.drawable.ic_launcher, R.drawable.setting_view_item_selector, ParaSetting.xiazshud4);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏5", R.drawable.ic_launcher, R.drawable.setting_view_item_selector, ParaSetting.xiazshud5);
+		groupView2.addRowViewItem(CheckBoxRowView.class, 2, "收藏6", R.drawable.ic_launcher, R.drawable.setting_view_item_selector, ParaSetting.xiazshud6);
+
+		groupView3.addRowViewItem(ListRowView.class, 1, "缓存7", R.drawable.ic_launcher, R.drawable.arrow_to_right, ParaSetting.xiazshud7)//
+				.setEntries("aaa", "bbb", "ccc", "ddd", "eee")//
+				.setEntryValues(1, 2, 3, 4, 5);//
+		groupView3.addRowViewItem(EditTextRowView.class, 2, "收藏8", R.drawable.ic_launcher, R.drawable.arrow_to_right, ParaSetting.xiazshud8);
+		groupView3.addRowViewItem(DefaultRowView.class, 3, "历史9", R.drawable.ic_launcher, R.drawable.arrow_to_right, ParaSetting.xiazshud9);
 
 		containerView.commit();
 		return containerView;

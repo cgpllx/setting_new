@@ -11,6 +11,7 @@ public interface ParaSetting {
 	Para<Boolean> xiazshud6 = new Para<Boolean>("key61", true);
 	Para<Integer> xiazshud7 = new Para<Integer>("key7", 10);
 	Para<String> xiazshud8 = new Para<String>(null, "haha");
+	Para<String> xiazshud9 = new Para<String>(null, "dd");
 
 	public class ParaUtil {
 
@@ -25,6 +26,8 @@ public interface ParaSetting {
 			settingsUtil.initParaFromPreferences(xiazshud5);
 			settingsUtil.initParaFromPreferences(xiazshud6);
 			settingsUtil.initParaFromPreferences(xiazshud7);
+			settingsUtil.initParaFromPreferences(xiazshud8);
+			settingsUtil.initParaFromPreferences(xiazshud9);
 		}
 	}
 }

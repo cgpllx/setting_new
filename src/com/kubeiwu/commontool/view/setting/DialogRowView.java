@@ -5,10 +5,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.TextView;
 
 public abstract class DialogRowView extends RowView implements OnDismissListener, android.content.DialogInterface.OnClickListener {
 
-	protected DialogRowView(Context context) {
+	public DialogRowView(Context context) {
 		super(context);
 	}
 
@@ -26,6 +30,8 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 	private int mWhichButtonClicked;
 	/** The dialog, if it is showing. */
 	private Dialog mDialog;
+	private CharSequence mDialogMessage;
+	private int mDialogLayoutResId;
 
 	public void showDialog() {
 		Context context = getContext();
@@ -33,6 +39,14 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 				.setTitle(getTitle())//
 				.setPositiveButton(mPositiveButtonText, this)//
 				.setNegativeButton(mNegativeButtonText, this);
+
+		View contentView = onCreateDialogView();
+		if (contentView != null) {
+			onBindDialogView(contentView);
+			mBuilder.setView(contentView);
+		} else {
+			mBuilder.setMessage(mDialogMessage);
+		}
 		onPrepareDialogBuilder(mBuilder);
 		final Dialog dialog = mDialog = mBuilder.create();
 
@@ -42,6 +56,10 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 
 	public void onClick(DialogInterface dialog, int which) {
 		mWhichButtonClicked = which;
+	}
+
+	public void setDialogLayoutResource(int dialogLayoutResId) {
+		mDialogLayoutResId = dialogLayoutResId;
 	}
 
 	/**
@@ -59,6 +77,40 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 	}
 
 	protected void onDialogClosed(boolean positiveResult) {
+	}
+
+	public CharSequence getDialogMessage() {
+		return mDialogMessage;
+	}
+
+	protected View onCreateDialogView() {
+		if (mDialogLayoutResId == 0) {
+			return null;
+		}
+
+		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		return inflater.inflate(mDialogLayoutResId, null);
+	}
+
+	protected void onBindDialogView(View view) {
+		View dialogMessageView = view.findViewById(android.R.id.message);
+
+		if (dialogMessageView != null) {
+			final CharSequence message = getDialogMessage();
+			int newVisibility = View.GONE;
+
+			if (!TextUtils.isEmpty(message)) {
+				if (dialogMessageView instanceof TextView) {
+					((TextView) dialogMessageView).setText(message);
+				}
+
+				newVisibility = View.VISIBLE;
+			}
+
+			if (dialogMessageView.getVisibility() != newVisibility) {
+				dialogMessageView.setVisibility(newVisibility);
+			}
+		}
 	}
 
 	public void setPositiveButtonText(CharSequence positiveButtonText) {

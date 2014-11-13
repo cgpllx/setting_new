@@ -83,7 +83,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		this(context, attrs, 0);
 	}
 
-	protected RowView(Context context) {
+	public RowView(Context context) {
 		super(context);
 		initRowView();
 	}
@@ -213,7 +213,21 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			editor.commit();
 		}
 	}
-
+    protected boolean persistString(String value) {
+        if (hasKey()) {
+            // Shouldn't store null
+            if (value == getPersistedString(null)) {
+                // It's already there, so the same as persisting
+                return true;
+            }
+            
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString(mKey, value);
+            tryCommit(editor);
+            return true;
+        }
+        return false;
+    }
 	private Object mDefaultValue;
 
 	/**
