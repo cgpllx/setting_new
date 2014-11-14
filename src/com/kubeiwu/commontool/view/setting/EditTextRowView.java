@@ -37,7 +37,16 @@ public class EditTextRowView extends DialogRowView {
 		 * The preference framework and view framework both have an 'enabled' attribute. Most likely, the 'enabled' specified in this XML is for the preference framework, but it was also given to the view framework. We reset the enabled state.
 		 */
 		mEditText.setEnabled(true);
-		setDialogLayoutResource(R.layout.edittext_container);
+		// int viewlayout_id = getResources().getIdentifier("edittext_container", "layout", getContext().getPackageName());
+		// setDialogLayoutResource(R.layout.edittext_container);
+	}
+
+	ViewGroup container;
+
+	@Override
+	protected View onCreateDialogView() {
+		container = new LinearLayout(getContext());
+		return container;
 	}
 
 	@Override
@@ -105,7 +114,6 @@ public class EditTextRowView extends DialogRowView {
 	}
 
 	protected void onAddEditTextToDialogView(View dialogView, EditText editText) {
-		ViewGroup container = (ViewGroup) dialogView.findViewById(R.id.edittext_container);
 		if (container != null) {
 			container.addView(editText, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		}
@@ -127,11 +135,19 @@ public class EditTextRowView extends DialogRowView {
 		super.onInitViewData();
 		initValueData();
 	}
+
 	private Para<String> para;
 
 	public void setPara(Para<String> para) {
 		this.para = para;
 	}
+
+	@Override
+	protected boolean needInputMethod() {
+		// We want the input method to show, if possible, when dialog is displayed
+		return true;
+	}
+
 	// --------------------------------------------------------------------------- view
 	/**
 	 * 初始化View

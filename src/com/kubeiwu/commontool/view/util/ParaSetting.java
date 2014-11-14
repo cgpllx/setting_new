@@ -8,10 +8,10 @@ public interface ParaSetting {
 	Para<Boolean> xiazshud3 = new Para<Boolean>("key3", true);
 	Para<Boolean> xiazshud4 = new Para<Boolean>("key4", true);
 	Para<Boolean> xiazshud5 = new Para<Boolean>("key5", true);
-	Para<Boolean> xiazshud6 = new Para<Boolean>("key61", true);
+	Para<Boolean> xiazshud6 = new Para<Boolean>("key6", true);
 	Para<Integer> xiazshud7 = new Para<Integer>("key7", 10);
-	Para<String> xiazshud8 = new Para<String>(null, "haha");
-	Para<String> xiazshud9 = new Para<String>(null, "dd");
+	Para<String> xiazshud8 = new Para<String>("key8", "haha");
+	Para<String> xiazshud9 = new Para<String>("key9", "dd");
 
 	public class ParaUtil {
 

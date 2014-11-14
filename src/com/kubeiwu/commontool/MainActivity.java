@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 
 import com.kubeiwu.commontool.view.setting.CheckBoxRowView;
 import com.kubeiwu.commontool.view.setting.DefaultRowView;
@@ -24,7 +25,11 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ParaUtil.initPrar(getApplicationContext());
-		setContentView(init5());
+		ScrollView scrollView = new ScrollView(this);
+		 View view=init5();
+		 view.setPadding(20, 10, 20, 10);
+		scrollView.addView(view);
+		setContentView(scrollView);
 	}
 
 	View init2() {
@@ -152,7 +157,7 @@ public class MainActivity extends Activity {
 		DisplayOptions selectorPara = new DisplayOptions.Builder()//
 				.setGroupTitleSizePx(20)//
 				.setOut_circle_Size(0)//
-				.setRowStyle(RowStyle.UP_DOWN_AROUND).setRowleftpadding(21)//
+				.setRowStyle(RowStyle.ALL_AROUND).setRowleftpadding(21)//
 				.build();
 		containerView.setDisplayOptions(selectorPara);
 		GroupView groupView1 = containerView.addGroupViewItem(-1);
