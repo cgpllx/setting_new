@@ -36,6 +36,7 @@ public class DefaultRowView extends RowView {
 		return layout;
 	}
 
+	@Override
 	public void addWidgetResource(int resId) {
 		child.setImageResource(resId);
 	}

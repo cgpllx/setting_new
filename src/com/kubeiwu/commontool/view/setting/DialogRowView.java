@@ -58,6 +58,7 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 		dialog.show();
 	}
 
+	@Override
 	public void onClick(DialogInterface dialog, int which) {
 		mWhichButtonClicked = which;
 	}
@@ -75,6 +76,7 @@ public abstract class DialogRowView extends RowView implements OnDismissListener
 		return mDialog;
 	}
 
+	@Override
 	public void onDismiss(DialogInterface dialog) {
 		mDialog = null;
 		onDialogClosed(mWhichButtonClicked == DialogInterface.BUTTON_POSITIVE);

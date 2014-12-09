@@ -55,6 +55,7 @@ public class ListRowView extends DialogRowView {
 	}
 
 	// 右边的图片资源
+	@Override
 	public void addWidgetResource(int resId) {
 		child_ImageView.setImageResource(resId);
 	}
@@ -144,6 +145,7 @@ public class ListRowView extends DialogRowView {
 
 		mClickedDialogEntryIndex = getValueIndex();
 		builder.setSingleChoiceItems(mEntries, mClickedDialogEntryIndex, new DialogInterface.OnClickListener() {
+			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				mClickedDialogEntryIndex = which;
 
@@ -162,6 +164,7 @@ public class ListRowView extends DialogRowView {
 	/**
 	 * dialog 关闭后执行
 	 */
+	@Override
 	protected void onDialogClosed(boolean positiveResult) {
 		super.onDialogClosed(positiveResult);
 		if (positiveResult && mClickedDialogEntryIndex >= 0 && mEntryValues != null) {

@@ -79,6 +79,7 @@ public class KSettingView extends LinearLayout {
 	 * @param groupViewArray
 	 * @deprecated
 	 */
+	@Deprecated
 	public void addGroupViewArray(SparseArray<GroupView> groupViewArray) {
 		if (groupViewArray == null || groupViewArray.size() == 0) {
 			this.mGroupViewArray = groupViewArray;

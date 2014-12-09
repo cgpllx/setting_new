@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kubeiwu.commontool.R;
 import com.kubeiwu.commontool.view.util.Para;
 
 public class EditTextRowView extends DialogRowView {
@@ -179,6 +178,7 @@ public class EditTextRowView extends DialogRowView {
 	}
 
 	// 右边的图片资源
+	@Override
 	public void addWidgetResource(int resId) {
 		child_ImageView.setImageResource(resId);
 	}

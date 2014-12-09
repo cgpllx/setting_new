@@ -79,6 +79,7 @@ public class GroupView extends LinearLayout {
 	 *            key 升序 作为RowView在groupView中的位置的循序
 	 * @deprecated
 	 */
+	@Deprecated
 	public void addAllRowView(SparseArray<RowView> rowViewArray) {
 		if (mRowViewArray == null || mRowViewArray.size() == 0) {
 			mRowViewArray = rowViewArray;
@@ -311,6 +312,7 @@ public class GroupView extends LinearLayout {
 	 * @deprecated
 	 * @param entry
 	 */
+	@Deprecated
 	public void addGroupView(GroupView entry) {
 		SparseArray<RowView> value = entry.getmRowViewArray();// 传进来的值
 		addAllRowView(value);
