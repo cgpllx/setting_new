@@ -171,7 +171,7 @@ public class ListRowView extends DialogRowView {
 			int value = mEntryValues[mClickedDialogEntryIndex];
 			setValue(value);
 			initValueData();
-			if (listen != null) {
+			if (listen != null) {// 值改变后执行
 				listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 			}
 		}

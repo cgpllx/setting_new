@@ -24,6 +24,11 @@ public class CheckBoxRowView extends RowView {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				setChecked(isChecked);
+			}
+		});
+		checkBox.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
 				RowViewClick();
 			}
 		});

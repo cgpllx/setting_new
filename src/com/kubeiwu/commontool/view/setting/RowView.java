@@ -1,7 +1,8 @@
 package com.kubeiwu.commontool.view.setting;
 
 import java.lang.reflect.Constructor;
-
+import com.kubeiwu.commontool.view.util.OnRowClickListener;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@SuppressLint("CommitPrefEdits")
 public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
 
 	private ImageView mWidgetRowAction_Icon;
@@ -34,7 +36,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	/**
 	 * Checks whether this Preference has a valid key.
 	 * 
-	 * @return True if the key exists and is not a blank string, false otherwise.
+	 * @return True if the key exists and is not a blank string, false
+	 *         otherwise.
 	 */
 	public boolean hasKey() {
 		return !TextUtils.isEmpty(mKey);
@@ -213,21 +216,23 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			editor.commit();
 		}
 	}
-    protected boolean persistString(String value) {
-        if (hasKey()) {
-            // Shouldn't store null
-            if (value == getPersistedString(null)) {
-                // It's already there, so the same as persisting
-                return true;
-            }
-            
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString(mKey, value);
-            tryCommit(editor);
-            return true;
-        }
-        return false;
-    }
+
+	protected boolean persistString(String value) {
+		if (hasKey()) {
+			// Shouldn't store null
+			if (value == getPersistedString(null)) {
+				// It's already there, so the same as persisting
+				return true;
+			}
+
+			SharedPreferences.Editor editor = sharedPreferences.edit();
+			editor.putString(mKey, value);
+			tryCommit(editor);
+			return true;
+		}
+		return false;
+	}
+
 	private Object mDefaultValue;
 
 	/**

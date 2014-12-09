@@ -79,7 +79,7 @@ public class DefaultRowView extends RowView {
 	@Override
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 		super.onSetInitialValue(restorePersistedValue, defaultValue);
-		value.setText((String) defaultValue);// 这里回调回来设置的默认值
+		value.setText(defaultValue.toString());// 这里回调回来设置的默认值
 	}
 
 }
