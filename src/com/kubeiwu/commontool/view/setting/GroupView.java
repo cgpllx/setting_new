@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.kubeiwu.commontool.view.util.ApiCompatibleUtil;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
 import com.kubeiwu.commontool.view.util.Para;
@@ -272,13 +273,13 @@ public class GroupView extends LinearLayout {
 	private void afreshRowViewSelector(DisplayOptions displayOptions) {
 		int count = getChildCount();
 		if (count <= 1) {
-			getChildAt(0).setBackground(creatDrawable(RowViewPosition.ALL, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(0), creatDrawable(RowViewPosition.ALL, displayOptions));
 		} else {
-			getChildAt(0).setBackground(creatDrawable(RowViewPosition.UP, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(0), creatDrawable(RowViewPosition.UP, displayOptions));
 			for (int i = 1; i < count - 1; i++) {
-				getChildAt(i).setBackground(creatDrawable(RowViewPosition.MIDDLE, displayOptions));
+				ApiCompatibleUtil.setViewBackground(getChildAt(i), creatDrawable(RowViewPosition.MIDDLE, displayOptions));
 			}
-			getChildAt(count - 1).setBackground(creatDrawable(RowViewPosition.DOWM, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(count - 1), creatDrawable(RowViewPosition.DOWM, displayOptions));
 		}
 	}
 
