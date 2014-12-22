@@ -3,7 +3,6 @@ package com.kubeiwu.commontool.view.setting;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.view.View;
@@ -70,7 +69,6 @@ public class GroupView extends LinearLayout {
 		LayoutParams l = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
 		setPadding(0, 10, 0, 10);
 		setLayoutParams(l);
-		ListPreference d;
 	}
 
 	/**

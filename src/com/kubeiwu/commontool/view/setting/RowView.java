@@ -1,7 +1,7 @@
 package com.kubeiwu.commontool.view.setting;
 
 import java.lang.reflect.Constructor;
-import com.kubeiwu.commontool.view.util.OnRowClickListener;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
