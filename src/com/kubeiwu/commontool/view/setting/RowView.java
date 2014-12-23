@@ -134,7 +134,6 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
 		if (rowBuilder.para != null) {
-			// mDefaultValue = rowBuilder.para.value;
 			this.mKey = rowBuilder.para.key;
 			this.para = (Para<Object>) rowBuilder.para;
 		}
@@ -308,9 +307,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		private String lable = "";
 		private int iconResourceId;
 		private Context context;
-		// private String key;
 		private int resId;
-		// private Object defaultValue;
 		private Para<?> para;
 
 		public Builder<T> setPara(Para<?> para) {
@@ -318,20 +315,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			return this;
 		}
 
-		// public Builder<T> setDefaultValue(Object defaultValue) {
-		// this.defaultValue = defaultValue;
-		// return this;
-		// }
-
 		public Builder<T> setResId(int resId) {
 			this.resId = resId;
 			return this;
 		}
-
-		// public Builder<T> setKey(String key) {
-		// this.key = key;
-		// return this;
-		// }
 
 		public int getItemId() {
 			return itemId;
@@ -360,7 +347,6 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 		public T create(Class<T> clazz) {
 			try {
-				// clazz.getAnnotation(annotationType);
 				Constructor<T> c = clazz.getConstructor(Context.class);
 				final T rowView = c.newInstance(context);
 				rowView.initRowViewData(this);

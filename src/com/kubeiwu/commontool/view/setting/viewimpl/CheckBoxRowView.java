@@ -71,6 +71,7 @@ public class CheckBoxRowView extends RowView {
 			listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 		}
 	}
+
 	private Para<Boolean> para;
 
 	public void setPara(Para<Boolean> para) {
@@ -123,4 +124,8 @@ public class CheckBoxRowView extends RowView {
 		initCheckBoxData();
 	}
 
+	public static CheckBoxRowView newInstance(Context context) {
+		return new Builder<CheckBoxRowView>(context)// ;
+				.create(CheckBoxRowView.class);
+	}
 }
