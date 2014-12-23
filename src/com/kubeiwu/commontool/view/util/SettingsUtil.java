@@ -43,8 +43,8 @@ public class SettingsUtil {
 	}
 
 	public static void initPrar(Context context, Object object) {
-		Field[] fields = object.getClass().getFields();
 		try {
+			Field[] fields = object.getClass().getFields();
 			SettingsUtil settingsUtil = new SettingsUtil(context);
 			for (Field field : fields) {
 				IsPara kPara = field.getAnnotation(IsPara.class);
