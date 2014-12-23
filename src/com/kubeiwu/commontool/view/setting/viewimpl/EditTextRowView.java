@@ -1,4 +1,4 @@
-package com.kubeiwu.commontool.view.setting;
+package com.kubeiwu.commontool.view.setting.viewimpl;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.view.setting.DialogRowView;
 import com.kubeiwu.commontool.view.util.Para;
 
 public class EditTextRowView extends DialogRowView {

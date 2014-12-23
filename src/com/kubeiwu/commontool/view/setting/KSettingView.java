@@ -74,32 +74,6 @@ public class KSettingView extends LinearLayout {
 	}
 
 	/**
-	 * 在设置view中增加多组GroupView
-	 * 
-	 * @param groupViewArray
-	 * @deprecated
-	 */
-	@Deprecated
-	public void addGroupViewArray(SparseArray<GroupView> groupViewArray) {
-		if (groupViewArray == null || groupViewArray.size() == 0) {
-			this.mGroupViewArray = groupViewArray;
-		} else {
-			for (int i = 0; i < groupViewArray.size(); i++) {
-				// 传进来的key 和value
-				int key = groupViewArray.keyAt(i);
-				GroupView entry = groupViewArray.valueAt(i);
-				// 当前容器中的value
-				GroupView groupView = this.mGroupViewArray.get(key);
-				if (groupView == null) {// 当前容器中不存在就直接加入
-					this.mGroupViewArray.put(key, entry);
-				} else {
-					groupView.addGroupView(entry);
-				}
-			}
-		}
-	}
-
-	/**
 	 * 向容器中增加一个GroupView，如果groupOrder位置 在容器中已经存在，则会在下面增加
 	 * 
 	 * @param groupViewArray

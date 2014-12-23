@@ -1,4 +1,4 @@
-package com.kubeiwu.commontool.view.setting;
+package com.kubeiwu.commontool.view.setting.viewimpl;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.view.setting.DialogRowView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
@@ -117,9 +118,6 @@ public class ListRowView extends DialogRowView {
 		if (mValue != value) {
 			mValue = value;
 			persistInt(value);
-			if (para != null) {
-				para.value = mValue;
-			}
 		}
 	}
 
@@ -194,11 +192,6 @@ public class ListRowView extends DialogRowView {
 		value_TextView.setText(getEntry());
 	}
 
-	private Para<Integer> para;
-
-	public void setPara(Para<Integer> para) {
-		this.para = para;
-	}
 
 	/**
 	 * 初始化set的值

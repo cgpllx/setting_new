@@ -1,4 +1,4 @@
-package com.kubeiwu.commontool.view.setting;
+package com.kubeiwu.commontool.view.setting.viewimpl;
 
 import android.content.Context;
 import android.view.Gravity;
@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
@@ -79,7 +80,7 @@ public class DefaultRowView extends RowView {
 	@Override
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 		super.onSetInitialValue(restorePersistedValue, defaultValue);
-		value.setText(defaultValue.toString());// 这里回调回来设置的默认值
+		value.setText((String)defaultValue);// 这里回调回来设置的默认值
 	}
 
 }

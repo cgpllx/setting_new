@@ -1,10 +1,11 @@
-package com.kubeiwu.commontool.view.setting;
+package com.kubeiwu.commontool.view.setting.viewimpl;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
+import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
@@ -121,4 +122,5 @@ public class CheckBoxRowView extends RowView {
 		super.onInitViewData();
 		initCheckBoxData();
 	}
+
 }

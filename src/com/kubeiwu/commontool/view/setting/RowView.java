@@ -2,7 +2,6 @@ package com.kubeiwu.commontool.view.setting;
 
 import java.lang.reflect.Constructor;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -17,7 +16,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-@SuppressLint("CommitPrefEdits")
+import com.kubeiwu.commontool.view.util.Para;
+
 public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
 
 	private ImageView mWidgetRowAction_Icon;
@@ -36,8 +36,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	/**
 	 * Checks whether this Preference has a valid key.
 	 * 
-	 * @return True if the key exists and is not a blank string, false
-	 *         otherwise.
+	 * @return True if the key exists and is not a blank string, false otherwise.
 	 */
 	public boolean hasKey() {
 		return !TextUtils.isEmpty(mKey);
@@ -131,11 +130,15 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		// TODO:让子类根据自己需求重写
 	}
 
+	@SuppressWarnings("unchecked")
 	public void initRowViewData(Builder<?> rowBuilder) {
 		mWidgetRow_Label.setText(rowBuilder.lable);
-		mDefaultValue = rowBuilder.defaultValue;
+		if (rowBuilder.para != null) {
+			// mDefaultValue = rowBuilder.para.value;
+			this.mKey = rowBuilder.para.key;
+			this.para = (Para<Object>) rowBuilder.para;
+		}
 
-		this.mKey = rowBuilder.key;
 		setItemId(rowBuilder.itemId);
 		setOnClickListener(this);
 		mWidgetRow_Type.addView(initWidget());
@@ -164,8 +167,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	private void dispatchSetInitialValue() {
 		if (!sharedPreferences.contains(mKey)) {
-			if (mDefaultValue != null) {
-				onSetInitialValue(false, mDefaultValue);
+			if (this.para != null && this.para.value != null) {
+				onSetInitialValue(false, this.para.value);
 			}
 		} else {
 			onSetInitialValue(true, null);
@@ -203,17 +206,24 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			}
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putInt(mKey, value);
-			tryCommit(editor);
+			tryCommit(editor, value);
 			return true;
 		}
 		return false;
 	}
 
-	private void tryCommit(SharedPreferences.Editor editor) {
+	private void tryCommit(SharedPreferences.Editor editor, Object value) {
 		try {
+			handlePara(value);
 			editor.apply();
 		} catch (AbstractMethodError unused) {
 			editor.commit();
+		}
+	}
+
+	private void handlePara(Object value) {
+		if (para != null) {
+			para.value = value;
 		}
 	}
 
@@ -227,13 +237,14 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putString(mKey, value);
-			tryCommit(editor);
+			tryCommit(editor, value);
 			return true;
 		}
 		return false;
 	}
 
-	private Object mDefaultValue;
+	// private Object mDefaultValue;
+	private Para<Object> para = null;
 
 	/**
 	 * 初始化set数据
@@ -252,7 +263,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			}
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putBoolean(mKey, value);
-			tryCommit(editor);
+			tryCommit(editor, value);
 			return true;
 		}
 		return false;
@@ -297,24 +308,30 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		private String lable = "";
 		private int iconResourceId;
 		private Context context;
-		private String key;
+		// private String key;
 		private int resId;
-		private Object defaultValue;
+		// private Object defaultValue;
+		private Para<?> para;
 
-		public Builder<T> setDefaultValue(Object defaultValue) {
-			this.defaultValue = defaultValue;
+		public Builder<T> setPara(Para<?> para) {
+			this.para = para;
 			return this;
 		}
+
+		// public Builder<T> setDefaultValue(Object defaultValue) {
+		// this.defaultValue = defaultValue;
+		// return this;
+		// }
 
 		public Builder<T> setResId(int resId) {
 			this.resId = resId;
 			return this;
 		}
 
-		public Builder<T> setKey(String key) {
-			this.key = key;
-			return this;
-		}
+		// public Builder<T> setKey(String key) {
+		// this.key = key;
+		// return this;
+		// }
 
 		public int getItemId() {
 			return itemId;
@@ -343,6 +360,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 		public T create(Class<T> clazz) {
 			try {
+				// clazz.getAnnotation(annotationType);
 				Constructor<T> c = clazz.getConstructor(Context.class);
 				final T rowView = c.newInstance(context);
 				rowView.initRowViewData(this);

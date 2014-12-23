@@ -72,30 +72,6 @@ public class GroupView extends LinearLayout {
 	}
 
 	/**
-	 * 增加一组RowView
-	 * 
-	 * @param rowViewArray
-	 *            key 升序 作为RowView在groupView中的位置的循序
-	 * @deprecated
-	 */
-	@Deprecated
-	public void addAllRowView(SparseArray<RowView> rowViewArray) {
-		if (mRowViewArray == null || mRowViewArray.size() == 0) {
-			mRowViewArray = rowViewArray;
-		} else {
-			for (int i = 0; i < rowViewArray.size(); i++) {
-				RowView linked = this.mRowViewArray.valueAt(i);
-				RowView deliverylinked = rowViewArray.valueAt(i);
-				if (linked == null) {
-					mRowViewArray.put(rowViewArray.keyAt(i), deliverylinked);
-				} else {
-					linked.addRowViewLastNode(deliverylinked);
-				}
-			}
-		}
-	}
-
-	/**
 	 * 获取当前groupView的子view
 	 * 
 	 * @return
@@ -125,30 +101,14 @@ public class GroupView extends LinearLayout {
 	 * @param order
 	 * @param rowView
 	 */
-	@SuppressLint("NewApi")
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue) {
-		RowView entry = this.mRowViewArray.get(order);
-		T rowView = new RowView.Builder<T>(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
-				.setLable(rowTitle)//
-				.setKey(key)//
-				.setResId(resId)//
-				.setDefaultValue(defaultValue)//
-				.create(clazz);
-		if (entry == null) {
-			this.mRowViewArray.put(order, rowView);
-		} else {
-			entry.addRowViewLastNode(rowView);
-		}
-		return rowView;
-	}
-
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int order, int itemId, String rowTitle, int iconResourceId, int resId, Para<?> para) {
 		RowView entry = this.mRowViewArray.get(order);
 		T rowView = new RowView.Builder<T>(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
 				.setLable(rowTitle)//
-				.setKey(para.key)//
+//				.setKey(para.key)//
 				.setResId(resId)//
-				.setDefaultValue(para.value)//
+//				.setDefaultValue(para.value)//
+				.setPara(para)//
 				.create(clazz);
 		if (entry == null) {
 			this.mRowViewArray.put(order, rowView);
@@ -177,62 +137,7 @@ public class GroupView extends LinearLayout {
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int resId, Para<?> para) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, para);
 	}
-
-	/**
-	 * 增加单个RowView
-	 * 
-	 * @see 没有order
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId, Object defaultValue) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, defaultValue);
-	}
-
-	/**
-	 * 增加单个RowView
-	 * 
-	 * @see 没有order
-	 * @see 没有默认值
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, String key, int resId) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, key, resId, null);
-	}
-
-	/**
-	 * 增加单个RowView
-	 * 
-	 * @see 1没有order
-	 * @see 2没有默认值
-	 * @see 3没有icon图标
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, String key, int resId) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, key, resId, null);
-	}
-
-	/**
-	 * 增加单个RowView
-	 * 
-	 * @see 1没有order
-	 * @see 2没有默认值
-	 * @see 3没有icon图标
-	 * @see 4没有 item右边图片的选择器，资源
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, String key) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, key, 0, null);
-	}
-
-	/**
-	 * 增加单个RowView 在0的位置 1没有order 2没有默认值 3没有icon图标 4没有key
-	 * 
-	 * @param rowView
-	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int resId) {
-		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, null, resId, null);
-	}
-
+ 
 	private void addView(RowView rowView, DisplayOptions displayOptions) {
 		super.addView(rowView);
 		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getRowTitleColorId()));
@@ -305,17 +210,6 @@ public class GroupView extends LinearLayout {
 	}
 
 	private SparseArray<RowView> mRowViewArray = new SparseArray<RowView>();
-
-	// 在GroupView中添加GroupView
-	/**
-	 * @deprecated
-	 * @param entry
-	 */
-	@Deprecated
-	public void addGroupView(GroupView entry) {
-		SparseArray<RowView> value = entry.getmRowViewArray();// 传进来的值
-		addAllRowView(value);
-	}
 
 	public static class Builder {
 		private String gorupViewTitle;
