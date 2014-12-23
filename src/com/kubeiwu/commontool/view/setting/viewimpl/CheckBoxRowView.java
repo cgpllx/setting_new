@@ -72,11 +72,6 @@ public class CheckBoxRowView extends RowView {
 		}
 	}
 
-	private Para<Boolean> para;
-
-	public void setPara(Para<Boolean> para) {
-		this.para = para;
-	}
 
 	/**
 	 * Returns the checked state.
@@ -97,9 +92,6 @@ public class CheckBoxRowView extends RowView {
 			mChecked = checked;
 			persistBoolean(checked);
 		}
-		if (para != null) {
-			para.value = mChecked;
-		}
 	}
 
 	private void initCheckBoxData() {
@@ -112,7 +104,7 @@ public class CheckBoxRowView extends RowView {
 	 */
 	@Override
 	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		setChecked(restoreValue ? getPersistedBoolean(mChecked) : (Boolean) defaultValue);
+		setChecked(restoreValue ? getPersistedBoolean((Boolean) defaultValue) : (Boolean) defaultValue);
 	}
 
 	/**
@@ -124,8 +116,4 @@ public class CheckBoxRowView extends RowView {
 		initCheckBoxData();
 	}
 
-	public static CheckBoxRowView newInstance(Context context) {
-		return new Builder<CheckBoxRowView>(context)// ;
-				.create(CheckBoxRowView.class);
-	}
 }
