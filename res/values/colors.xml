@@ -13,4 +13,5 @@
     <color name="setting_view_item_bg_pressed">#FFD6D6D6</color>
     <color name="setting_view_item_bg_normal">#FFFFFFFF</color>
 
+       <color name="setting_line_color">#BFC6CE</color>
 </resources>
