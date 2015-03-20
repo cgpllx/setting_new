@@ -275,7 +275,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	 * @return
 	 */
 	protected boolean getPersistedBoolean(boolean defaultReturnValue) {
-
+		
 		return sharedPreferences.getBoolean(mKey, defaultReturnValue);
 	}
 

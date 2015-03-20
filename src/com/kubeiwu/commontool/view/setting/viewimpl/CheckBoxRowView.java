@@ -104,7 +104,9 @@ public class CheckBoxRowView extends RowView {
 	 */
 	@Override
 	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		setChecked(restoreValue ? getPersistedBoolean((Boolean) defaultValue) : (Boolean) defaultValue);
+		System.out.println(restoreValue);
+		System.out.println(defaultValue);
+		setChecked(restoreValue ? getPersistedBoolean(mChecked) : (Boolean) defaultValue);
 	}
 
 	/**
