@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.kubeiwu.commontool.view.setting.DialogRowView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
-import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public class ListRowView extends DialogRowView {

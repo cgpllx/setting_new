@@ -7,7 +7,6 @@ import android.widget.CompoundButton;
 
 import com.kubeiwu.commontool.view.setting.RowView;
 import com.kubeiwu.commontool.view.util.OnRowClickListener;
-import com.kubeiwu.commontool.view.util.Para;
 import com.kubeiwu.commontool.view.util.RowViewActionEnum;
 
 public class CheckBoxRowView extends RowView {
