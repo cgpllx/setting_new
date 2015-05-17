@@ -59,6 +59,7 @@ public class DefaultRowView extends RowView {
 
 	private OnRowClickListener<DefaultRowView> listen;
 
+	@Deprecated
 	public DefaultRowView setOnRowClickListener(OnRowClickListener<DefaultRowView> listen) {
 		this.listen = listen;
 		return this;
@@ -80,7 +81,7 @@ public class DefaultRowView extends RowView {
 	@Override
 	protected void onSetInitialValue(boolean restorePersistedValue, Object defaultValue) {
 		super.onSetInitialValue(restorePersistedValue, defaultValue);
-		value.setText((String)defaultValue);// 这里回调回来设置的默认值
+		value.setText((String) defaultValue);// 这里回调回来设置的默认值
 	}
 
 }

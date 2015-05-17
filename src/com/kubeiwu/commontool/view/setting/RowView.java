@@ -16,6 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kubeiwu.commontool.view.setting.viewimpl.DefaultRowView;
+import com.kubeiwu.commontool.view.util.Listener.OnRowViewClickListener;
+import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.Para;
 
 public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
@@ -180,7 +183,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	@Override
 	public void onClick(View v) {
-		// onRowClick();
+		if (listen != null) {
+			listen.onRowViewClick(this);
+		}
+
 	}
 
 	public void notifyDataChanged() {
@@ -190,6 +196,12 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	protected void onInitViewData() {
 		//
 	};
+
+	private OnRowViewClickListener listen;
+
+	public void setOnRowViewClickListener(OnRowViewClickListener listen) {
+		this.listen = listen;
+	}
 
 	/**
 	 * 存储值
@@ -275,7 +287,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	 * @return
 	 */
 	protected boolean getPersistedBoolean(boolean defaultReturnValue) {
-		
+
 		return sharedPreferences.getBoolean(mKey, defaultReturnValue);
 	}
 

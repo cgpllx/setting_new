@@ -53,8 +53,8 @@ public class CheckBoxRowView extends RowView {
 
 	@Override
 	public void onClick(View v) {
-		super.onClick(v);
 		simulationCheckBoxClick();
+		super.onClick(v);
 	}
 
 	// 模拟CheckBox 点击

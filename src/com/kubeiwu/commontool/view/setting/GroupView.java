@@ -11,9 +11,11 @@ import android.widget.LinearLayout;
 import com.kubeiwu.commontool.view.util.ApiCompatibleUtil;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
+import com.kubeiwu.commontool.view.util.Listener.OnGroupViewItemClickListener;
+import com.kubeiwu.commontool.view.util.Listener.OnRowViewClickListener;
 import com.kubeiwu.commontool.view.util.Para;
 
-public class GroupView extends LinearLayout {
+public class GroupView extends LinearLayout implements OnRowViewClickListener {
 
 	private String mGorupViewTitle;
 
@@ -134,23 +136,31 @@ public class GroupView extends LinearLayout {
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, Para<?> para) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, resId, para);
 	}
+
 	/**
 	 * 增加单个RowView
 	 * 
 	 * @see 没有order
 	 * @param rowView
 	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle,  int resId ) {
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int resId) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, null);
 	}
+
 	/**
 	 * 增加单个RowView
 	 * 
 	 * @see 没有order
 	 * @param rowView
 	 */
-	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle ) {
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, 0, null);
+	}
+
+	private OnGroupViewItemClickListener mOnGroupViewItemClickListener;
+
+	public void setOnItemClickListener(OnGroupViewItemClickListener listener) {
+		mOnGroupViewItemClickListener = listener;
 	}
 
 	/**
@@ -168,6 +178,8 @@ public class GroupView extends LinearLayout {
 		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getRowTitleColorId()));
 		rowView.getRowViewTitle().setTextSize(displayOptions.getRowTitleSizePx());
 		rowView.notifyDataChanged();
+		rowView.setOnRowViewClickListener(this);
+
 	}
 
 	public void notifyDataChanged() {
@@ -182,8 +194,8 @@ public class GroupView extends LinearLayout {
 				setShowDividers(displayOptions.getShowDividers());
 			}
 		}
-		int dividerPadding=displayOptions.getDividerPadding();
-		if(dividerPadding!=0){
+		int dividerPadding = displayOptions.getDividerPadding();
+		if (dividerPadding != 0) {
 			setDividerPadding(dividerPadding);
 		}
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
@@ -268,4 +280,10 @@ public class GroupView extends LinearLayout {
 		}
 	}
 
+	@Override
+	public void onRowViewClick(RowView rowView) {
+		if (mOnGroupViewItemClickListener != null) {
+			mOnGroupViewItemClickListener.onItemClick(GroupView.this, rowView);
+		}
+	}
 }
