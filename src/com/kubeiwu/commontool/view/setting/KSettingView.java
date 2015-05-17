@@ -76,6 +76,20 @@ public class KSettingView extends LinearLayout {
 		return addGroupViewItem(groupOrder, null);
 	}
 
+	// 默认时候的组id
+	private int groupOrder;
+
+	/**
+	 * 增加一个不需要title的GroupView到容器中
+	 * 
+	 * @param groupOrder
+	 * @return 返回被增加的GroupView
+	 */
+	public GroupView addGroupViewItem() {
+
+		return addGroupViewItem(groupOrder++, null);
+	}
+
 	/**
 	 * 向容器中增加一个GroupView，如果groupOrder位置 在容器中已经存在，则会在下面增加
 	 * 
