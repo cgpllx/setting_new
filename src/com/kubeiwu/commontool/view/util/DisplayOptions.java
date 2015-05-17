@@ -22,6 +22,14 @@ public class DisplayOptions {
 	private int groupTitleSizePx;
 
 	private int rowPaddingStart;
+
+	// private setDividerDrawable
+	private int dividerResId;
+
+	public int getDividerResId() {
+		return dividerResId;
+	}
+
 	public int getRowTitleColorId() {
 		return rowTitleColorId;
 	}
@@ -41,6 +49,16 @@ public class DisplayOptions {
 	}
 
 	private int rowStyle;
+	private int showDividers;
+	private int dividerPadding;
+
+	public int getDividerPadding() {
+		return dividerPadding;
+	}
+
+	public int getShowDividers() {
+		return showDividers;
+	}
 
 	public int getRowStyle() {
 		return rowStyle;
@@ -54,13 +72,9 @@ public class DisplayOptions {
 		return groupTitleSizePx;
 	}
 
-	 
-
 	public int getPressedLineColorId() {
 		return pressedLineColorId;
 	}
-
- 
 
 	public int getNormalLineColorId() {
 		return normalLineColorId;
@@ -98,6 +112,9 @@ public class DisplayOptions {
 		this.rowStyle = builder.rowStyle;
 		this.rowPaddingStart = builder.rowleftpadding;
 		this.rowPaddingEnd = builder.rowPaddingEnd;
+		this.dividerResId = builder.dividerResId;
+		this.showDividers = builder.showDividers;
+		this.dividerPadding = builder.dividerPadding;
 	}
 
 	public static DisplayOptions createsimpleDisplayOptions() {
@@ -105,12 +122,13 @@ public class DisplayOptions {
 	}
 
 	public static class Builder {
-		public int rowPaddingEnd;
+
+		private int rowPaddingEnd;
 		private int normalLineColorId = android.R.color.darker_gray;// 线条颜色资源id FFD6D6D6
 		private int normalBackgroundColorId = android.R.color.white;// 默认时候的背景
 		private int pressedLineColorId = android.R.color.darker_gray;// 按下时候的线条颜色id
 		private int pressedBackgroundColorId = android.R.color.holo_blue_light;// 按下时候的背景颜色资源id
-		private int out_circle_Size = 15; // 圆角大小
+		private int out_circle_Size = 0; // 圆角大小
 		private int linewidth = 1;// 线宽
 
 		private int rowTitleColorId = android.R.color.black; // 行的title字体颜色
@@ -121,12 +139,26 @@ public class DisplayOptions {
 
 		private int rowStyle = RowStyle.ALL_AROUND;
 
+		private int dividerResId = 0;
+		private int dividerPadding = 0;
+
+		public Builder setDividerResId(int dividerResId) {
+			this.dividerResId = dividerResId;
+			return this;
+		}
+
+		public Builder setDividerPadding(int padding) {
+			this.dividerPadding = padding;
+			return this;
+		}
+
 		public Builder setRowPaddingEnd(int rowPaddingEnd) {
 			this.rowPaddingEnd = rowPaddingEnd;
 			return this;
 		}
 
 		private int rowleftpadding;
+		private int showDividers;
 
 		public Builder setRowleftpadding(int rowleftpadding) {
 			this.rowleftpadding = rowleftpadding;
@@ -138,6 +170,12 @@ public class DisplayOptions {
 			return this;
 		}
 
+		@Deprecated 
+		/**
+		 * 使用 setDividerResId(int dividerResId)替代
+		 * @param rowStyle
+		 * @return
+		 */
 		public Builder setRowStyle(int rowStyle) {
 			this.rowStyle = rowStyle;
 			return this;
@@ -185,6 +223,19 @@ public class DisplayOptions {
 
 		public Builder setLinewidth(int linewidth) {
 			this.linewidth = linewidth;
+			return this;
+		}
+
+		/**
+		 * Set how dividers should be shown between items in this layout
+		 * 
+		 * Parameters: showDividers One or more of SHOW_DIVIDER_BEGINNING, SHOW_DIVIDER_MIDDLE, or SHOW_DIVIDER_END, or SHOW_DIVIDER_NONE to show no dividers.
+		 * 
+		 * @param showDividers
+		 * @return
+		 */
+		public Builder setShowDividers(int showDividers) {
+			this.showDividers = showDividers;
 			return this;
 		}
 

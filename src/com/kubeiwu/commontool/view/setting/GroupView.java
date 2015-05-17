@@ -77,7 +77,14 @@ public class GroupView extends LinearLayout {
 	 * @return
 	 */
 	public SparseArray<RowView> getmRowViewArray() {
+
 		return mRowViewArray;
+	}
+
+	@Override
+	public void setDividerDrawable(Drawable divider) {
+		// TODO Auto-generated method stub
+		super.setDividerDrawable(divider);
 	}
 
 	/**
@@ -105,9 +112,9 @@ public class GroupView extends LinearLayout {
 		RowView entry = this.mRowViewArray.get(order);
 		T rowView = new RowView.Builder<T>(getContext()).setItemId(itemId).setIconResourceId(iconResourceId)//
 				.setLable(rowTitle)//
-//				.setKey(para.key)//
+				// .setKey(para.key)//
 				.setResId(resId)//
-//				.setDefaultValue(para.value)//
+				// .setDefaultValue(para.value)//
 				.setPara(para)//
 				.create(clazz);
 		if (entry == null) {
@@ -127,6 +134,24 @@ public class GroupView extends LinearLayout {
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int iconResourceId, int resId, Para<?> para) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, iconResourceId, resId, para);
 	}
+	/**
+	 * 增加单个RowView
+	 * 
+	 * @see 没有order
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle,  int resId ) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, null);
+	}
+	/**
+	 * 增加单个RowView
+	 * 
+	 * @see 没有order
+	 * @param rowView
+	 */
+	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle ) {
+		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, 0, null);
+	}
 
 	/**
 	 * 增加单个RowView
@@ -137,7 +162,7 @@ public class GroupView extends LinearLayout {
 	public <T extends RowView> T addRowViewItem(Class<T> clazz, int itemId, String rowTitle, int resId, Para<?> para) {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, para);
 	}
- 
+
 	private void addView(RowView rowView, DisplayOptions displayOptions) {
 		super.addView(rowView);
 		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getRowTitleColorId()));
@@ -148,6 +173,18 @@ public class GroupView extends LinearLayout {
 	public void notifyDataChanged() {
 		if (displayOptions == null) {
 			displayOptions = DisplayOptions.createsimpleDisplayOptions();
+		}
+		int dividerResId = displayOptions.getDividerResId();
+		if (dividerResId != 0) {// 设置当前GroupView的divider
+			Drawable drawable = getResources().getDrawable(dividerResId);
+			if (drawable != null) {
+				setDividerDrawable(drawable);
+				setShowDividers(displayOptions.getShowDividers());
+			}
+		}
+		int dividerPadding=displayOptions.getDividerPadding();
+		if(dividerPadding!=0){
+			setDividerPadding(dividerPadding);
 		}
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
 			RowView rowView = null;

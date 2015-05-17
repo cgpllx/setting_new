@@ -19,9 +19,9 @@ public class KSettingView extends LinearLayout {
 
 	private void initView() {
 		setOrientation(VERTICAL);
-		setPadding( 00, 10, 00, 10);
+		setPadding(00, 10, 00, 10);
 		LayoutParams l = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-//		l.setMargins(50, 10, 20, 10);
+		// l.setMargins(50, 10, 20, 10);
 		setLayoutParams(l);
 
 	}
@@ -55,6 +55,9 @@ public class KSettingView extends LinearLayout {
 	public GroupView addGroupViewItem(int groupOrder, String gorupViewTitle) {
 		GroupView entry = mGroupViewArray.get(groupOrder);
 		GroupView groupView = new GroupView.Builder(getContext()).setGorupViewTitle(gorupViewTitle).create();
+		if (getDisplayOptions().getDividerResId() != 0) {
+
+		}
 		if (entry == null) {
 			mGroupViewArray.put(groupOrder, groupView);
 		} else {
@@ -85,7 +88,6 @@ public class KSettingView extends LinearLayout {
 		} else {
 			delivery.addGroupViewLastNode(groupView);
 		}
-
 	}
 
 	public void commit() {
