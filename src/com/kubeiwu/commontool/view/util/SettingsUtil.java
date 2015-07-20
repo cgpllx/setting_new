@@ -1,14 +1,13 @@
 package com.kubeiwu.commontool.view.util;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Set;
-
-import com.kubeiwu.commontool.view.setting.annomotion.IsPara;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+
+import com.kubeiwu.commontool.view.setting.annomotion.IsPara;
 
 @SuppressWarnings("unchecked")
 public class SettingsUtil {
@@ -19,7 +18,6 @@ public class SettingsUtil {
 	}
 
 	public <T> void initParaFromPreferences(Para<T> para) {
-		System.out.println("有这个key吗=" + mPreferences.contains(para.key));
 		if (!mPreferences.contains(para.key)) {
 			return;
 		}
@@ -30,9 +28,7 @@ public class SettingsUtil {
 			Integer i = mPreferences.getInt(para.key, (Integer) para.value);
 			para.value = (T) i;
 		} else if (clazz == boolean.class || clazz == Boolean.class) {
-			System.out.println("有这个key吗=" + mPreferences.contains(para.key));
 			Boolean b = mPreferences.getBoolean(para.key, (Boolean) para.value);
-			System.out.println("key的值是多=" + b);
 			para.value = (T) b;
 		} else if (clazz == float.class || clazz == Float.class) {
 			Float f = mPreferences.getFloat(para.key, (Float) para.value);
@@ -48,13 +44,9 @@ public class SettingsUtil {
 
 	public static void initPrar(Context context, Class<?> object) {
 		try {
-			
 			Field[] fields = object.getFields();
-			System.out.println("fields长度"+fields.length);
 			SettingsUtil settingsUtil = new SettingsUtil(context);
 			for (Field field : fields) {
-				Annotation[] dd=field.getAnnotations();
-				System.out.println("Annotation长度"+dd.length);
 				IsPara kPara = field.getAnnotation(IsPara.class);
 				if (kPara != null && field.getType() == Para.class) {
 					Para<Object> para = (Para<Object>) field.get(object);
