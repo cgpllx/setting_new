@@ -159,8 +159,9 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 
 	private OnGroupViewItemClickListener mOnGroupViewItemClickListener;
 
-	public void setOnItemClickListener(OnGroupViewItemClickListener listener) {
+	public GroupView setOnItemClickListener(OnGroupViewItemClickListener listener) {
 		mOnGroupViewItemClickListener = listener;
+		return this;
 	}
 
 	/**
@@ -202,13 +203,15 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
-				rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
-				rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
+				// rowView.getChildAt(0).setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
+				rowView.getChildAt(0).setPadding(displayOptions.getRowPaddingStart(), 0, displayOptions.getRowPaddingEnd(), 0);
+				// rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
 				addView(rowView, displayOptions);
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
-					rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
-					rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
+					rowView.getChildAt(0).setPadding(displayOptions.getRowPaddingStart(), 0, displayOptions.getRowPaddingEnd(), 0);
+					// rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
+					// rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
 					addView(rowView, displayOptions);
 				}
 			}

@@ -2,13 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/setting_view_basic_item_h_container"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="match_parent"
     android:gravity="left|center_vertical"
     android:orientation="horizontal" >
 
     <ImageView
         android:id="@+id/mWidgetRowAction_Icon"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/app_name"
@@ -50,6 +50,8 @@
         android:layout_gravity="center"
         android:background="@android:color/transparent"
         android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:paddingLeft="0dp"
         android:visibility="visible" >
     </FrameLayout>
 

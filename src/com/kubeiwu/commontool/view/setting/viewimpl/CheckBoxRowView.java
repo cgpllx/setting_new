@@ -23,6 +23,7 @@ public class CheckBoxRowView extends RowView {
 		checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				System.out.println("isChecked="+isChecked);
 				setChecked(isChecked);
 			}
 		});
@@ -30,6 +31,10 @@ public class CheckBoxRowView extends RowView {
 			@Override
 			public void onClick(View v) {
 				RowViewClick();
+				System.out.println("回调");
+				// onRowViewClick();//
+				//调用父类的onClick方法。这里调用onRowViewClick也是可以的
+				CheckBoxRowView.super.onClick(v);// checkBox被点击时候，模拟item点击
 			}
 		});
 		return checkBox;
@@ -54,7 +59,8 @@ public class CheckBoxRowView extends RowView {
 	@Override
 	public void onClick(View v) {
 		simulationCheckBoxClick();
-		super.onClick(v);
+		System.out.println("回调222222");
+		// super.onClick(v);//这里不调用父类点击方法，交给checkBox点击时间调用
 	}
 
 	// 模拟CheckBox 点击
@@ -70,7 +76,6 @@ public class CheckBoxRowView extends RowView {
 			listen.onRowClick(this, RowViewActionEnum.My_POSTS);
 		}
 	}
-
 
 	/**
 	 * Returns the checked state.

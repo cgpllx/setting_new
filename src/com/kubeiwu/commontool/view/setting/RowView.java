@@ -8,17 +8,17 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kubeiwu.commontool.view.setting.viewimpl.DefaultRowView;
 import com.kubeiwu.commontool.view.util.Listener.OnRowViewClickListener;
-import com.kubeiwu.commontool.view.util.OnRowClickListener;
 import com.kubeiwu.commontool.view.util.Para;
 
 public abstract class RowView extends LinearLayout implements OnClickListener, OnSharedPreferenceChangeListener {
@@ -98,6 +98,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 	}
 
 	private void initRowView() {
+		setOrientation(VERTICAL);
 		int viewlayout_id = getResources().getIdentifier("setting_view_basic_item", "layout", getContext().getPackageName());
 		int mWidgetRowAction_Icon_id = getResources().getIdentifier("mWidgetRowAction_Icon", "id", getContext().getPackageName());
 		int mWidgetRow_Label_id = getResources().getIdentifier("mWidgetRow_Label", "id", getContext().getPackageName());
@@ -113,6 +114,10 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 		// 初始化Preferences 让子类直接可以用
 		sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+
+		int hight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, getResources().getDisplayMetrics());
+
+		setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, hight));
 
 	}
 
@@ -135,7 +140,12 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	@SuppressWarnings("unchecked")
 	public void initRowViewData(Builder<?> rowBuilder) {
-		mWidgetRow_Label.setText(rowBuilder.lable);
+		String title = rowBuilder.lable;
+		if (TextUtils.isEmpty(title)) {
+			mWidgetRow_Label.setVisibility(View.GONE);
+		} else {
+			mWidgetRow_Label.setText(rowBuilder.lable);
+		}
 		if (rowBuilder.para != null) {
 			this.mKey = rowBuilder.para.key;
 			this.para = (Para<Object>) rowBuilder.para;
@@ -183,10 +193,12 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 
 	@Override
 	public void onClick(View v) {
+		onRowViewClick();
+	}
+	public void onRowViewClick(){
 		if (listen != null) {
 			listen.onRowViewClick(this);
 		}
-
 	}
 
 	public void notifyDataChanged() {
@@ -230,6 +242,9 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 		} catch (AbstractMethodError unused) {
 			editor.commit();
 		}
+		boolean bb=PreferenceManager.getDefaultSharedPreferences(getContext()).getBoolean("dispaly_percentage", true);
+		System.out.println("bbbbbb="+bb);
+
 	}
 
 	private void handlePara(Object value) {
@@ -275,6 +290,8 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			SharedPreferences.Editor editor = sharedPreferences.edit();
 			editor.putBoolean(mKey, value);
 			tryCommit(editor, value);
+			System.out.println("保存到xml  mKey="+mKey);
+			System.out.println("保存到value="+value);
 			return true;
 		}
 		return false;
