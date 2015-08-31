@@ -386,4 +386,7 @@ public abstract class RowView extends LinearLayout implements OnClickListener, O
 			return null;
 		}
 	}
+	public void changValue(Object object){
+		onSetInitialValue(true, object);
+	}
 }
