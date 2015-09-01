@@ -66,11 +66,16 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 
 	private void initGroupView() {
 		setOrientation(VERTICAL);
-		setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-		setDividerPadding(2);
+		// setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+		// setDividerPadding(2);
 		LayoutParams l = new LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT);
-		setPadding(0, 1, 0, 1);
+		setPadding(0, dp2Px(getContext(), 8), 0, 1);
 		setLayoutParams(l);
+	}
+
+	public static int dp2Px(Context ctx, float dpValue) {
+		final float density = ctx.getResources().getDisplayMetrics().density;
+		return (int) (dpValue * density + 0.5f);
 	}
 
 	/**
