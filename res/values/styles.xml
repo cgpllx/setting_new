@@ -30,7 +30,7 @@
         <item name="android:padding">1dp</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:scaleType">centerInside</item>
-    </style>
+    </style> 
 
     <style name="SettingViewTitleH" parent="@style/SettingViewTextH">
         <item name="android:gravity">left|center_vertical</item>
