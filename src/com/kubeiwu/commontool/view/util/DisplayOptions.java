@@ -8,6 +8,10 @@ import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
  * @author Administrator
  */
 public class DisplayOptions {
+	private DisplayOptions() {
+		// 私有构造
+	}
+
 	private int normalLineColorId;
 	private int normalBackgroundColorId;
 	private int pressedLineColorId;
@@ -170,7 +174,7 @@ public class DisplayOptions {
 			return this;
 		}
 
-		@Deprecated 
+		@Deprecated
 		/**
 		 * 使用 setDividerResId(int dividerResId)替代
 		 * @param rowStyle

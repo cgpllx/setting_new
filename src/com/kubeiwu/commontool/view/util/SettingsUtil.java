@@ -10,10 +10,10 @@ import android.preference.PreferenceManager;
 import com.kubeiwu.commontool.view.setting.annomotion.IsPara;
 
 @SuppressWarnings("unchecked")
-public class SettingsUtil {
+public final class SettingsUtil {
 	private SharedPreferences mPreferences;
 
-	public SettingsUtil(Context context) {
+	private SettingsUtil(Context context) {
 		mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 	}
 

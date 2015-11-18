@@ -9,6 +9,12 @@ import android.graphics.drawable.StateListDrawable;
 
 import com.kubeiwu.commontool.view.setting.GroupView.RowViewPosition;
 
+/**
+ * 选择器的工具类
+ * 
+ * @author Administrator
+ *
+ */
 public class ItemBgSelectorUtil {
 	private int out_circle_Size = 0;
 	private int linewidth = 1;
@@ -44,16 +50,16 @@ public class ItemBgSelectorUtil {
 		Drawable[] layers = new Drawable[] { lineColor, backgroundColor };
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
 		switch (rowViewPosition) {
-		case RowViewPosition.UP:
-		case RowViewPosition.ALL:
-			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
-			break;
-		case RowViewPosition.MIDDLE:
-		case RowViewPosition.DOWM:
-			layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-			layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, 0, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
-			break;
+			case RowViewPosition.UP:
+			case RowViewPosition.ALL:
+				layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+				layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
+				break;
+			case RowViewPosition.MIDDLE:
+			case RowViewPosition.DOWM:
+				layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+				layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, 0, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
+				break;
 		}
 		return layerDrawable;
 	}
@@ -84,11 +90,11 @@ public class ItemBgSelectorUtil {
 
 	public Drawable createSelector(Drawable normalLineColor, Drawable normalBackgroundColor, //
 			Drawable pressedLineColor, Drawable pressedBackgroundColor, int rowViewPosition) {
-		Drawable normal = getDrawable(normalLineColor, normalBackgroundColor, rowViewPosition);
-		Drawable pressed = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
-		Drawable focused = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
-		Drawable unable = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);
-		return newSelector(normal, pressed, focused, unable);
+		Drawable normal = getDrawable(normalLineColor, normalBackgroundColor, rowViewPosition);// 默认
+		Drawable pressed = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);// 按下
+		Drawable focused = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);// 获取焦点
+		Drawable unable = getDrawable(pressedLineColor, pressedBackgroundColor, rowViewPosition);// 不能点击的
+		return newSelector(normal, pressed, focused, unable);// 返回的drawble是选择器的drawble，也就是GradientDrawable
 	}
 
 	/**
@@ -106,20 +112,20 @@ public class ItemBgSelectorUtil {
 		int inner_circle_size = out_circle_Size - linewidth < 0 ? 0 : out_circle_Size - linewidth;
 		int circle_size = bg ? inner_circle_size : out_circle_Size;// 内圆半径为外圆减线宽
 		switch (rowViewPosition) {
-		case RowViewPosition.UP:
-			gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, //
-					0, 0, 0, 0 });
-			break;
-		case RowViewPosition.MIDDLE:
-			gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });
-			break;
-		case RowViewPosition.DOWM:
-			gd.setCornerRadii(new float[] { 0, 0, 0, 0, circle_size, circle_size, circle_size, circle_size });// 长度是8
-			break;
-		case RowViewPosition.ALL:
-			gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, circle_size, //
-					circle_size, circle_size, circle_size });//
-			break;
+			case RowViewPosition.UP:
+				gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, //
+						0, 0, 0, 0 });
+				break;
+			case RowViewPosition.MIDDLE:
+				gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+				break;
+			case RowViewPosition.DOWM:
+				gd.setCornerRadii(new float[] { 0, 0, 0, 0, circle_size, circle_size, circle_size, circle_size });// 长度是8
+				break;
+			case RowViewPosition.ALL:
+				gd.setCornerRadii(new float[] { circle_size, circle_size, circle_size, circle_size, circle_size, //
+						circle_size, circle_size, circle_size });//
+				break;
 		}
 		// gd.setCornerRadii(radii);// 长度是8
 		// float roundRadius = 25;

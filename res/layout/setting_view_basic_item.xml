@@ -11,9 +11,9 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/app_name"
+        android:contentDescription=""
         android:scaleType="centerInside"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/arrow_to_right" />
 
     <TextView
         android:id="@+id/mWidgetRow_Label"
@@ -25,7 +25,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
-        android:text="@string/app_name"
         android:textColor="@android:color/black"
         android:textSize="16sp" />
 
@@ -39,7 +38,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:singleLine="true"
-        android:text="@string/app_name"
         android:textColor="@android:color/darker_gray"
         android:textSize="14sp " />
 
@@ -49,21 +47,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@android:color/transparent"
-        android:paddingRight="10dp"
         android:paddingEnd="10dp"
         android:paddingLeft="0dp"
+        android:paddingRight="10dp"
         android:visibility="visible" >
     </FrameLayout>
-
-    <!-- <ImageView -->
-    <!-- android:id="@+id/mWidgetRow_righ_Common_arrow" -->
-    <!-- style="@style/SettingViewArrow" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:background="@android:color/transparent" -->
-    <!-- android:contentDescription="@string/app_name" -->
-    <!-- android:paddingRight="10dp" -->
-    <!-- android:scaleType="centerInside" -->
-    <!-- android:visibility="visible" /> -->
 
 </LinearLayout>
