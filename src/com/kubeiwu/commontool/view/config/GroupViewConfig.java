@@ -3,7 +3,6 @@ package com.kubeiwu.commontool.view.config;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.util.SparseArray;
 
 import com.kubeiwu.commontool.view.core.AllAroundStyle;
 import com.kubeiwu.commontool.view.core.IRowStyle;
@@ -167,15 +166,15 @@ public class GroupViewConfig {
 		return createSelector(normalLineColor, normalBackgroundColor, pressedLineColor, pressedBackgroundColor, rowViewPosition);
 	}
 
-	SparseArray<Drawable> rowViewBgDrawables = new SparseArray<Drawable>();
-
+	/**
+	 * 选择器不能被缓存
+	 * 
+	 * @param context
+	 * @param rowViewPosition
+	 * @return
+	 */
 	public Drawable createSelector(Context context, int rowViewPosition) {
-		Drawable drawable = rowViewBgDrawables.get(rowViewPosition);
-		if (drawable == null) {
-			drawable = createSelector(context, normalLineColorId, normalBackgroundColorId, pressedLineColorId, pressedBackgroundColorId, rowViewPosition);
-			rowViewBgDrawables.put(rowViewPosition, drawable);
-		}
-		return drawable;
+		return createSelector(context, normalLineColorId, normalBackgroundColorId, pressedLineColorId, pressedBackgroundColorId, rowViewPosition);
 	}
 
 }
