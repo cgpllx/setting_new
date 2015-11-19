@@ -113,7 +113,7 @@ public class GroupViewConfig {
 				if (rowstyle == RowStyle.ALL_AROUND) {
 					layerDrawable.setLayerInset(1, linewidth, linewidth, linewidth, linewidth);
 				} else if (rowstyle == RowStyle.UP_DOWN_AROUND) {
-					layerDrawable.setLayerInset(1, 0, 0, 0, 0);// 中间的线条留给divider
+					layerDrawable.setLayerInset(1, 0, linewidth, 0, linewidth);// 中间的线条留给divider
 				}
 				break;
 			case RowViewPosition.MIDDLE:
