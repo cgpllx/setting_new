@@ -7,6 +7,9 @@ import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.LayerDrawable;
 import android.graphics.drawable.StateListDrawable;
 
+import com.kubeiwu.commontool.view.core.AllAroundStyle;
+import com.kubeiwu.commontool.view.core.IRowStyle;
+import com.kubeiwu.commontool.view.core.UpDownAroundStyle;
 import com.kubeiwu.commontool.view.setting.GroupView.RowViewPosition;
 
 /**
@@ -19,24 +22,42 @@ public class ItemBgSelectorUtil {
 	private int out_circle_Size = 0;
 	private int linewidth = 1;
 	private int rowstyle = RowStyle.ALL_AROUND;
+	private int middleLinePaddingLeft;
+	
+
+	// private IRowStyle iRowStyle ;//= RowStyle.ALL_AROUND;
 
 	public interface RowStyle {
+		// UP_DOWN_AROUND used id line divider
 		public int ALL_AROUND = 0, UP_DOWN_AROUND = 1;
 	}
 
 	public ItemBgSelectorUtil() {
 	}
 
-	public void setRowstyle(int rowstyle) {
-		this.rowstyle = rowstyle;
-	}
+//	public void setRowstyle(int rowstyle) {
+//		this.rowstyle = rowstyle;
+//	}
 
-	public void setOut_circle_Size(int out_circle_Size) {
-		this.out_circle_Size = out_circle_Size;
-	}
+//	public void setOut_circle_Size(int out_circle_Size) {
+//		this.out_circle_Size = out_circle_Size;
+//	}
 
 	public void setLinewidth(int linewidth) {
 		this.linewidth = linewidth;
+	}
+
+	public void parseRowStyle(IRowStyle iRowStyle) {
+		if (iRowStyle instanceof AllAroundStyle) {
+			AllAroundStyle allAroundStyle=(AllAroundStyle) iRowStyle;
+			out_circle_Size=allAroundStyle.circleSize;
+			rowstyle=RowStyle.ALL_AROUND;
+		}else if(iRowStyle instanceof UpDownAroundStyle){
+			UpDownAroundStyle allAroundStyle=(UpDownAroundStyle) iRowStyle;
+			middleLinePaddingLeft=allAroundStyle.middleLinePaddingLeft;
+			rowstyle=RowStyle.UP_DOWN_AROUND;
+		}
+		
 	}
 
 	public ItemBgSelectorUtil(int out_circle_Size, int linewidth, int rowstyle) {
@@ -49,16 +70,35 @@ public class ItemBgSelectorUtil {
 	public Drawable getDrawable(Drawable lineColor, Drawable backgroundColor, int rowViewPosition) {
 		Drawable[] layers = new Drawable[] { lineColor, backgroundColor };
 		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		layerDrawable.setLayerInset(0, 0, 0, 0, 0);
 		switch (rowViewPosition) {
 			case RowViewPosition.UP:
+				if (rowstyle == RowStyle.ALL_AROUND) {
+					layerDrawable.setLayerInset(1, linewidth, linewidth, linewidth, linewidth);
+				} else if (rowstyle == RowStyle.UP_DOWN_AROUND) {
+					layerDrawable.setLayerInset(1, 0, linewidth, 0, 0);// 中间的线条留给divider
+				}
+				break;
 			case RowViewPosition.ALL:
-				layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-				layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
+				if (rowstyle == RowStyle.ALL_AROUND) {
+					layerDrawable.setLayerInset(1, linewidth, linewidth, linewidth, linewidth);
+				} else if (rowstyle == RowStyle.UP_DOWN_AROUND) {
+					layerDrawable.setLayerInset(1, 0, 0, 0, 0);// 中间的线条留给divider
+				}
 				break;
 			case RowViewPosition.MIDDLE:
+				if (rowstyle == RowStyle.ALL_AROUND) {
+					layerDrawable.setLayerInset(1, linewidth, 0, linewidth, linewidth);
+				} else if (rowstyle == RowStyle.UP_DOWN_AROUND) {
+					layerDrawable.setLayerInset(1, 0, 0, 0, 0);// 中间的线条留给divider
+				}
+				break;
 			case RowViewPosition.DOWM:
-				layerDrawable.setLayerInset(0, 0, 0, 0, 0);
-				layerDrawable.setLayerInset(1, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, 0, rowstyle == RowStyle.ALL_AROUND ? linewidth : 0, linewidth);
+				if (rowstyle == RowStyle.ALL_AROUND) {
+					layerDrawable.setLayerInset(1, linewidth, 0, linewidth, linewidth);
+				} else if (rowstyle == RowStyle.UP_DOWN_AROUND) {
+					layerDrawable.setLayerInset(1, 0, 0, 0, linewidth);// 中间的线条留给divider
+				}
 				break;
 		}
 		return layerDrawable;
@@ -67,6 +107,7 @@ public class ItemBgSelectorUtil {
 	/**
 	 * 设置Selector
 	 */
+	@SuppressWarnings("deprecation")
 	public StateListDrawable newSelector(Context context, int idNormal, int idPressed, int idFocused, int idUnable) {
 		StateListDrawable bg = new StateListDrawable();
 		Drawable normal = idNormal == -1 ? null : context.getResources().getDrawable(idNormal);
@@ -132,11 +173,41 @@ public class ItemBgSelectorUtil {
 		// gd.setCornerRadius(roundRadius);// 设置圆角
 		gd.setShape(GradientDrawable.RECTANGLE);// 设置形状为矩形
 		gd.setUseLevel(true);
+		// gd.setSize(width, height);
 		// gd.setGradientRadius(25);
 		int color = context.getResources().getColor(idRes);
 		gd.setColor(color);
-		gd.setAlpha(1);
+		// gd.setAlpha(1);
 		return gd;
+	}
+
+	/**
+	 * color转 drawable，主要处理线条用
+	 * 
+	 * @param context
+	 * @param idRes
+	 * @param rowViewPosition
+	 * @param bg
+	 * @return
+	 */
+	public Drawable getLineDrawableFromResId(Context context, int idRes) {
+		GradientDrawable gd = new GradientDrawable();// 创建drawable
+		gd.setShape(GradientDrawable.RECTANGLE);// 设置形状为矩形
+		gd.setUseLevel(true);
+		gd.setSize(0, linewidth);
+		int color = context.getResources().getColor(idRes);
+		gd.setColor(color);
+		gd.setCornerRadii(new float[] { 0, 0, 0, 0, 0, 0, 0, 0 });
+		// gd.setAlpha(1);
+		return gd;
+	}
+
+	public Drawable getLineDrawable(Drawable lineColor, Drawable backgroundColor ) {
+		Drawable[] layers = new Drawable[] { backgroundColor, lineColor };
+		LayerDrawable layerDrawable = new LayerDrawable(layers);
+		layerDrawable.setLayerInset(0, 0, 0, 0, 0);
+		layerDrawable.setLayerInset(1, middleLinePaddingLeft, 0, 0, 0);
+		return layerDrawable;
 	}
 
 	public Drawable createSelector(Context context, int idNormalLineColor, int idNormalBackgroundColor, int idPressedLineColor, int idPressedBackgroundColor, int rowViewPosition) {

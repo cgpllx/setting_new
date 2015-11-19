@@ -8,6 +8,8 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.kubeiwu.commontool.view.core.IRowStyle;
+import com.kubeiwu.commontool.view.core.UpDownAroundStyle;
 import com.kubeiwu.commontool.view.util.ApiCompatibleUtil;
 import com.kubeiwu.commontool.view.util.DisplayOptions;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
@@ -36,7 +38,7 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 	 * @author Administrator
 	 * 
 	 */
-	public interface RowViewPosition {
+	public static interface RowViewPosition {
 		int UP = 0, MIDDLE = 1, DOWM = 2, ALL = 3;
 	}
 
@@ -192,14 +194,22 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 		if (displayOptions == null) {
 			displayOptions = DisplayOptions.createsimpleDisplayOptions();
 		}
-		int dividerResId = displayOptions.getDividerResId();
-		if (dividerResId != 0) {// 设置当前GroupView的divider
-			Drawable drawable = getResources().getDrawable(dividerResId);
+
+		IRowStyle rowStyle = displayOptions.getiRowStyle();
+		if (rowStyle instanceof UpDownAroundStyle) {
+			// 创建divider
+			ItemBgSelectorUtil itemBgSelectorUtil = getItemBgSelectorUtil();//
+			Drawable drawablebg = itemBgSelectorUtil.getLineDrawableFromResId(getContext(), displayOptions.getNormalBackgroundColorId());
+			Drawable drawableline = itemBgSelectorUtil.getLineDrawableFromResId(getContext(), displayOptions.getNormalLineColorId());
+			// 真正线条的drawable
+			Drawable drawable = itemBgSelectorUtil.getLineDrawable(drawableline, drawablebg);
 			if (drawable != null) {
 				setDividerDrawable(drawable);
-				setShowDividers(displayOptions.getShowDividers());
+				setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+				setDividerPadding(displayOptions.getDividerPadding());
 			}
 		}
+ 
 		int dividerPadding = displayOptions.getDividerPadding();
 		if (dividerPadding != 0) {
 			setDividerPadding(dividerPadding);
@@ -253,11 +263,20 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 		mGorupViewTitle = builder.gorupViewTitle;
 	}
 
+	ItemBgSelectorUtil itemBgSelectorUtil;
+
+	public ItemBgSelectorUtil getItemBgSelectorUtil() {
+		if (itemBgSelectorUtil == null) {
+			itemBgSelectorUtil = new ItemBgSelectorUtil();
+			itemBgSelectorUtil.setLinewidth(displayOptions.getLinewidth());
+			itemBgSelectorUtil.parseRowStyle(displayOptions.getiRowStyle());
+		}
+		return itemBgSelectorUtil;
+	}
+
 	private Drawable creatDrawable(int rowViewPosition, DisplayOptions displayOptions) {
-		ItemBgSelectorUtil itemBgSelectorUtil = new ItemBgSelectorUtil();// displayOptions.getOut_circle_Size(), displayOptions.getLinewidth()
-		itemBgSelectorUtil.setLinewidth(displayOptions.getLinewidth());
-		itemBgSelectorUtil.setOut_circle_Size(displayOptions.getOut_circle_Size());
-		itemBgSelectorUtil.setRowstyle(displayOptions.getRowStyle());
+		ItemBgSelectorUtil itemBgSelectorUtil = getItemBgSelectorUtil();
+
 		return itemBgSelectorUtil.createSelector(getContext(), //
 				displayOptions.getNormalLineColorId(),//
 				displayOptions.getNormalBackgroundColorId(),//

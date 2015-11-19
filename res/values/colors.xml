@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="divider">#FFFF0000</color>
+<!--     <color name="divider">#ff0000</color> -->
     <color name="widgets_general_row_pressed">#d9d9d9</color>
     <color name="widgets_general_row_normal">#ffffff</color>
     <color name="general_backgroup">#efeff4</color>

@@ -1,5 +1,8 @@
 package com.kubeiwu.commontool.view.util;
 
+import android.widget.LinearLayout;
+
+import com.kubeiwu.commontool.view.core.IRowStyle;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
 
 /**
@@ -16,8 +19,8 @@ public class DisplayOptions {
 	private int normalBackgroundColorId;
 	private int pressedLineColorId;
 	private int pressedBackgroundColorId;
-	private int out_circle_Size;
-	private int linewidth = 1;
+//	private int circleSize;
+	private int linewidth;
 
 	private int rowTitleColorId;
 	private int rowTitleSizePx;
@@ -27,12 +30,16 @@ public class DisplayOptions {
 
 	private int rowPaddingStart;
 
-	// private setDividerDrawable
-	private int dividerResId;
+//	private int middleLinePaddingLeft;
+	private IRowStyle iRowStyle ;
 
-	public int getDividerResId() {
-		return dividerResId;
+	public IRowStyle getiRowStyle() {
+		return iRowStyle;
 	}
+
+//	public int getMiddleLinePaddingLeft() {
+//		return middleLinePaddingLeft;
+//	}
 
 	public int getRowTitleColorId() {
 		return rowTitleColorId;
@@ -52,21 +59,21 @@ public class DisplayOptions {
 		return rowPaddingEnd;
 	}
 
-	private int rowStyle;
-	private int showDividers;
+//	private int rowStyle;
+//	private int showDividers;
 	private int dividerPadding;
 
 	public int getDividerPadding() {
 		return dividerPadding;
 	}
 
-	public int getShowDividers() {
-		return showDividers;
-	}
+//	public int getShowDividers1() {
+//		return showDividers;
+//	}
 
-	public int getRowStyle() {
-		return rowStyle;
-	}
+//	public int getRowStyle() {
+//		return rowStyle;
+//	}
 
 	public int getGroupTitleColorId() {
 		return groupTitleColorId;
@@ -92,9 +99,9 @@ public class DisplayOptions {
 		return pressedBackgroundColorId;
 	}
 
-	public int getOut_circle_Size() {
-		return out_circle_Size;
-	}
+//	public int getCircleSize() {
+//		return circleSize;
+//	}
 
 	public int getLinewidth() {
 		return linewidth;
@@ -105,7 +112,7 @@ public class DisplayOptions {
 		this.normalBackgroundColorId = builder.normalBackgroundColorId;
 		this.pressedLineColorId = builder.pressedLineColorId;
 		this.pressedBackgroundColorId = builder.pressedBackgroundColorId;
-		this.out_circle_Size = builder.out_circle_Size;
+//		this.circleSize = builder.circleSize;
 		this.linewidth = builder.linewidth;
 
 		this.rowTitleColorId = builder.rowTitleColorId;
@@ -113,12 +120,14 @@ public class DisplayOptions {
 
 		this.groupTitleColorId = builder.groupTitleColorId;
 		this.groupTitleSizePx = builder.groupTitleSizePx;
-		this.rowStyle = builder.rowStyle;
+//		this.rowStyle = builder.rowStyle;
 		this.rowPaddingStart = builder.rowleftpadding;
 		this.rowPaddingEnd = builder.rowPaddingEnd;
-		this.dividerResId = builder.dividerResId;
-		this.showDividers = builder.showDividers;
+//		this.showDividers = builder.showDividers;
 		this.dividerPadding = builder.dividerPadding;
+
+//		this.middleLinePaddingLeft = builder.middleLinePaddingLeft;
+		this.iRowStyle = builder.iRowStyle;
 	}
 
 	public static DisplayOptions createsimpleDisplayOptions() {
@@ -132,7 +141,7 @@ public class DisplayOptions {
 		private int normalBackgroundColorId = android.R.color.white;// 默认时候的背景
 		private int pressedLineColorId = android.R.color.darker_gray;// 按下时候的线条颜色id
 		private int pressedBackgroundColorId = android.R.color.holo_blue_light;// 按下时候的背景颜色资源id
-		private int out_circle_Size = 0; // 圆角大小
+//		private int circleSize = 0; // 圆角大小
 		private int linewidth = 1;// 线宽
 
 		private int rowTitleColorId = android.R.color.black; // 行的title字体颜色
@@ -141,15 +150,20 @@ public class DisplayOptions {
 		private int groupTitleColorId = android.R.color.black; // 组的title字体颜色
 		private int groupTitleSizePx = 16; // title 字体大小 px
 
-		private int rowStyle = RowStyle.ALL_AROUND;
+//		private int rowStyle = RowStyle.ALL_AROUND;
 
-		private int dividerResId = 0;
 		private int dividerPadding = 0;
+//		private int middleLinePaddingLeft = 0;
+		private IRowStyle iRowStyle ;
 
-		public Builder setDividerResId(int dividerResId) {
-			this.dividerResId = dividerResId;
+		public Builder setRowStyle(IRowStyle iRowStyle) {
+			this.iRowStyle = iRowStyle;
 			return this;
 		}
+//		public Builder setMiddleLinePaddingLeft(int middleLinePaddingLeft) {
+//			this.middleLinePaddingLeft = middleLinePaddingLeft;
+//			return this;
+//		}
 
 		public Builder setDividerPadding(int padding) {
 			this.dividerPadding = padding;
@@ -162,7 +176,7 @@ public class DisplayOptions {
 		}
 
 		private int rowleftpadding;
-		private int showDividers;
+//		private int showDividers;
 
 		public Builder setRowleftpadding(int rowleftpadding) {
 			this.rowleftpadding = rowleftpadding;
@@ -174,16 +188,19 @@ public class DisplayOptions {
 			return this;
 		}
 
-		@Deprecated
 		/**
 		 * 使用 setDividerResId(int dividerResId)替代
+		 * 
 		 * @param rowStyle
 		 * @return
 		 */
-		public Builder setRowStyle(int rowStyle) {
-			this.rowStyle = rowStyle;
-			return this;
-		}
+//		public Builder setRowStyle(int rowStyle) {
+//			this.rowStyle = rowStyle;
+//			if (rowStyle == RowStyle.UP_DOWN_AROUND) {// 只设置中间的线条
+//				showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE;
+//			}
+//			return this;
+//		}
 
 		public Builder setRowTitleColorId(int rowTitleColorId) {
 			this.rowTitleColorId = rowTitleColorId;
@@ -220,26 +237,13 @@ public class DisplayOptions {
 			return this;
 		}
 
-		public Builder setOut_circle_Size(int out_circle_Size) {
-			this.out_circle_Size = out_circle_Size;
-			return this;
-		}
+//		public Builder setCircleSize(int circleSize) {
+//			this.circleSize = circleSize;
+//			return this;
+//		}
 
 		public Builder setLinewidth(int linewidth) {
 			this.linewidth = linewidth;
-			return this;
-		}
-
-		/**
-		 * Set how dividers should be shown between items in this layout
-		 * 
-		 * Parameters: showDividers One or more of SHOW_DIVIDER_BEGINNING, SHOW_DIVIDER_MIDDLE, or SHOW_DIVIDER_END, or SHOW_DIVIDER_NONE to show no dividers.
-		 * 
-		 * @param showDividers
-		 * @return
-		 */
-		public Builder setShowDividers(int showDividers) {
-			this.showDividers = showDividers;
 			return this;
 		}
 

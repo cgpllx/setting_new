@@ -35,6 +35,9 @@ public class KSettingView extends LinearLayout {
 		initView();
 	}
 
+	/**
+	 * 这里会传到groupView中
+	 */
 	private DisplayOptions displayOptions;
 
 	public void setDisplayOptions(DisplayOptions displayOptions) {
@@ -55,9 +58,7 @@ public class KSettingView extends LinearLayout {
 	public GroupView addGroupViewItem(int groupOrder, String gorupViewTitle) {
 		GroupView entry = mGroupViewArray.get(groupOrder);
 		GroupView groupView = new GroupView.Builder(getContext()).setGorupViewTitle(gorupViewTitle).create();
-		if (getDisplayOptions().getDividerResId() != 0) {
 
-		}
 		if (entry == null) {
 			mGroupViewArray.put(groupOrder, groupView);
 		} else {
