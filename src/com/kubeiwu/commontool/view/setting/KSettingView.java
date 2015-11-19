@@ -116,7 +116,7 @@ public class KSettingView extends LinearLayout {
 		String title = child.getTitle();
 		if (!TextUtils.isEmpty(title)) {
 			TextView textview = new TextView(getContext());
-			textview.setTextSize(getDisplayOptions().getUnit(),getDisplayOptions().getGroupTitleSizePx());
+			textview.setTextSize(getDisplayOptions().getUnit(),getDisplayOptions().getGroupTitleSize());
 			textview.setTextColor(getResources().getColor(getDisplayOptions().getGroupTitleColorId()));
 			textview.setText(title);
 			addView(textview);

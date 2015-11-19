@@ -23,7 +23,7 @@ public class DisplayOptions {
 	private int rowTitleSizePx;
 
 	private int groupTitleColorId;
-	private int groupTitleSizePx;
+	private int groupTitleSize;
 
 	private int rowPaddingStart;
 
@@ -66,8 +66,8 @@ public class DisplayOptions {
 		return groupTitleColorId;
 	}
 
-	public int getGroupTitleSizePx() {
-		return groupTitleSizePx;
+	public int getGroupTitleSize() {
+		return groupTitleSize;
 	}
 
 	public int getPressedLineColorId() {
@@ -101,7 +101,7 @@ public class DisplayOptions {
 		this.rowTitleSizePx = builder.rowTitleSize;
 
 		this.groupTitleColorId = builder.groupTitleColorId;
-		this.groupTitleSizePx = builder.groupTitleSize;
+		this.groupTitleSize = builder.groupTitleSize;
 		this.rowPaddingStart = builder.rowPaddingStart;
 		this.rowPaddingEnd = builder.rowPaddingEnd;
 		this.dividerPadding = builder.dividerPadding;
