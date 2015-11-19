@@ -1,9 +1,8 @@
-package com.kubeiwu.commontool.view.util;
+package com.kubeiwu.commontool.view.config;
 
-import android.widget.LinearLayout;
+import android.util.TypedValue;
 
 import com.kubeiwu.commontool.view.core.IRowStyle;
-import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil.RowStyle;
 
 /**
  * 选择器的参数
@@ -14,12 +13,10 @@ public class DisplayOptions {
 	private DisplayOptions() {
 		// 私有构造
 	}
-
 	private int normalLineColorId;
 	private int normalBackgroundColorId;
 	private int pressedLineColorId;
 	private int pressedBackgroundColorId;
-//	private int circleSize;
 	private int linewidth;
 
 	private int rowTitleColorId;
@@ -30,16 +27,16 @@ public class DisplayOptions {
 
 	private int rowPaddingStart;
 
-//	private int middleLinePaddingLeft;
-	private IRowStyle iRowStyle ;
+	private IRowStyle iRowStyle;
+	private int unit;
+
+	public int getUnit() {
+		return unit;
+	}
 
 	public IRowStyle getiRowStyle() {
 		return iRowStyle;
 	}
-
-//	public int getMiddleLinePaddingLeft() {
-//		return middleLinePaddingLeft;
-//	}
 
 	public int getRowTitleColorId() {
 		return rowTitleColorId;
@@ -59,21 +56,11 @@ public class DisplayOptions {
 		return rowPaddingEnd;
 	}
 
-//	private int rowStyle;
-//	private int showDividers;
 	private int dividerPadding;
 
 	public int getDividerPadding() {
 		return dividerPadding;
 	}
-
-//	public int getShowDividers1() {
-//		return showDividers;
-//	}
-
-//	public int getRowStyle() {
-//		return rowStyle;
-//	}
 
 	public int getGroupTitleColorId() {
 		return groupTitleColorId;
@@ -99,10 +86,6 @@ public class DisplayOptions {
 		return pressedBackgroundColorId;
 	}
 
-//	public int getCircleSize() {
-//		return circleSize;
-//	}
-
 	public int getLinewidth() {
 		return linewidth;
 	}
@@ -112,21 +95,18 @@ public class DisplayOptions {
 		this.normalBackgroundColorId = builder.normalBackgroundColorId;
 		this.pressedLineColorId = builder.pressedLineColorId;
 		this.pressedBackgroundColorId = builder.pressedBackgroundColorId;
-//		this.circleSize = builder.circleSize;
 		this.linewidth = builder.linewidth;
 
 		this.rowTitleColorId = builder.rowTitleColorId;
-		this.rowTitleSizePx = builder.rowTitleSizePx;
+		this.rowTitleSizePx = builder.rowTitleSize;
 
 		this.groupTitleColorId = builder.groupTitleColorId;
-		this.groupTitleSizePx = builder.groupTitleSizePx;
-//		this.rowStyle = builder.rowStyle;
-		this.rowPaddingStart = builder.rowleftpadding;
+		this.groupTitleSizePx = builder.groupTitleSize;
+		this.rowPaddingStart = builder.rowPaddingStart;
 		this.rowPaddingEnd = builder.rowPaddingEnd;
-//		this.showDividers = builder.showDividers;
 		this.dividerPadding = builder.dividerPadding;
+		this.unit = builder.unit;
 
-//		this.middleLinePaddingLeft = builder.middleLinePaddingLeft;
 		this.iRowStyle = builder.iRowStyle;
 	}
 
@@ -137,33 +117,41 @@ public class DisplayOptions {
 	public static class Builder {
 
 		private int rowPaddingEnd;
+		private int rowPaddingStart;
+
 		private int normalLineColorId = android.R.color.darker_gray;// 线条颜色资源id FFD6D6D6
 		private int normalBackgroundColorId = android.R.color.white;// 默认时候的背景
 		private int pressedLineColorId = android.R.color.darker_gray;// 按下时候的线条颜色id
 		private int pressedBackgroundColorId = android.R.color.holo_blue_light;// 按下时候的背景颜色资源id
-//		private int circleSize = 0; // 圆角大小
+
 		private int linewidth = 1;// 线宽
 
 		private int rowTitleColorId = android.R.color.black; // 行的title字体颜色
-		private int rowTitleSizePx = 16; // title 字体大小 px
+		private int rowTitleSize = 16; // title 字体大小 px
 
 		private int groupTitleColorId = android.R.color.black; // 组的title字体颜色
-		private int groupTitleSizePx = 16; // title 字体大小 px
-
-//		private int rowStyle = RowStyle.ALL_AROUND;
+		private int groupTitleSize = 16; // title 字体大小 px
 
 		private int dividerPadding = 0;
-//		private int middleLinePaddingLeft = 0;
-		private IRowStyle iRowStyle ;
+		private IRowStyle iRowStyle;
+		private int unit = TypedValue.COMPLEX_UNIT_SP;
+
+		/**
+		 * Set the default text size to a given unit and value. See {@link TypedValue} for the possible dimension units.
+		 * 
+		 * @param unit
+		 *            The desired dimension unit.
+		 * @param size
+		 *            The desired size in the given units.
+		 */
+		public void setTextUnit(int unit) {
+			this.unit = unit;
+		}
 
 		public Builder setRowStyle(IRowStyle iRowStyle) {
 			this.iRowStyle = iRowStyle;
 			return this;
 		}
-//		public Builder setMiddleLinePaddingLeft(int middleLinePaddingLeft) {
-//			this.middleLinePaddingLeft = middleLinePaddingLeft;
-//			return this;
-//		}
 
 		public Builder setDividerPadding(int padding) {
 			this.dividerPadding = padding;
@@ -175,11 +163,8 @@ public class DisplayOptions {
 			return this;
 		}
 
-		private int rowleftpadding;
-//		private int showDividers;
-
-		public Builder setRowleftpadding(int rowleftpadding) {
-			this.rowleftpadding = rowleftpadding;
+		public Builder setRowPaddingStart(int rowPaddingStart) {
+			this.rowPaddingStart = rowPaddingStart;
 			return this;
 		}
 
@@ -188,27 +173,13 @@ public class DisplayOptions {
 			return this;
 		}
 
-		/**
-		 * 使用 setDividerResId(int dividerResId)替代
-		 * 
-		 * @param rowStyle
-		 * @return
-		 */
-//		public Builder setRowStyle(int rowStyle) {
-//			this.rowStyle = rowStyle;
-//			if (rowStyle == RowStyle.UP_DOWN_AROUND) {// 只设置中间的线条
-//				showDividers = LinearLayout.SHOW_DIVIDER_MIDDLE;
-//			}
-//			return this;
-//		}
-
 		public Builder setRowTitleColorId(int rowTitleColorId) {
 			this.rowTitleColorId = rowTitleColorId;
 			return this;
 		}
 
-		public Builder setRowTitleSizePx(int rowTitleSizePx) {
-			this.rowTitleSizePx = rowTitleSizePx;
+		public Builder setRowTitleSize(int rowTitleSize) {
+			this.rowTitleSize = rowTitleSize;
 			return this;
 		}
 
@@ -217,8 +188,8 @@ public class DisplayOptions {
 			return this;
 		}
 
-		public Builder setGroupTitleSizePx(int groupTitleSizePx) {
-			this.groupTitleSizePx = groupTitleSizePx;
+		public Builder setGroupTitleSize(int groupTitleSize) {
+			this.groupTitleSize = groupTitleSize;
 			return this;
 		}
 
@@ -236,11 +207,6 @@ public class DisplayOptions {
 			this.pressedBackgroundColorId = pressedBackgroundColorId;
 			return this;
 		}
-
-//		public Builder setCircleSize(int circleSize) {
-//			this.circleSize = circleSize;
-//			return this;
-//		}
 
 		public Builder setLinewidth(int linewidth) {
 			this.linewidth = linewidth;

@@ -1,6 +1,5 @@
 package com.kubeiwu.commontool.view.setting;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
@@ -8,11 +7,11 @@ import android.util.SparseArray;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.kubeiwu.commontool.view.config.DisplayOptions;
+import com.kubeiwu.commontool.view.config.GroupViewConfig;
 import com.kubeiwu.commontool.view.core.IRowStyle;
 import com.kubeiwu.commontool.view.core.UpDownAroundStyle;
 import com.kubeiwu.commontool.view.util.ApiCompatibleUtil;
-import com.kubeiwu.commontool.view.util.DisplayOptions;
-import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
 import com.kubeiwu.commontool.view.util.Listener.OnGroupViewItemClickListener;
 import com.kubeiwu.commontool.view.util.Listener.OnRowViewClickListener;
 import com.kubeiwu.commontool.view.util.Para;
@@ -181,56 +180,41 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 		return addRowViewItem(clazz, 0, itemId, rowTitle, 0, resId, para);
 	}
 
-	private void addView(RowView rowView, DisplayOptions displayOptions) {
+	private void addView(RowView rowView, GroupViewConfig groupViewConfig) {
 		super.addView(rowView);
-		rowView.getRowViewTitle().setTextColor(getResources().getColor(displayOptions.getRowTitleColorId()));
-		rowView.getRowViewTitle().setTextSize(displayOptions.getRowTitleSizePx());
+		rowView.getRowViewTitle().setTextColor(getResources().getColor(groupViewConfig.getRowTitleColorId()));
+		rowView.getRowViewTitle().setTextSize(groupViewConfig.getUnit(),groupViewConfig.getRowTitleSizePx());
 		rowView.notifyDataChanged();
 		rowView.setOnRowViewClickListener(this);
 
 	}
 
-	public void notifyDataChanged() {
-		if (displayOptions == null) {
-			displayOptions = DisplayOptions.createsimpleDisplayOptions();
-		}
-
-		IRowStyle rowStyle = displayOptions.getiRowStyle();
-		if (rowStyle instanceof UpDownAroundStyle) {
+	public void notifyDataChanged(GroupViewConfig groupViewConfig) {
+		// displayOptions 父类一定要传过来
+		// IRowStyle rowStyle = displayOptions.getiRowStyle();
+		if (groupViewConfig.isShowDivider()) {
 			// 创建divider
-			ItemBgSelectorUtil itemBgSelectorUtil = getItemBgSelectorUtil();//
-			Drawable drawablebg = itemBgSelectorUtil.getLineDrawableFromResId(getContext(), displayOptions.getNormalBackgroundColorId());
-			Drawable drawableline = itemBgSelectorUtil.getLineDrawableFromResId(getContext(), displayOptions.getNormalLineColorId());
-			// 真正线条的drawable
-			Drawable drawable = itemBgSelectorUtil.getLineDrawable(drawableline, drawablebg);
+			Drawable drawable = groupViewConfig.getLineDrawable(getContext());
 			if (drawable != null) {
 				setDividerDrawable(drawable);
 				setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-				setDividerPadding(displayOptions.getDividerPadding());
+				setDividerPadding(groupViewConfig.getDividerPadding());
 			}
 		}
- 
-		int dividerPadding = displayOptions.getDividerPadding();
-		if (dividerPadding != 0) {
-			setDividerPadding(dividerPadding);
-		}
+
 		if (this.mRowViewArray != null && this.mRowViewArray.size() > 0) {
 			RowView rowView = null;
 			for (int i = 0; i < this.mRowViewArray.size(); i++) {
 				rowView = this.mRowViewArray.valueAt(i);
-				// rowView.getChildAt(0).setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
-				rowView.getChildAt(0).setPadding(displayOptions.getRowPaddingStart(), 0, displayOptions.getRowPaddingEnd(), 0);
-				// rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
-				addView(rowView, displayOptions);
+				rowView.getChildAt(0).setPadding(groupViewConfig.getRowPaddingStart(), 0, groupViewConfig.getRowPaddingEnd(), 0);
+				addView(rowView, groupViewConfig);
 				while (rowView.hasNext()) {
 					rowView = rowView.getNext();
-					rowView.getChildAt(0).setPadding(displayOptions.getRowPaddingStart(), 0, displayOptions.getRowPaddingEnd(), 0);
-					// rowView.setRowViewPaddingStart(displayOptions.getRowPaddingStart());
-					// rowView.setRowViewPaddingEnd(displayOptions.getRowPaddingEnd());
-					addView(rowView, displayOptions);
+					rowView.getChildAt(0).setPadding(groupViewConfig.getRowPaddingStart(), 0, groupViewConfig.getRowPaddingEnd(), 0);
+					addView(rowView, groupViewConfig);
 				}
 			}
-			afreshRowViewSelector(displayOptions);
+			afreshRowViewSelector(groupViewConfig);
 		} else {
 			setVisibility(View.GONE);
 		}
@@ -239,50 +223,21 @@ public class GroupView extends LinearLayout implements OnRowViewClickListener {
 	/**
 	 * 重新刷新选择器
 	 */
-	@SuppressLint("NewApi")
-	private void afreshRowViewSelector(DisplayOptions displayOptions) {
+	private void afreshRowViewSelector(GroupViewConfig groupViewConfig) {
 		int count = getChildCount();
 		if (count <= 1) {
-			ApiCompatibleUtil.setViewBackground(getChildAt(0), creatDrawable(RowViewPosition.ALL, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(0), groupViewConfig.createSelector(getContext(), RowViewPosition.ALL));
 		} else {
-			ApiCompatibleUtil.setViewBackground(getChildAt(0), creatDrawable(RowViewPosition.UP, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(0), groupViewConfig.createSelector(getContext(), RowViewPosition.UP));
 			for (int i = 1; i < count - 1; i++) {
-				ApiCompatibleUtil.setViewBackground(getChildAt(i), creatDrawable(RowViewPosition.MIDDLE, displayOptions));
+				ApiCompatibleUtil.setViewBackground(getChildAt(i), groupViewConfig.createSelector(getContext(), RowViewPosition.MIDDLE));
 			}
-			ApiCompatibleUtil.setViewBackground(getChildAt(count - 1), creatDrawable(RowViewPosition.DOWM, displayOptions));
+			ApiCompatibleUtil.setViewBackground(getChildAt(count - 1), groupViewConfig.createSelector(getContext(), RowViewPosition.DOWM));
 		}
-	}
-
-	private DisplayOptions displayOptions;
-
-	public void setDisplayOptions(DisplayOptions displayOptions) {
-		this.displayOptions = displayOptions;
 	}
 
 	private void initGroupViewData(Builder builder) {
 		mGorupViewTitle = builder.gorupViewTitle;
-	}
-
-	ItemBgSelectorUtil itemBgSelectorUtil;
-
-	public ItemBgSelectorUtil getItemBgSelectorUtil() {
-		if (itemBgSelectorUtil == null) {
-			itemBgSelectorUtil = new ItemBgSelectorUtil();
-			itemBgSelectorUtil.setLinewidth(displayOptions.getLinewidth());
-			itemBgSelectorUtil.parseRowStyle(displayOptions.getiRowStyle());
-		}
-		return itemBgSelectorUtil;
-	}
-
-	private Drawable creatDrawable(int rowViewPosition, DisplayOptions displayOptions) {
-		ItemBgSelectorUtil itemBgSelectorUtil = getItemBgSelectorUtil();
-
-		return itemBgSelectorUtil.createSelector(getContext(), //
-				displayOptions.getNormalLineColorId(),//
-				displayOptions.getNormalBackgroundColorId(),//
-				displayOptions.getPressedLineColorId(), //
-				displayOptions.getPressedBackgroundColorId(),//
-				rowViewPosition);
 	}
 
 	private SparseArray<RowView> mRowViewArray = new SparseArray<RowView>();

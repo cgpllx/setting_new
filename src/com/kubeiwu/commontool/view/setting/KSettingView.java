@@ -8,7 +8,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.kubeiwu.commontool.view.util.DisplayOptions;
+import com.kubeiwu.commontool.view.config.DisplayOptions;
+import com.kubeiwu.commontool.view.config.GroupViewConfig;
 
 public class KSettingView extends LinearLayout {
 
@@ -39,6 +40,7 @@ public class KSettingView extends LinearLayout {
 	 * 这里会传到groupView中
 	 */
 	private DisplayOptions displayOptions;
+	private GroupViewConfig itemBgSelectorUtil;
 
 	public void setDisplayOptions(DisplayOptions displayOptions) {
 		this.displayOptions = displayOptions;
@@ -114,14 +116,13 @@ public class KSettingView extends LinearLayout {
 		String title = child.getTitle();
 		if (!TextUtils.isEmpty(title)) {
 			TextView textview = new TextView(getContext());
-			textview.setTextSize(getDisplayOptions().getGroupTitleSizePx());
+			textview.setTextSize(getDisplayOptions().getUnit(),getDisplayOptions().getGroupTitleSizePx());
 			textview.setTextColor(getResources().getColor(getDisplayOptions().getGroupTitleColorId()));
 			textview.setText(title);
 			addView(textview);
 		}
-		child.setDisplayOptions(getDisplayOptions());
 		super.addView(child);
-		child.notifyDataChanged();
+		child.notifyDataChanged(itemBgSelectorUtil);
 	}
 
 	public DisplayOptions getDisplayOptions() {
@@ -132,6 +133,7 @@ public class KSettingView extends LinearLayout {
 	}
 
 	public void notifyDataChanged() {
+		itemBgSelectorUtil=new GroupViewConfig(getDisplayOptions());
 		if (mGroupViewArray != null && mGroupViewArray.size() > 0) {
 			GroupView groupView = null;
 			for (int i = 0; i < mGroupViewArray.size(); i++) {
