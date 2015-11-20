@@ -11,7 +11,7 @@ import com.kubeiwu.commontool.view.setting.GroupView.RowViewPosition;
 import com.kubeiwu.commontool.view.util.ItemBgSelectorUtil;
 
 /**
- * 选择器的工具类
+ * GroupView的配置参数
  * 
  * @author Administrator
  *
